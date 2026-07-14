@@ -370,46 +370,95 @@
 
                 <!-- TAB: PACKING HELPER -->
                 <div id="tab-packing" class="hide space-y-6">
-                    <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-4xl mx-auto">
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-4 flex items-center">
-                            <div class="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center mr-3 text-cyan-600"><i data-lucide="boxes" class="w-4 h-4"></i></div>
-                            Bantuan Packing - Hitung Paket dari AWB
-                        </h3>
+                    <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-5xl mx-auto">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
+                            <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center mr-3 text-cyan-600">
+                                    <i data-lucide="boxes" class="w-4 h-4"></i>
+                                </div>
+                                Bantuan Packing - Hitung Paket dari AWB Gabungan
+                            </h3>
+                            <button onclick="clearPackingData()" class="flex items-center text-xs text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors font-semibold">
+                                <i data-lucide="refresh-cw" class="w-3 h-3 mr-1.5"></i> Clear Data
+                            </button>
+                        </div>
+                        
                         <p class="text-sm text-gray-500 mb-6">
-                            Upload file PDF gabungan AWB untuk menghitung jumlah paket per varian berat secara otomatis. Fitur ini akan mendeteksi teks varian berat (misal: <strong>1000 gr</strong> atau <strong>2000 gram</strong>) dari seluruh resi pengiriman.
+                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail dengan algoritme <strong>Visual Line Reconstruction</strong> untuk memisahkan berat masing-masing paket (misal: 1000 gr, 5000 gr) dan merangkum jumlahnya secara tepat.
                         </p>
                         
-                        <div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:bg-gray-50 transition-colors">
-                            <input type="file" id="pdf-file" accept=".pdf" class="hidden" onchange="handlePdfUpload(event)">
-                            <label for="pdf-file" class="cursor-pointer flex flex-col items-center">
-                                <div class="w-12 h-12 bg-cyan-50 text-cyan-500 rounded-full flex items-center justify-center mb-3">
-                                    <i data-lucide="file-scan" class="w-6 h-6"></i>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            <!-- Upload Box and Logs (Left) -->
+                            <div class="lg:col-span-5 space-y-4">
+                                <div class="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center hover:bg-gray-50 transition-colors relative">
+                                    <input type="file" id="pdf-file" accept=".pdf" class="hidden" onchange="handlePdfUpload(event)">
+                                    <label for="pdf-file" class="cursor-pointer flex flex-col items-center">
+                                        <div class="w-10 h-10 bg-cyan-50 text-cyan-500 rounded-full flex items-center justify-center mb-3">
+                                            <i data-lucide="file-scan" class="w-5 h-5"></i>
+                                        </div>
+                                        <span class="text-xs font-semibold text-gray-900">Pilih berkas PDF AWB</span>
+                                        <span class="text-[10px] text-gray-400 mt-1">Dukung ratusan lembar sekaligus</span>
+                                    </label>
                                 </div>
-                                <span class="text-sm font-semibold text-gray-900">Klik untuk pilih file PDF AWB</span>
-                                <span class="text-xs text-gray-400 mt-1">Hanya file .pdf yang didukung</span>
-                            </label>
-                        </div>
-
-                        <div id="packing-status" class="mt-8 hidden">
-                            <div id="packing-loader" class="flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-2xl">
-                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600"></div>
-                                <p class="mt-4 text-sm font-medium text-gray-600">Menganalisis file PDF Anda...</p>
-                                <p class="mt-1 text-xs text-gray-400" id="packing-progress-msg">Mengekstrak halaman...</p>
+                                
+                                <!-- Live Extraction Logs -->
+                                <div class="bg-gray-900 rounded-xl p-4">
+                                    <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1.5">
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Live Processing Console</span>
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    </div>
+                                    <div id="packing-log-box" class="h-32 overflow-y-auto text-[11px] font-mono text-gray-300 space-y-1 scrollbar-thin">
+                                        <div class="text-gray-500">// Menunggu berkas PDF diunggah...</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="packing-results" class="hidden bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                                <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
-                                    <h4 class="font-bold text-gray-900 text-base">Hasil Ringkasan Paket:</h4>
-                                    <span id="packing-total-summary" class="text-xs font-bold px-3 py-1 bg-cyan-100 text-cyan-800 rounded-full">Total: 0 Paket</span>
+                            
+                            <!-- Result Table (Right) -->
+                            <div class="lg:col-span-7">
+                                <div id="packing-status" class="hidden h-full">
+                                    <!-- Progress Loader -->
+                                    <div id="packing-loader" class="flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-2xl h-full min-h-[220px]">
+                                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600"></div>
+                                        <p class="mt-4 text-sm font-semibold text-gray-700" id="packing-progress-msg">Menganalisis berkas PDF...</p>
+                                        <p class="mt-1 text-xs text-gray-400">Harap tunggu, jangan menutup tab ini.</p>
+                                    </div>
+                                    
+                                    <!-- Actual Results -->
+                                    <div id="packing-results" class="hidden bg-gray-50 p-6 rounded-2xl border border-gray-100 flex flex-col justify-between h-full min-h-[220px]">
+                                        <div>
+                                            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
+                                                <h4 class="font-bold text-gray-900 text-sm">Ringkasan Hasil Ekstraksi:</h4>
+                                                <span id="packing-total-summary" class="text-xs font-bold px-2.5 py-1 bg-cyan-100 text-cyan-800 rounded-full">Total: 0 Paket</span>
+                                            </div>
+                                            <div class="max-h-48 overflow-y-auto pr-1">
+                                                <table class="w-full text-left border-collapse">
+                                                    <thead>
+                                                        <tr class="text-gray-400 text-[10px] uppercase tracking-wider border-b border-gray-200">
+                                                            <th class="pb-2 font-semibold">Varian Berat</th>
+                                                            <th class="pb-2 font-semibold text-right pr-2">Jumlah Paket</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="packing-table-body" class="text-xs font-mono text-gray-800">
+                                                        <!-- Injected Rows -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Actions -->
+                                        <div class="mt-4 pt-4 border-t border-gray-200 flex justify-end space-x-2">
+                                            <button onclick="exportPackingToExcel()" class="flex items-center px-3.5 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 text-xs transition-colors shadow-sm">
+                                                <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i> Ekspor Excel
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <table class="w-full text-left border-collapse">
-                                    <thead>
-                                        <tr class="text-gray-400 text-xs uppercase tracking-wider border-b border-gray-200">
-                                            <th class="pb-3 font-semibold">Varian Berat</th>
-                                            <th class="pb-3 font-semibold text-right pr-2">Jumlah Paket</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="packing-table-body" class="text-sm font-mono text-gray-800"></tbody>
-                                </table>
+                                
+                                <!-- Empty State -->
+                                <div id="packing-empty-state" class="flex flex-col items-center justify-center text-center p-8 bg-gray-50 border border-gray-100 rounded-2xl h-full min-h-[220px]">
+                                    <i data-lucide="file-text" class="w-8 h-8 text-gray-300 mb-2"></i>
+                                    <p class="text-xs font-medium text-gray-500">Hasil perhitungan varian berat akan ditampilkan di sini setelah proses unggah selesai.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -495,6 +544,7 @@
         localStorage.setItem('shopeeStores', JSON.stringify(stores));
 
         let chart1;
+        let lastExtractedWeights = {}; // State untuk ekspor Excel Packing
 
         // --- NAVIGATION ---
         function switchTab(tabId) {
@@ -1053,7 +1103,36 @@
 
         function printDashboard() { window.print(); }
 
-        // --- PACKING HELPER ---
+        // --- PACKING HELPER DEBUG CONSOLE ---
+        function addPackingLog(message, type = 'info') {
+            const logBox = document.getElementById('packing-log-box');
+            if (!logBox) return;
+            const colors = {
+                'info': 'text-gray-400',
+                'success': 'text-emerald-400',
+                'warning': 'text-amber-400',
+                'error': 'text-rose-400'
+            };
+            const prefix = `[${new Date().toLocaleTimeString('id-ID')}]`;
+            logBox.innerHTML += `<div class="${colors[type]}">${prefix} ${message}</div>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function clearPackingData() {
+            lastExtractedWeights = {};
+            document.getElementById('packing-table-body').innerHTML = '';
+            document.getElementById('packing-total-summary').innerText = 'Total: 0 Paket';
+            document.getElementById('packing-status').classList.add('hidden');
+            document.getElementById('packing-results').classList.add('hidden');
+            document.getElementById('packing-empty-state').classList.remove('hidden');
+            document.getElementById('pdf-file').value = '';
+            
+            const logBox = document.getElementById('packing-log-box');
+            if(logBox) logBox.innerHTML = '<div class="text-gray-500">// Menunggu berkas PDF diunggah...</div>';
+            showToast("Data bantuan packing berhasil dibersihkan.");
+        }
+
+        // --- HIGH PERFORMANCE PACKING PDF EXTRACTOR ---
         async function handlePdfUpload(event) {
             const file = event.target.files[0];
             if (!file || file.type !== 'application/pdf') {
@@ -1067,81 +1146,223 @@
             const resultsContainer = document.getElementById('packing-results');
             const tableBody = document.getElementById('packing-table-body');
             const totalSummary = document.getElementById('packing-total-summary');
+            const emptyState = document.getElementById('packing-empty-state');
 
+            // Reset UI States
+            emptyState.classList.add('hidden');
             statusContainer.classList.remove('hidden');
             loader.classList.remove('hidden');
             resultsContainer.classList.add('hidden');
             tableBody.innerHTML = '';
             
-            showToast("Membaca struktur PDF AWB...", "success");
+            const logBox = document.getElementById('packing-log-box');
+            if (logBox) logBox.innerHTML = '';
+            
+            addPackingLog(`Memulai membaca berkas: ${file.name}`, 'info');
+            addPackingLog(`Ukuran berkas: ${(file.size / (1024 * 1024)).toFixed(2)} MB`, 'info');
 
             try {
                 const fileReader = new FileReader();
                 fileReader.onload = async function() {
                     const typedarray = new Uint8Array(this.result);
+                    
+                    addPackingLog("Menghubungkan ke engine parser PDF.js...", "info");
                     const pdf = await pdfjsLib.getDocument(typedarray).promise;
                     const weightCounts = {};
                     let totalPackages = 0;
+                    const totalPages = pdf.numPages;
 
-                    // Regex komprehensif untuk menangkap varian berat di resi Shopee (Format: 1000 gr, 2000gr, 1200 gram)
-                    const patternWeight = /(\d+(?:[.,]\d+)?)\s*(?:gr|gram)\b/gi;
+                    addPackingLog(`Ditemukan total ${totalPages} halaman AWB. Memulai rekonstruksi baris visual...`, 'success');
 
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        progressMsg.innerText = `Memproses halaman ${i} dari ${pdf.numPages}...`;
-                        
+                    // REGEX DI LUAR LOOP AGAR SUPER CEPAT
+                    // 1. Pola Standard: "Berat: 5000 gr" atau "Berat: 5.000 gr" atau "Berat:5000gr"
+                    const patternStandard = /Berat:\s*([\d.,]+)\s*(?:gr|gram|kg)?/i;
+                    // 2. Pola Horizontal (Mengantisipasi layout Shopee Cargo yang terpecah): "Berat: ... 5000 gr"
+                    const patternLoose = /Berat:.*?\b([\d.,]+)\s*(?:gr|gram|kg)\b/i;
+
+                    // Loop memproses seluruh halaman PDF
+                    for (let i = 1; i <= totalPages; i++) {
+                        if (i % 25 === 0 || i === totalPages) {
+                            progressMsg.innerText = `Merekonstruksi ${i} dari ${totalPages} AWB...`;
+                        }
+
                         const page = await pdf.getPage(i);
                         const textContent = await page.getTextContent();
+                        const items = textContent.items;
+
+                        if (items.length === 0) {
+                            addPackingLog(`[AWB #${i}] Halaman kosong atau berupa gambar (Gagal OCR).`, 'warning');
+                            continue;
+                        }
+
+                        // REKONSTRUKSI BARIS VISUAL BERDASARKAN KOORDINAT Y (MENCEGAH PENGURUTAN ACAK DARI PDF STREAM)
+                        const lines = {};
+                        items.forEach(item => {
+                            if (!item.str || item.str.trim() === '') return;
+                            const y = Math.round(item.transform[5]); // Koordinat Y
+                            const x = item.transform[4];             // Koordinat X
+                            
+                            // Toleransi perbedaan tinggi baris (4 piksel)
+                            let foundY = null;
+                            for (const lineY in lines) {
+                                if (Math.abs(parseFloat(lineY) - y) < 4) {
+                                    foundY = lineY;
+                                    break;
+                                }
+                            }
+                            
+                            if (foundY !== null) {
+                                lines[foundY].push({ x, str: item.str });
+                            } else {
+                                lines[y] = [{ x, str: item.str }];
+                            }
+                        });
+
+                        // Urutkan baris dari atas ke bawah (Y descending)
+                        const sortedY = Object.keys(lines).sort((a, b) => parseFloat(b) - parseFloat(a));
+                        let reconstructedPageText = '';
                         
-                        // Satukan string dari struktur objek PDF agar pencarian berbasis teks baris tidak pecah
-                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        sortedY.forEach(y => {
+                            // Urutkan kata dari kiri ke kanan (X ascending)
+                            const sortedXItems = lines[y].sort((a, b) => a.x - b.x);
+                            const lineStr = sortedXItems.map(item => item.str).join(' ');
+                            reconstructedPageText += lineStr + '\n';
+                        });
+
+                        // Cari berat pada teks hasil rekonstruksi baris visual
+                        const linesArray = reconstructedPageText.split('\n');
+                        let foundWeight = null;
                         
-                        let match;
-                        // Menggunakan set unik per halaman agar tidak menghitung ganda jika kata "gr" muncul lebih dari sekali untuk satu paket yang sama di resi tersebut
-                        const weightsInPage = new Set();
-                        
-                        while ((match = patternWeight.exec(pageText)) !== null) {
-                            const val = parseFloat(match[1].replace(',', '.'));
-                            if (!isNaN(val) && val > 0) {
-                                weightsInPage.add(val);
+                        for (const line of linesArray) {
+                            // Coba Pola 1 (Standard)
+                            let match = line.match(patternStandard);
+                            if (match) {
+                                let valStr = match[1].replace(/\./g, '').replace(',', '.');
+                                let weightNum = parseFloat(valStr);
+                                let unitMatch = line.match(/Berat:\s*[\d.,]+\s*(gr|gram|kg)/i);
+                                let unit = unitMatch ? unitMatch[1].toLowerCase() : 'gr';
+                                
+                                if (unit === 'kg') weightNum *= 1000;
+                                if (!isNaN(weightNum)) {
+                                    foundWeight = weightNum;
+                                    break;
+                                }
+                            }
+
+                            // Coba Pola 2 (Loose Horizontal)
+                            match = line.match(patternLoose);
+                            if (match) {
+                                let valStr = match[1].replace(/\./g, '').replace(',', '.');
+                                let weightNum = parseFloat(valStr);
+                                let unitMatch = line.match(/gr|gram|kg/i);
+                                let unit = unitMatch ? unitMatch[0].toLowerCase() : 'gr';
+                                
+                                if (unit === 'kg') weightNum *= 1000;
+                                if (!isNaN(weightNum)) {
+                                    foundWeight = weightNum;
+                                    break;
+                                }
                             }
                         }
 
-                        // Tambahkan hasil set halaman ke data total counter
-                        weightsInPage.forEach(weight => {
-                            weightCounts[weight] = (weightCounts[weight] || 0) + 1;
+                        // JIKA GAGAL: FALLBACK MENGGUNAKAN TEKS RAW JOIN STREAM
+                        if (foundWeight === null) {
+                            const rawPageText = items.map(item => item.str).join(' ');
+                            let match = rawPageText.match(/Berat:\s*([\d.,]+)\s*(?:gr|gram|kg)?/i);
+                            if (match) {
+                                let valStr = match[1].replace(/\./g, '').replace(',', '.');
+                                let weightNum = parseFloat(valStr);
+                                if (rawPageText.toLowerCase().includes('kg')) {
+                                    if (weightNum < 50) weightNum *= 1000; // Heuristik konversi kg ke gr
+                                }
+                                if (!isNaN(weightNum)) {
+                                    foundWeight = weightNum;
+                                }
+                            }
+                        }
+
+                        // Tambahkan hasil berat paket yang valid
+                        if (foundWeight !== null) {
+                            weightCounts[foundWeight] = (weightCounts[foundWeight] || 0) + 1;
                             totalPackages++;
-                        });
+                        } else {
+                            addPackingLog(`[AWB #${i}] Gagal mengekstrak teks berat. (Cek log baris: ${reconstructedPageText.replace(/\n/g, ' | ').substring(0, 80)}...)`, 'warning');
+                        }
                     }
 
+                    // Urutkan berat terkecil ke terbesar
                     const sortedWeights = Object.keys(weightCounts).sort((a, b) => parseFloat(a) - parseFloat(b));
-                    
+                    lastExtractedWeights = weightCounts; // Simpan ke state global
+
                     if (sortedWeights.length === 0) {
-                        tableBody.innerHTML = `<tr><td colspan="2" class="py-6 text-center text-red-500 font-medium">Tidak ada varian berat yang cocok ditemukan.<br><span class="font-normal text-xs text-gray-400">Pastikan file yang diunggah adalah dokumen PDF AWB Shopee asli.</span></td></tr>`;
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="2" class="py-6 text-center text-rose-500 font-medium">
+                                    Tidak ada varian berat yang ditemukan.<br>
+                                    <span class="font-normal text-[11px] text-gray-400 block mt-1">Pastikan dokumen PDF merupakan AWB asli berisikan teks digital, bukan gambar hasil scan/foto.</span>
+                                </td>
+                            </tr>`;
                         totalSummary.innerText = "Total: 0 Paket";
+                        addPackingLog("Selesai memproses. Tidak ada data berat yang berhasil diekstrak.", 'error');
                     } else {
                         totalSummary.innerText = `Total: ${totalPackages} Paket`;
-                        tableBody.innerHTML = sortedWeights.map(weight => {
-                            const formattedWeight = parseFloat(weight) % 1 === 0 ? parseInt(weight) : weight;
-                            return `
-                                <tr class="border-b border-gray-200 hover:bg-gray-100/50 transition-colors">
-                                    <td class="py-3.5 text-gray-900 font-medium">${new Intl.NumberFormat('id-ID').format(formattedWeight)} gr</td>
-                                    <td class="py-3.5 font-bold text-cyan-600 text-right pr-2">${weightCounts[weight]} paket</td>
-                                </tr>`;
-                        }).join('');
+                        tableBody.innerHTML = sortedWeights.map(weight => `
+                            <tr class="border-b border-gray-200 hover:bg-gray-100/50 transition-colors">
+                                <td class="py-3 text-gray-900 font-medium">${new Intl.NumberFormat('id-ID').format(weight)} gr</td>
+                                <td class="py-3 font-bold text-cyan-600 text-right pr-2">${weightCounts[weight]} paket</td>
+                            </tr>`).join('');
+                        
+                        addPackingLog(`Berhasil mengekstrak ${totalPackages} paket dari total ${totalPages} halaman!`, 'success');
                     }
 
                     loader.classList.add('hidden');
                     resultsContainer.classList.remove('hidden');
-                    showToast("Analisis PDF selesai!", "success");
-                    document.getElementById('pdf-file').value = '';
+                    showToast(`Selesai! Berhasil memproses ${totalPages} AWB.`, "success");
                 };
                 fileReader.readAsArrayBuffer(file);
             } catch (error) {
                 loader.classList.add('hidden');
                 resultsContainer.classList.remove('hidden');
+                addPackingLog(`Error fatal: ${error.message}`, 'error');
                 console.error("Error processing PDF AWB:", error);
                 showToast("Gagal memproses file PDF.", "error");
             }
+        }
+
+        // --- EKSPOR HASIL PACKING KE EXCEL ---
+        function exportPackingToExcel() {
+            if (Object.keys(lastExtractedWeights).length === 0) {
+                showToast("Tidak ada data yang bisa diekspor.", "error");
+                return;
+            }
+
+            const sortedWeights = Object.keys(lastExtractedWeights).sort((a, b) => parseFloat(a) - parseFloat(b));
+            let totalQty = 0;
+            const rows = sortedWeights.map(weight => {
+                const qty = lastExtractedWeights[weight];
+                totalQty += qty;
+                return [ `${new Intl.NumberFormat('id-ID').format(weight)} gr`, qty ];
+            });
+
+            const sheetData = [
+                ["DAFTAR KEBUTUHAN PACKING PERMEN"],
+                [`Tanggal Ekstraksi: ${new Date().toLocaleDateString('id-ID')}`],
+                [],
+                ["Varian Berat", "Jumlah Paket (PCS)"],
+                ...rows,
+                [],
+                ["TOTAL PAKET", totalQty]
+            ];
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(sheetData);
+            
+            // Set Lebar Kolom
+            ws['!cols'] = [{wch: 22}, {wch: 22}];
+            
+            XLSX.utils.book_append_sheet(wb, ws, "Daftar Packing");
+            XLSX.writeFile(wb, `Rangkuman_Packing_AWB_${new Date().toISOString().split('T')[0]}.xlsx`);
+            showToast("Berkas rangkuman packing berhasil diunduh!");
         }
 
         window.onload = function () {
