@@ -1056,8 +1056,8 @@
             showToast("Memproses PDF...", "success");
             const resultsContainer = document.getElementById('packing-results');
             const tableBody = document.getElementById('packing-table-body');
-            resultsContainer.classList.add('hidden');
             tableBody.innerHTML = '<tr><td colspan="2" class="py-4 text-center text-gray-400">Menganalisis...</td></tr>';
+            resultsContainer.classList.remove('hidden');
 
             try {
                 const fileReader = new FileReader();
