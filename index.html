@@ -57,7 +57,7 @@
                     Settings
                 </button>
                 <button onclick="switchTab('packing')" id="nav-packing" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors">
-                    Bantuan Packing
+                    Paket Counter
                 </button>
             </nav>
         </aside>
@@ -99,7 +99,7 @@
                                 <option value="ALL">All Stores</option>
                             </select>
                             
-                            <!-- Date Range Dropdown Picker -->
+                            <!-- Date Range Dropdown Picker Premium Side-by-Side -->
                             <div class="relative inline-block text-left html2pdf-ignore">
                                 <button type="button" id="date-range-trigger" onclick="toggleDatePopover(event)" class="flex items-center space-x-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 hover:bg-gray-100 transition-colors cursor-pointer text-sm font-medium text-gray-700">
                                     <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
@@ -107,38 +107,62 @@
                                     <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
                                 </button>
                                 
-                                <!-- Dropdown Popover -->
-                                <div id="date-range-popover" onclick="event.stopPropagation()" class="absolute left-0 mt-2 w-80 bg-white border border-gray-100 rounded-2xl shadow-xl hidden z-50 p-4 space-y-4">
-                                    <!-- Presets Grid -->
-                                    <div>
-                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-2">Preset Cepat</span>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <button type="button" onclick="setPresetDate('yesterday')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Kemarin</button>
-                                            <button type="button" onclick="setPresetDate('last3')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">3 Hari Terakhir</button>
-                                            <button type="button" onclick="setPresetDate('last7')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">7 Hari Terakhir</button>
-                                            <button type="button" onclick="setPresetDate('last14')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">14 Hari Terakhir</button>
-                                            <button type="button" onclick="setPresetDate('last30')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">30 Hari Terakhir</button>
-                                            <button type="button" onclick="setPresetDate('thisMonth')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Bulan Ini</button>
-                                            <button type="button" onclick="setPresetDate('lastMonth')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Bulan Kemarin</button>
-                                            <button type="button" onclick="setPresetDate('ytd')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Tahun Ini (YTD)</button>
-                                            <button type="button" onclick="setPresetDate('max')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition col-span-2 text-center font-semibold bg-gray-50">Maksimal</button>
+                                <!-- Dropdown Popover (Side-by-Side Desktop, Stacked Mobile) -->
+                                <div id="date-range-popover" onclick="event.stopPropagation()" class="absolute left-0 mt-2 w-[90vw] sm:w-[540px] bg-white border border-gray-100 rounded-3xl shadow-2xl hidden z-50 overflow-hidden flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+                                    
+                                    <!-- Sisi Kiri: Preset Cepat -->
+                                    <div class="p-5 w-full sm:w-[200px] shrink-0 bg-gray-50/50 flex flex-col">
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-3 px-1">Preset Cepat</span>
+                                        <div class="flex flex-col space-y-1">
+                                            <button type="button" onclick="setPresetDate('yesterday')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">Kemarin</button>
+                                            <button type="button" onclick="setPresetDate('last3')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">3 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('last7')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">7 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('last14')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">14 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('last30')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">30 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('thisMonth')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">Bulan Ini</button>
+                                            <button type="button" onclick="setPresetDate('lastMonth')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">Bulan Kemarin</button>
+                                            <button type="button" onclick="setPresetDate('ytd')" class="text-left text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-3 py-2 rounded-xl transition font-medium">Tahun Ini (YTD)</button>
+                                            <button type="button" onclick="setPresetDate('max')" class="text-left text-xs text-gray-800 hover:bg-gray-200 px-3 py-2 rounded-xl transition font-bold bg-gray-100 text-center mt-2">Maksimal</button>
                                         </div>
                                     </div>
                                     
-                                    <!-- Manual Inputs -->
-                                    <div class="border-t border-gray-100 pt-3">
-                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-2">Pilih Manual</span>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <div class="cursor-pointer" onclick="document.getElementById('filter-start').showPicker()">
-                                                <label class="block text-[9px] font-bold text-gray-400 uppercase mb-1">Mulai</label>
-                                                <input type="date" id="filter-start" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-xs font-medium text-gray-700 outline-none cursor-pointer" onchange="handleManualDateChange()">
+                                    <!-- Sisi Kanan: Pilihan Tanggal Manual (Langsung Menampilkan Kalender) -->
+                                    <div class="p-5 flex-1 flex flex-col justify-between bg-white min-w-[280px]">
+                                        <div>
+                                            <div class="flex items-center justify-between mb-4">
+                                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Pilih Tanggal Manual</span>
+                                                <div class="flex items-center space-x-1">
+                                                    <button type="button" onclick="navigateCalendar(-1)" class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-600 transition">
+                                                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                                    </button>
+                                                    <span id="calendar-month-title" class="text-xs font-bold text-gray-800 px-1 whitespace-nowrap">Loading...</span>
+                                                    <button type="button" onclick="navigateCalendar(1)" class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-600 transition">
+                                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="cursor-pointer" onclick="document.getElementById('filter-end').showPicker()">
-                                                <label class="block text-[9px] font-bold text-gray-400 uppercase mb-1">Sampai</label>
-                                                <input type="date" id="filter-end" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-xs font-medium text-gray-700 outline-none cursor-pointer" onchange="handleManualDateChange()">
+                                            
+                                            <!-- Hari-Hari dalam Seminggu -->
+                                            <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-gray-400 mb-2">
+                                                <div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div><div>M</div>
+                                            </div>
+                                            
+                                            <!-- Grid Hari Dinamis -->
+                                            <div id="calendar-days-grid" class="grid grid-cols-7 gap-1">
+                                                <!-- Dinamik di-render oleh JS -->
                                             </div>
                                         </div>
+                                        
+                                        <!-- Footer Kalender Terpilih & Tombol Tutup -->
+                                        <div class="pt-4 border-t border-gray-100 mt-4 flex items-center justify-between gap-2">
+                                            <div class="text-[10px] text-gray-500 font-medium">
+                                                <div class="font-bold text-gray-700 leading-tight">Terpilih:</div>
+                                                <span id="calendar-selected-range-display" class="font-mono text-[11px] text-gray-900 font-semibold">Memuat...</span>
+                                            </div>
+                                            <button type="button" onclick="applyManualCalendarSelection()" class="bg-gray-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-black transition shrink-0 shadow-sm">Terapkan</button>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -146,6 +170,10 @@
                             <i data-lucide="trash-2" class="w-4 h-4 mr-1.5"></i> Reset Data
                         </button>
                     </div>
+
+                    <!-- Hidden Inputs untuk Menampung Variabel Tanggal Aktif -->
+                    <input type="hidden" id="filter-start">
+                    <input type="hidden" id="filter-end">
 
                     <!-- KPI Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -404,7 +432,7 @@
                     </div>
                 </div>
 
-                <!-- TAB: PACKING HELPER -->
+                <!-- TAB: PAKET COUNTER -->
                 <div id="tab-packing" class="hide space-y-6">
                     <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-5xl mx-auto">
                         <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
@@ -412,7 +440,7 @@
                                 <div class="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center mr-3 text-cyan-600">
                                     <i data-lucide="boxes" class="w-4 h-4"></i>
                                 </div>
-                                Bantuan Packing - Hitung Paket dari AWB Gabungan
+                                Paket Counter - Hitung Paket dari AWB Gabungan
                             </h3>
                             <button onclick="clearPackingData()" class="flex items-center text-xs text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors font-semibold">
                                 <i data-lucide="refresh-cw" class="w-3 h-3 mr-1.5"></i> Clear Data
@@ -420,7 +448,7 @@
                         </div>
                         
                         <p class="text-sm text-gray-500 mb-6">
-                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail dengan algoritme <strong>Visual Line Reconstruction</strong> untuk memisahkan berat masing-masing paket (misal: 1000 gr, 5000 gr) dan merangkum jumlahnya secara tepat.
+                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail dengan algoritme <strong>Visual Line Reconstruction</strong> untuk memisahkan berat masing-masing paket (misal: 1 kg, 5 kg) dan merangkum jumlahnya secara tepat.
                         </p>
                         
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -464,13 +492,16 @@
                                         <div>
                                             <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
                                                 <h4 class="font-bold text-gray-900 text-sm">Ringkasan Hasil Ekstraksi:</h4>
-                                                <span id="packing-total-summary" class="text-xs font-bold px-2.5 py-1 bg-cyan-100 text-cyan-800 rounded-full">Total: 0 Paket</span>
+                                                <div class="flex items-center gap-2">
+                                                    <span id="packing-total-weight-summary" class="text-xs font-bold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">0 kg</span>
+                                                    <span id="packing-total-summary" class="text-xs font-bold px-2.5 py-1 bg-cyan-100 text-cyan-800 rounded-full">Total: 0 Paket</span>
+                                                </div>
                                             </div>
                                             <div class="max-h-48 overflow-y-auto pr-1">
                                                 <table class="w-full text-left border-collapse">
                                                     <thead>
                                                         <tr class="text-gray-400 text-[10px] uppercase tracking-wider border-b border-gray-200">
-                                                            <th class="pb-2 font-semibold">Varian Berat</th>
+                                                            <th class="pb-2 font-semibold">Varian Berat (KG)</th>
                                                             <th class="pb-2 font-semibold text-right pr-2">Jumlah Paket</th>
                                                         </tr>
                                                     </thead>
@@ -580,13 +611,36 @@
         localStorage.setItem('shopeeStores', JSON.stringify(stores));
 
         let chart1;
-        let lastExtractedWeights = {}; // State untuk ekspor Excel Packing
+        let lastExtractedWeights = {}; // State untuk ekspor Excel Paket Counter
+
+        // --- HELPER UNTUK MENCEGAH BUG OFFSET ZONA WAKTU ---
+        function parseLocalDate(dateStr) {
+            if (!dateStr) return null;
+            const parts = dateStr.split('-');
+            // Membuat objek Date lokal tanpa pengaruh UTC/GMT
+            return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        // --- CUSTOM INLINE CALENDAR STATE ---
+        let calCurrentMonth = new Date(); // Bulan yang saat ini ditampilkan dalam kalender visual
 
         // --- DATE RANGE TRIGGER & PRESETS ---
         function toggleDatePopover(event) {
             event.stopPropagation();
             const popover = document.getElementById('date-range-popover');
             popover.classList.toggle('hidden');
+            if (!popover.classList.contains('hidden')) {
+                // Saat popover dibuka, inisialisasi kalender sesuai tanggal mulai terpilih
+                const curStart = document.getElementById('filter-start').value;
+                if (curStart) {
+                    calCurrentMonth = parseLocalDate(curStart);
+                    calCurrentMonth.setDate(1);
+                } else {
+                    calCurrentMonth = new Date();
+                    calCurrentMonth.setDate(1);
+                }
+                renderInlineCalendar();
+            }
         }
 
         document.addEventListener('click', function (event) {
@@ -601,17 +655,140 @@
             const startStr = document.getElementById('filter-start').value;
             const endStr = document.getElementById('filter-end').value;
             if (startStr && endStr) {
-                const s = new Date(startStr);
-                const e = new Date(endStr);
+                const s = parseLocalDate(startStr);
+                const e = parseLocalDate(endStr);
                 const options = { day: 'numeric', month: 'short', year: 'numeric' };
                 const formatter = new Intl.DateTimeFormat('id-ID', options);
                 document.getElementById('date-range-display').innerText = `${formatter.format(s)} - ${formatter.format(e)}`;
             }
         }
 
-        function handleManualDateChange() {
+        // --- RENDERING INTEGRASI KALENDER PREMIUM (INLINE RANGE CALENDAR) ---
+        function renderInlineCalendar() {
+            const startInput = document.getElementById('filter-start').value;
+            const endInput = document.getElementById('filter-end').value;
+            
+            const startVal = startInput ? parseLocalDate(startInput) : null;
+            const endVal = endInput ? parseLocalDate(endInput) : null;
+            
+            if (startVal) startVal.setHours(0,0,0,0);
+            if (endVal) endVal.setHours(0,0,0,0);
+
+            // Render Judul Bulan & Tahun di Panel Navigasi
+            const monthTitle = document.getElementById('calendar-month-title');
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            monthTitle.innerText = `${monthNames[calCurrentMonth.getMonth()]} ${calCurrentMonth.getFullYear()}`;
+
+            const grid = document.getElementById('calendar-days-grid');
+            grid.innerHTML = '';
+
+            const year = calCurrentMonth.getFullYear();
+            const month = calCurrentMonth.getMonth();
+            
+            // Mencari hari pertama bulan (Indeks 0 = Minggu, 1 = Senin)
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            // Konversi ke Senin awal seminggu: Senin=0, Selasa=1 ... Minggu=6
+            let startOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+            
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            // Render sel kosong untuk merapikan tanggal sesuai hari
+            for (let i = 0; i < startOffset; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = "h-8 w-8";
+                grid.appendChild(emptyCell);
+            }
+
+            // Render Hari Kalender
+            for (let day = 1; day <= totalDays; day++) {
+                const cellDate = new Date(year, month, day);
+                cellDate.setHours(0,0,0,0);
+                
+                // MENGHINDARI ISOSTRING: Susun string tanggal lokal langsung dari variabel tahun, bulan, hari
+                const localYear = cellDate.getFullYear();
+                const localMonth = String(cellDate.getMonth() + 1).padStart(2, '0');
+                const localDay = String(cellDate.getDate()).padStart(2, '0');
+                const dateStr = `${localYear}-${localMonth}-${localDay}`;
+
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.innerText = day;
+                btn.className = "h-8 w-8 text-xs font-semibold rounded-lg flex items-center justify-center transition-all relative cursor-pointer ";
+
+                let isStart = startVal && cellDate.getTime() === startVal.getTime();
+                let isEnd = endVal && cellDate.getTime() === endVal.getTime();
+                let inRange = startVal && endVal && cellDate > startVal && cellDate < endVal;
+
+                if (isStart || isEnd) {
+                    btn.className += " bg-gray-900 text-white rounded-full font-bold shadow-sm scale-110 z-10";
+                } else if (inRange) {
+                    btn.className += " bg-blue-50 text-blue-800 rounded-none w-full";
+                } else {
+                    btn.className += " text-gray-700 hover:bg-gray-100";
+                }
+
+                btn.onclick = () => handleCalendarDayClick(dateStr);
+                grid.appendChild(btn);
+            }
+
+            // Memperbarui Deskripsi Rentang Hari Terpilih secara Real-time
+            const rangeDisplay = document.getElementById('calendar-selected-range-display');
+            if (startInput && endInput) {
+                const s = parseLocalDate(startInput);
+                const e = parseLocalDate(endInput);
+                const options = { day: 'numeric', month: 'short' };
+                const formatter = new Intl.DateTimeFormat('id-ID', options);
+                rangeDisplay.innerText = `${formatter.format(s)} - ${formatter.format(e)}`;
+            } else if (startInput) {
+                const s = parseLocalDate(startInput);
+                const options = { day: 'numeric', month: 'short' };
+                const formatter = new Intl.DateTimeFormat('id-ID', options);
+                rangeDisplay.innerText = `${formatter.format(s)}...`;
+            } else {
+                rangeDisplay.innerText = "Belum memilih";
+            }
+            
+            lucide.createIcons();
+        }
+
+        function navigateCalendar(direction) {
+            calCurrentMonth.setMonth(calCurrentMonth.getMonth() + direction);
+            renderInlineCalendar();
+        }
+
+        function handleCalendarDayClick(dateStr) {
+            const startInput = document.getElementById('filter-start');
+            const endInput = document.getElementById('filter-end');
+
+            let startVal = startInput.value;
+            let endVal = endInput.value;
+
+            if (!startVal || (startVal && endVal)) {
+                // Pilihan Baru / Reset Klik Pertama
+                startInput.value = dateStr;
+                endInput.value = '';
+            } else {
+                // Memilih Klik Kedua (Tanggal Selesai)
+                if (dateStr >= startVal) {
+                    endInput.value = dateStr;
+                } else {
+                    // Jika klik tanggal yang mendahului tanggal mulai, ubah itu menjadi tanggal mulai
+                    startInput.value = dateStr;
+                }
+            }
+            renderInlineCalendar();
+        }
+
+        function applyManualCalendarSelection() {
+            const startInput = document.getElementById('filter-start').value;
+            const endInput = document.getElementById('filter-end').value;
+            if (!startInput || !endInput) {
+                showToast("Harap pilih tanggal mulai dan selesai terlebih dahulu!", "error");
+                return;
+            }
             updateDateDisplay();
             renderDashboard();
+            document.getElementById('date-range-popover').classList.add('hidden');
         }
 
         function setPresetDate(preset) {
@@ -679,6 +856,12 @@
 
             updateDateDisplay();
             renderDashboard();
+
+            // Set fokus bulan kalender ke tanggal mulai preset baru
+            calCurrentMonth = new Date(start);
+            calCurrentMonth.setDate(1);
+            renderInlineCalendar();
+
             document.getElementById('date-range-popover').classList.add('hidden');
         }
 
@@ -719,7 +902,7 @@
                 renderStoreList();
             } else if (tabId === 'packing') {
                 headerActions.classList.add('hide');
-                pageTitle.innerText = "Bantuan Packing";
+                pageTitle.innerText = "Paket Counter";
                 document.getElementById('page-subtitle').innerText = "Hitung paket dari PDF AWB";
             }
         }
@@ -958,7 +1141,10 @@
                             appData[storeName][dateStr] = { ads: 0, omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
                         }
                         
-                        const finalWeight = Math.round(dailyData[dateStr].weightRaw / 1000) * 1000;
+                        // Round Down ke ribuan gram terdekat (misalnya 1050 gr -> 1000 gr). Di bawah 1000 gr tetap dipertahankan.
+                        const weightRawVal = dailyData[dateStr].weightRaw;
+                        const finalWeight = weightRawVal >= 1000 ? Math.floor(weightRawVal / 1000) * 1000 : weightRawVal;
+                        
                         appData[storeName][dateStr].omzet = dailyData[dateStr].omzet;
                         appData[storeName][dateStr].weight = finalWeight;
                         appData[storeName][dateStr].status = dailyData[dateStr].status;
@@ -1239,7 +1425,7 @@
 
         function printDashboard() { window.print(); }
 
-        // --- PACKING HELPER DEBUG CONSOLE ---
+        // --- PAKET COUNTER CONSOLE LOGS ---
         function addPackingLog(message, type = 'info') {
             const logBox = document.getElementById('packing-log-box');
             if (!logBox) return;
@@ -1258,6 +1444,7 @@
             lastExtractedWeights = {};
             document.getElementById('packing-table-body').innerHTML = '';
             document.getElementById('packing-total-summary').innerText = 'Total: 0 Paket';
+            document.getElementById('packing-total-weight-summary').innerText = '0 kg';
             document.getElementById('packing-status').classList.add('hidden');
             document.getElementById('packing-results').classList.add('hidden');
             document.getElementById('packing-empty-state').classList.remove('hidden');
@@ -1265,10 +1452,10 @@
             
             const logBox = document.getElementById('packing-log-box');
             if(logBox) logBox.innerHTML = '<div class="text-gray-500">// Menunggu berkas PDF diunggah...</div>';
-            showToast("Data bantuan packing berhasil dibersihkan.");
+            showToast("Data Paket Counter berhasil dibersihkan.");
         }
 
-        // --- HIGH PERFORMANCE PACKING PDF EXTRACTOR ---
+        // --- HIGH PERFORMANCE PAKET COUNTER PDF EXTRACTOR ---
         async function handlePdfUpload(event) {
             const file = event.target.files[0];
             if (!file || file.type !== 'application/pdf') {
@@ -1282,6 +1469,7 @@
             const resultsContainer = document.getElementById('packing-results');
             const tableBody = document.getElementById('packing-table-body');
             const totalSummary = document.getElementById('packing-total-summary');
+            const totalWeightSummary = document.getElementById('packing-total-weight-summary');
             const emptyState = document.getElementById('packing-empty-state');
 
             // Reset UI States
@@ -1306,14 +1494,12 @@
                     const pdf = await pdfjsLib.getDocument(typedarray).promise;
                     const weightCounts = {};
                     let totalPackages = 0;
+                    let totalWeightSum = 0; // Akumulasi berat total (dalam gram)
                     const totalPages = pdf.numPages;
 
                     addPackingLog(`Ditemukan total ${totalPages} halaman AWB. Memulai rekonstruksi baris visual...`, 'success');
 
-                    // REGEX DI LUAR LOOP AGAR SUPER CEPAT
-                    // 1. Pola Standard: "Berat: 5000 gr" atau "Berat: 5.000 gr" atau "Berat:5000gr"
                     const patternStandard = /Berat:\s*([\d.,]+)\s*(?:gr|gram|kg)?/i;
-                    // 2. Pola Horizontal (Mengantisipasi layout Shopee Cargo yang terpecah): "Berat: ... 5000 gr"
                     const patternLoose = /Berat:.*?\b([\d.,]+)\s*(?:gr|gram|kg)\b/i;
 
                     // Loop memproses seluruh halaman PDF
@@ -1331,14 +1517,12 @@
                             continue;
                         }
 
-                        // REKONSTRUKSI BARIS VISUAL BERDASARKAN KOORDINAT Y (MENCEGAH PENGURUTAN ACAK DARI PDF STREAM)
                         const lines = {};
                         items.forEach(item => {
                             if (!item.str || item.str.trim() === '') return;
-                            const y = Math.round(item.transform[5]); // Koordinat Y
-                            const x = item.transform[4];             // Koordinat X
+                            const y = Math.round(item.transform[5]);
+                            const x = item.transform[4];
                             
-                            // Toleransi perbedaan tinggi baris (4 piksel)
                             let foundY = null;
                             for (const lineY in lines) {
                                 if (Math.abs(parseFloat(lineY) - y) < 4) {
@@ -1354,23 +1538,19 @@
                             }
                         });
 
-                        // Urutkan baris dari atas ke bawah (Y descending)
                         const sortedY = Object.keys(lines).sort((a, b) => parseFloat(b) - parseFloat(a));
                         let reconstructedPageText = '';
                         
                         sortedY.forEach(y => {
-                            // Urutkan kata dari kiri ke kanan (X ascending)
                             const sortedXItems = lines[y].sort((a, b) => a.x - b.x);
                             const lineStr = sortedXItems.map(item => item.str).join(' ');
                             reconstructedPageText += lineStr + '\n';
                         });
 
-                        // Cari berat pada teks hasil rekonstruksi baris visual
                         const linesArray = reconstructedPageText.split('\n');
                         let foundWeight = null;
                         
                         for (const line of linesArray) {
-                            // Coba Pola 1 (Standard)
                             let match = line.match(patternStandard);
                             if (match) {
                                 let valStr = match[1].replace(/\./g, '').replace(',', '.');
@@ -1385,7 +1565,6 @@
                                 }
                             }
 
-                            // Coba Pola 2 (Loose Horizontal)
                             match = line.match(patternLoose);
                             if (match) {
                                 let valStr = match[1].replace(/\./g, '').replace(',', '.');
@@ -1401,7 +1580,6 @@
                             }
                         }
 
-                        // JIKA GAGAL: FALLBACK MENGGUNAKAN TEKS RAW JOIN STREAM
                         if (foundWeight === null) {
                             const rawPageText = items.map(item => item.str).join(' ');
                             let match = rawPageText.match(/Berat:\s*([\d.,]+)\s*(?:gr|gram|kg)?/i);
@@ -1409,7 +1587,7 @@
                                 let valStr = match[1].replace(/\./g, '').replace(',', '.');
                                 let weightNum = parseFloat(valStr);
                                 if (rawPageText.toLowerCase().includes('kg')) {
-                                    if (weightNum < 50) weightNum *= 1000; // Heuristik konversi kg ke gr
+                                    if (weightNum < 50) weightNum *= 1000;
                                 }
                                 if (!isNaN(weightNum)) {
                                     foundWeight = weightNum;
@@ -1417,18 +1595,21 @@
                             }
                         }
 
-                        // Tambahkan hasil berat paket yang valid
                         if (foundWeight !== null) {
-                            weightCounts[foundWeight] = (weightCounts[foundWeight] || 0) + 1;
+                            // Round down ke ribuan gram terdekat (misal 1050 gr -> 1000 gr).
+                            // Di bawah 1000 gr tetap dipertahankan nilainya.
+                            let roundedWeight = foundWeight >= 1000 ? Math.floor(foundWeight / 1000) * 1000 : foundWeight;
+                            
+                            weightCounts[roundedWeight] = (weightCounts[roundedWeight] || 0) + 1;
                             totalPackages++;
+                            totalWeightSum += roundedWeight;
                         } else {
                             addPackingLog(`[AWB #${i}] Gagal mengekstrak teks berat. (Cek log baris: ${reconstructedPageText.replace(/\n/g, ' | ').substring(0, 80)}...)`, 'warning');
                         }
                     }
 
-                    // Urutkan berat terkecil ke terbesar
                     const sortedWeights = Object.keys(weightCounts).sort((a, b) => parseFloat(a) - parseFloat(b));
-                    lastExtractedWeights = weightCounts; // Simpan ke state global
+                    lastExtractedWeights = weightCounts; // Simpan state internal dalam gram
 
                     if (sortedWeights.length === 0) {
                         tableBody.innerHTML = `
@@ -1439,16 +1620,25 @@
                                 </td>
                             </tr>`;
                         totalSummary.innerText = "Total: 0 Paket";
+                        totalWeightSummary.innerText = "0 kg";
                         addPackingLog("Selesai memproses. Tidak ada data berat yang berhasil diekstrak.", 'error');
                     } else {
+                        const totalWeightInKg = totalWeightSum / 1000;
                         totalSummary.innerText = `Total: ${totalPackages} Paket`;
-                        tableBody.innerHTML = sortedWeights.map(weight => `
-                            <tr class="border-b border-gray-200 hover:bg-gray-100/50 transition-colors">
-                                <td class="py-3 text-gray-900 font-medium">${new Intl.NumberFormat('id-ID').format(weight)} gr</td>
-                                <td class="py-3 font-bold text-cyan-600 text-right pr-2">${weightCounts[weight]} paket</td>
-                            </tr>`).join('');
                         
-                        addPackingLog(`Berhasil mengekstrak ${totalPackages} paket dari total ${totalPages} halaman!`, 'success');
+                        // Menampilkan format desimal maksimal 3 angka di belakang koma untuk akurasi kg (misal: 0.5 kg, 1 kg)
+                        totalWeightSummary.innerText = `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(totalWeightInKg)} kg`;
+                        
+                        tableBody.innerHTML = sortedWeights.map(weight => {
+                            const weightInKg = parseFloat(weight) / 1000;
+                            return `
+                            <tr class="border-b border-gray-200 hover:bg-gray-100/50 transition-colors">
+                                <td class="py-3 text-gray-900 font-medium">${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(weightInKg)} kg</td>
+                                <td class="py-3 font-bold text-cyan-600 text-right pr-2">${weightCounts[weight]} paket</td>
+                            </tr>`;
+                        }).join('');
+                        
+                        addPackingLog(`Berhasil mengekstrak ${totalPackages} paket dengan total berat ${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(totalWeightInKg)} kg dari total ${totalPages} halaman!`, 'success');
                     }
 
                     loader.classList.add('hidden');
@@ -1465,7 +1655,7 @@
             }
         }
 
-        // --- EKSPOR HASIL PACKING KE EXCEL ---
+        // --- EKSPOR HASIL PAKET COUNTER KE EXCEL (DIKONVERSI KE KG) ---
         function exportPackingToExcel() {
             if (Object.keys(lastExtractedWeights).length === 0) {
                 showToast("Tidak ada data yang bisa diekspor.", "error");
@@ -1474,31 +1664,41 @@
 
             const sortedWeights = Object.keys(lastExtractedWeights).sort((a, b) => parseFloat(a) - parseFloat(b));
             let totalQty = 0;
+            let totalWeightCombinedKg = 0;
+            
             const rows = sortedWeights.map(weight => {
                 const qty = lastExtractedWeights[weight];
                 totalQty += qty;
-                return [ `${new Intl.NumberFormat('id-ID').format(weight)} gr`, qty ];
+                const weightInKg = parseFloat(weight) / 1000;
+                const accumulatedWeightKg = weightInKg * qty;
+                totalWeightCombinedKg += accumulatedWeightKg;
+                
+                return [ 
+                    `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(weightInKg)} kg`, 
+                    qty,
+                    `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(accumulatedWeightKg)} kg`
+                ];
             });
 
             const sheetData = [
-                ["DAFTAR KEBUTUHAN PACKING PERMEN"],
+                ["DAFTAR KEBUTUHAN PAKET COUNTER"],
                 [`Tanggal Ekstraksi: ${new Date().toLocaleDateString('id-ID')}`],
                 [],
-                ["Varian Berat", "Jumlah Paket (PCS)"],
+                ["Varian Berat (KG)", "Jumlah Paket (PCS)", "Total Berat Akumulatif (KG)"],
                 ...rows,
                 [],
-                ["TOTAL PAKET", totalQty]
+                ["TOTAL", totalQty, `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(totalWeightCombinedKg)} kg`]
             ];
 
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.aoa_to_sheet(sheetData);
             
             // Set Lebar Kolom
-            ws['!cols'] = [{wch: 22}, {wch: 22}];
+            ws['!cols'] = [{wch: 22}, {wch: 22}, {wch: 25}];
             
-            XLSX.utils.book_append_sheet(wb, ws, "Daftar Packing");
-            XLSX.writeFile(wb, `Rangkuman_Packing_AWB_${new Date().toISOString().split('T')[0]}.xlsx`);
-            showToast("Berkas rangkuman packing berhasil diunduh!");
+            XLSX.utils.book_append_sheet(wb, ws, "Daftar Paket");
+            XLSX.writeFile(wb, `Rangkuman_Paket_Counter_AWB_${new Date().toISOString().split('T')[0]}.xlsx`);
+            showToast("Berkas rangkuman paket counter berhasil diunduh!");
         }
 
         window.onload = function () {
@@ -1513,6 +1713,7 @@
             document.getElementById('filter-start').value = thirtyDaysAgo.toISOString().split('T')[0];
             
             updateDateDisplay();
+            renderInlineCalendar();
             
             switchTab('dashboard'); 
             lucide.createIcons();
