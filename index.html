@@ -376,7 +376,7 @@
                             Bantuan Packing - Hitung Paket dari AWB
                         </h3>
                         <p class="text-sm text-gray-500 mb-6">
-                            Upload file PDF gabungan AWB untuk menghitung jumlah paket per varian berat secara otomatis. Fitur ini akan mencari teks dengan format <strong>"xxxx gr"</strong>.
+                            Upload file PDF gabungan AWB untuk menghitung jumlah paket per varian berat secara otomatis. Fitur ini akan mendeteksi teks varian berat (misal: <strong>1000 gr</strong> atau <strong>2000 gram</strong>) dari seluruh resi pengiriman.
                         </p>
                         
                         <div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:bg-gray-50 transition-colors">
@@ -394,18 +394,21 @@
                             <div id="packing-loader" class="flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-2xl">
                                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600"></div>
                                 <p class="mt-4 text-sm font-medium text-gray-600">Menganalisis file PDF Anda...</p>
-                                <p class="mt-1 text-xs text-gray-400">Ini mungkin memakan waktu beberapa saat untuk file yang besar.</p>
+                                <p class="mt-1 text-xs text-gray-400" id="packing-progress-msg">Mengekstrak halaman...</p>
                             </div>
-                            <div id="packing-results" class="hidden">
-                                <h4 class="font-bold text-gray-900 mb-4">Hasil Perhitungan:</h4>
+                            <div id="packing-results" class="hidden bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                                <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
+                                    <h4 class="font-bold text-gray-900 text-base">Hasil Ringkasan Paket:</h4>
+                                    <span id="packing-total-summary" class="text-xs font-bold px-3 py-1 bg-cyan-100 text-cyan-800 rounded-full">Total: 0 Paket</span>
+                                </div>
                                 <table class="w-full text-left border-collapse">
                                     <thead>
-                                        <tr class="text-gray-400 text-xs uppercase tracking-wider border-b border-gray-100">
+                                        <tr class="text-gray-400 text-xs uppercase tracking-wider border-b border-gray-200">
                                             <th class="pb-3 font-semibold">Varian Berat</th>
                                             <th class="pb-3 font-semibold text-right pr-2">Jumlah Paket</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="packing-table-body" class="text-sm"></tbody>
+                                    <tbody id="packing-table-body" class="text-sm font-mono text-gray-800"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -1051,68 +1054,95 @@
         function printDashboard() { window.print(); }
 
         // --- PACKING HELPER ---
-         async function handlePdfUpload(event) {
-             const file = event.target.files[0];
-             if (!file || file.type !== 'application/pdf') {
-                 showToast("Silakan pilih file PDF.", "error");
-                 return;
-             }
- 
-             const statusContainer = document.getElementById('packing-status');
-             const loader = document.getElementById('packing-loader');
-             const resultsContainer = document.getElementById('packing-results');
-             const tableBody = document.getElementById('packing-table-body');
- 
-             // Reset and show loader
-             statusContainer.classList.remove('hidden');
-             loader.classList.remove('hidden');
-             resultsContainer.classList.add('hidden');
-             tableBody.innerHTML = '';
-             showToast("Memulai analisis PDF...", "success");
- 
-             try {
-                 const fileReader = new FileReader();
-                 fileReader.onload = async function() {
-                     const typedarray = new Uint8Array(this.result);
-                     const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                     const weightCounts = {};
-                     const patternHorizontal = /Berat:.*?(\d{3,6})\s*gr/gi;
- 
-                     for (let i = 1; i <= pdf.numPages; i++) {
-                         const page = await pdf.getPage(i);
-                         const textContent = await page.getTextContent();
-                         const pageText = textContent.items.map(item => item.str).join(' ');
-                         
-                         let match;
-                         while ((match = patternHorizontal.exec(pageText)) !== null) {
-                             const weight = parseInt(match[1]);
-                             if (!isNaN(weight)) {
-                                 weightCounts[weight] = (weightCounts[weight] || 0) + 1;
-                             }
-                         }
-                     }
- 
-                     const sortedWeights = Object.keys(weightCounts).sort((a, b) => parseInt(a) - parseInt(b));
-                     
-                     if (sortedWeights.length === 0) {
-                         tableBody.innerHTML = `<tr><td colspan="2" class="py-6 text-center text-red-500 font-medium">Tidak ada varian berat yang cocok ditemukan.<br><span class="font-normal text-xs text-gray-400">Pastikan format "Berat: ... xxxx gr" ada di dalam PDF.</span></td></tr>`;
-                     } else {
-                         tableBody.innerHTML = sortedWeights.map(weight => `
-                             <tr class="border-b border-gray-50"><td class="py-3 font-medium text-gray-800">${new Intl.NumberFormat().format(weight)} gr</td><td class="py-3 font-bold text-gray-900 text-right pr-2">${weightCounts[weight]} paket</td></tr>`).join('');
-                     }
- 
-                     loader.classList.add('hidden');
-                     resultsContainer.classList.remove('hidden');
-                     showToast("Analisis PDF selesai!", "success");
-                 };
-                 fileReader.readAsArrayBuffer(file);
-             } catch (error) {
-                 loader.classList.add('hidden');
-                 resultsContainer.classList.remove('hidden');
-                 console.error("Error processing PDF:", error);
-                 showToast("Gagal memproses file PDF.", "error");
-             }
-         }
+        async function handlePdfUpload(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') {
+                showToast("Silakan pilih file PDF.", "error");
+                return;
+            }
+
+            const statusContainer = document.getElementById('packing-status');
+            const loader = document.getElementById('packing-loader');
+            const progressMsg = document.getElementById('packing-progress-msg');
+            const resultsContainer = document.getElementById('packing-results');
+            const tableBody = document.getElementById('packing-table-body');
+            const totalSummary = document.getElementById('packing-total-summary');
+
+            statusContainer.classList.remove('hidden');
+            loader.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            tableBody.innerHTML = '';
+            
+            showToast("Membaca struktur PDF AWB...", "success");
+
+            try {
+                const fileReader = new FileReader();
+                fileReader.onload = async function() {
+                    const typedarray = new Uint8Array(this.result);
+                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                    const weightCounts = {};
+                    let totalPackages = 0;
+
+                    // Regex komprehensif untuk menangkap varian berat di resi Shopee (Format: 1000 gr, 2000gr, 1200 gram)
+                    const patternWeight = /(\d+(?:[.,]\d+)?)\s*(?:gr|gram)\b/gi;
+
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        progressMsg.innerText = `Memproses halaman ${i} dari ${pdf.numPages}...`;
+                        
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        
+                        // Satukan string dari struktur objek PDF agar pencarian berbasis teks baris tidak pecah
+                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        
+                        let match;
+                        // Menggunakan set unik per halaman agar tidak menghitung ganda jika kata "gr" muncul lebih dari sekali untuk satu paket yang sama di resi tersebut
+                        const weightsInPage = new Set();
+                        
+                        while ((match = patternWeight.exec(pageText)) !== null) {
+                            const val = parseFloat(match[1].replace(',', '.'));
+                            if (!isNaN(val) && val > 0) {
+                                weightsInPage.add(val);
+                            }
+                        }
+
+                        // Tambahkan hasil set halaman ke data total counter
+                        weightsInPage.forEach(weight => {
+                            weightCounts[weight] = (weightCounts[weight] || 0) + 1;
+                            totalPackages++;
+                        });
+                    }
+
+                    const sortedWeights = Object.keys(weightCounts).sort((a, b) => parseFloat(a) - parseFloat(b));
+                    
+                    if (sortedWeights.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="2" class="py-6 text-center text-red-500 font-medium">Tidak ada varian berat yang cocok ditemukan.<br><span class="font-normal text-xs text-gray-400">Pastikan file yang diunggah adalah dokumen PDF AWB Shopee asli.</span></td></tr>`;
+                        totalSummary.innerText = "Total: 0 Paket";
+                    } else {
+                        totalSummary.innerText = `Total: ${totalPackages} Paket`;
+                        tableBody.innerHTML = sortedWeights.map(weight => {
+                            const formattedWeight = parseFloat(weight) % 1 === 0 ? parseInt(weight) : weight;
+                            return `
+                                <tr class="border-b border-gray-200 hover:bg-gray-100/50 transition-colors">
+                                    <td class="py-3.5 text-gray-900 font-medium">${new Intl.NumberFormat('id-ID').format(formattedWeight)} gr</td>
+                                    <td class="py-3.5 font-bold text-cyan-600 text-right pr-2">${weightCounts[weight]} paket</td>
+                                </tr>`;
+                        }).join('');
+                    }
+
+                    loader.classList.add('hidden');
+                    resultsContainer.classList.remove('hidden');
+                    showToast("Analisis PDF selesai!", "success");
+                    document.getElementById('pdf-file').value = '';
+                };
+                fileReader.readAsArrayBuffer(file);
+            } catch (error) {
+                loader.classList.add('hidden');
+                resultsContainer.classList.remove('hidden');
+                console.error("Error processing PDF AWB:", error);
+                showToast("Gagal memproses file PDF.", "error");
+            }
+        }
 
         window.onload = function () {
             initDataStructure(); 
