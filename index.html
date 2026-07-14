@@ -98,12 +98,48 @@
                             <select id="filter-store" class="bg-gray-50 border-none text-sm font-medium text-gray-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-gray-200 outline-none cursor-pointer" onchange="renderDashboard()">
                                 <option value="ALL">All Stores</option>
                             </select>
-                            <div class="flex items-center space-x-2 bg-gray-50 rounded-xl px-3 py-1.5">
-                                <span class="text-xs text-gray-400 font-bold uppercase">Mulai</span>
-                                <input type="date" id="filter-start" class="bg-transparent border-none text-sm font-medium text-gray-700 outline-none cursor-pointer" onchange="renderDashboard()">
-                                <span class="text-xs text-gray-400 font-bold uppercase mx-1">-</span>
-                                <span class="text-xs text-gray-400 font-bold uppercase">Sampai</span>
-                                <input type="date" id="filter-end" class="bg-transparent border-none text-sm font-medium text-gray-700 outline-none cursor-pointer" onchange="renderDashboard()">
+                            
+                            <!-- Date Range Dropdown Picker -->
+                            <div class="relative inline-block text-left html2pdf-ignore">
+                                <button type="button" id="date-range-trigger" onclick="toggleDatePopover(event)" class="flex items-center space-x-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 hover:bg-gray-100 transition-colors cursor-pointer text-sm font-medium text-gray-700">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
+                                    <span id="date-range-display">Loading Date...</span>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+                                </button>
+                                
+                                <!-- Dropdown Popover -->
+                                <div id="date-range-popover" onclick="event.stopPropagation()" class="absolute left-0 mt-2 w-80 bg-white border border-gray-100 rounded-2xl shadow-xl hidden z-50 p-4 space-y-4">
+                                    <!-- Presets Grid -->
+                                    <div>
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-2">Preset Cepat</span>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button type="button" onclick="setPresetDate('yesterday')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Kemarin</button>
+                                            <button type="button" onclick="setPresetDate('last3')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">3 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('last7')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">7 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('last14')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">14 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('last30')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">30 Hari Terakhir</button>
+                                            <button type="button" onclick="setPresetDate('thisMonth')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Bulan Ini</button>
+                                            <button type="button" onclick="setPresetDate('lastMonth')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Bulan Kemarin</button>
+                                            <button type="button" onclick="setPresetDate('ytd')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition">Tahun Ini (YTD)</button>
+                                            <button type="button" onclick="setPresetDate('max')" class="text-left text-xs text-gray-700 hover:bg-gray-50 p-2 rounded-lg border border-gray-100 transition col-span-2 text-center font-semibold bg-gray-50">Maksimal</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Manual Inputs -->
+                                    <div class="border-t border-gray-100 pt-3">
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-2">Pilih Manual</span>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="cursor-pointer" onclick="document.getElementById('filter-start').showPicker()">
+                                                <label class="block text-[9px] font-bold text-gray-400 uppercase mb-1">Mulai</label>
+                                                <input type="date" id="filter-start" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-xs font-medium text-gray-700 outline-none cursor-pointer" onchange="handleManualDateChange()">
+                                            </div>
+                                            <div class="cursor-pointer" onclick="document.getElementById('filter-end').showPicker()">
+                                                <label class="block text-[9px] font-bold text-gray-400 uppercase mb-1">Sampai</label>
+                                                <input type="date" id="filter-end" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-xs font-medium text-gray-700 outline-none cursor-pointer" onchange="handleManualDateChange()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <button onclick="triggerResetData()" class="flex items-center text-red-500 hover:bg-red-50 px-3 py-2 rounded-xl text-sm font-medium transition-colors">
@@ -545,6 +581,106 @@
 
         let chart1;
         let lastExtractedWeights = {}; // State untuk ekspor Excel Packing
+
+        // --- DATE RANGE TRIGGER & PRESETS ---
+        function toggleDatePopover(event) {
+            event.stopPropagation();
+            const popover = document.getElementById('date-range-popover');
+            popover.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const popover = document.getElementById('date-range-popover');
+            const trigger = document.getElementById('date-range-trigger');
+            if (popover && !popover.contains(event.target) && !trigger.contains(event.target)) {
+                popover.classList.add('hidden');
+            }
+        });
+
+        function updateDateDisplay() {
+            const startStr = document.getElementById('filter-start').value;
+            const endStr = document.getElementById('filter-end').value;
+            if (startStr && endStr) {
+                const s = new Date(startStr);
+                const e = new Date(endStr);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                const formatter = new Intl.DateTimeFormat('id-ID', options);
+                document.getElementById('date-range-display').innerText = `${formatter.format(s)} - ${formatter.format(e)}`;
+            }
+        }
+
+        function handleManualDateChange() {
+            updateDateDisplay();
+            renderDashboard();
+        }
+
+        function setPresetDate(preset) {
+            const today = new Date();
+            let start = new Date();
+            let end = new Date();
+
+            switch (preset) {
+                case 'yesterday':
+                    start.setDate(today.getDate() - 1);
+                    end.setDate(today.getDate() - 1);
+                    break;
+                case 'last3':
+                    start.setDate(today.getDate() - 2);
+                    break;
+                case 'last7':
+                    start.setDate(today.getDate() - 6);
+                    break;
+                case 'last14':
+                    start.setDate(today.getDate() - 13);
+                    break;
+                case 'last30':
+                    start.setDate(today.getDate() - 29);
+                    break;
+                case 'thisMonth':
+                    start = new Date(today.getFullYear(), today.getMonth(), 1);
+                    break;
+                case 'lastMonth':
+                    start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                    end = new Date(today.getFullYear(), today.getMonth(), 0);
+                    break;
+                case 'ytd':
+                    start = new Date(today.getFullYear(), 0, 1);
+                    break;
+                case 'max':
+                    let allDates = [];
+                    Object.values(appData).forEach(storeData => {
+                        Object.keys(storeData).forEach(dateStr => {
+                            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                                allDates.push(new Date(dateStr));
+                            }
+                        });
+                    });
+
+                    if (allDates.length > 0) {
+                        allDates.sort((a, b) => a - b);
+                        start = allDates[0];
+                        end = allDates[allDates.length - 1];
+                    } else {
+                        start = new Date();
+                        start.setMonth(today.getMonth() - 1);
+                    }
+                    break;
+            }
+
+            const toYmd = (d) => {
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            document.getElementById('filter-start').value = toYmd(start);
+            document.getElementById('filter-end').value = toYmd(end);
+
+            updateDateDisplay();
+            renderDashboard();
+            document.getElementById('date-range-popover').classList.add('hidden');
+        }
 
         // --- NAVIGATION ---
         function switchTab(tabId) {
@@ -1375,6 +1511,8 @@
             
             document.getElementById('filter-end').value = today.toISOString().split('T')[0];
             document.getElementById('filter-start').value = thirtyDaysAgo.toISOString().split('T')[0];
+            
+            updateDateDisplay();
             
             switchTab('dashboard'); 
             lucide.createIcons();
