@@ -62,13 +62,16 @@
                 </button>
             </nav>
 
-            <!-- Bottom Left Actions Panel (Floating Modals Trigger) -->
+            <!-- Bottom Left Actions Panel -->
             <div class="mt-auto pt-6 border-t border-gray-800 space-y-3">
                 <button onclick="openUploadModal()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
                     <i data-lucide="file-up" class="w-4 h-4"></i> Upload Data Order
                 </button>
                 <button onclick="openAdSpendModal()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
                     <i data-lucide="megaphone" class="w-4 h-4"></i> Input Ad Spend
+                </button>
+                <button onclick="openMiscExpenseModal()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                    <i data-lucide="receipt" class="w-4 h-4"></i> Input Pengeluaran
                 </button>
             </div>
         </aside>
@@ -107,7 +110,7 @@
                                 <option value="ALL">All Stores</option>
                             </select>
                             
-                            <!-- Date Range Dropdown Picker Premium Side-by-Side -->
+                            <!-- Date Range Dropdown Picker -->
                             <div class="relative inline-block text-left html2pdf-ignore">
                                 <button type="button" id="date-range-trigger" onclick="toggleDatePopover(event)" class="flex items-center space-x-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 hover:bg-gray-100 transition-colors cursor-pointer text-sm font-medium text-gray-700">
                                     <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
@@ -118,7 +121,7 @@
                                 <!-- Dropdown Popover -->
                                 <div id="date-range-popover" onclick="event.stopPropagation()" class="absolute left-0 mt-2 w-[90vw] sm:w-[540px] bg-white border border-gray-100 rounded-3xl shadow-2xl hidden z-50 overflow-hidden flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
                                     
-                                    <!-- Sisi Kiri: Preset Cepat -->
+                                    <!-- Preset Cepat -->
                                     <div class="p-5 w-full sm:w-[200px] shrink-0 bg-gray-50/50 flex flex-col">
                                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-3 px-1">Preset Cepat</span>
                                         <div class="flex flex-col space-y-1">
@@ -134,7 +137,7 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- Sisi Rerata Kanan: Pilihan Tanggal Manual -->
+                                    <!-- Kalender Manual -->
                                     <div class="p-5 flex-1 flex flex-col justify-between bg-white min-w-[280px]">
                                         <div>
                                             <div class="flex items-center justify-between mb-4">
@@ -155,11 +158,10 @@
                                                 <div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div><div>M</div>
                                             </div>
                                             
-                                            <!-- Calendar Dynamic Grid -->
+                                            <!-- Calendar Grid -->
                                             <div id="calendar-days-grid" class="grid grid-cols-7 gap-1"></div>
                                         </div>
                                         
-                                        <!-- Footer Calendar Selection -->
                                         <div class="pt-4 border-t border-gray-100 mt-4 flex items-center justify-between gap-2">
                                             <div class="text-[10px] text-gray-500 font-medium">
                                                 <div class="font-bold text-gray-700 leading-tight">Terpilih:</div>
@@ -205,7 +207,7 @@
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900 mb-1" id="kpi-profit">Rp 0</h3>
                             <p class="text-xs text-emerald-600 font-medium" id="kpi-roi">ROI: 0x</p>
-                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: Omzet - HPP - Layanan - Admin - Ads</p>
+                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: Omzet - HPP - Fee - Ads - Lain2</p>
                         </div>
 
                         <!-- KPI Card: Ads -->
@@ -231,14 +233,12 @@
                             </div>
                             <h3 class="text-lg font-bold text-gray-900 mb-1" id="kpi-hpp">HPP: Rp 0</h3>
                             <p class="text-xs text-gray-500 font-medium" id="kpi-admin">Fee: Rp 0</p>
-                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: (KG Permen x 21.250) + Shopee Fee</p>
+                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">HPP + Fee Admin + Lain-lain</p>
                         </div>
                     </div>
 
                     <!-- Layout: Charts & Overview -->
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-10 pt-4">
-                        
-                        <!-- LEFT COL: Chart -->
                         <div class="xl:col-span-2 space-y-10">
                             <div>
                                 <div class="flex justify-between items-center mb-6">
@@ -250,7 +250,6 @@
                             </div>
                         </div>
 
-                        <!-- RIGHT COL: Summary distribution -->
                         <div class="space-y-8 bg-gray-50/50 p-8 rounded-3xl border border-gray-100">
                             <div>
                                 <h3 class="font-bold text-gray-900 text-lg mb-8">Where your money go?</h3>
@@ -275,11 +274,23 @@
                                     </div>
                                     <div>
                                         <div class="flex justify-between text-xs font-semibold mb-2">
-                                            <span class="text-gray-600">Shopee Fees & Lain-lain</span>
+                                            <span class="text-gray-600">Shopee Fees & Fee Toko</span>
                                             <span class="text-gray-900" id="dist-fee">Rp 0</span>
                                         </div>
                                         <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
                                             <div class="bg-purple-400 h-full rounded-full" style="width: 0%" id="bar-fee"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Misc Expense Display -->
+                                    <div>
+                                        <div class="flex justify-between text-xs font-semibold mb-2">
+                                            <span class="text-rose-600 flex items-center">
+                                                <i data-lucide="receipt" class="w-3 h-3 mr-1"></i> Pengeluaran Lain-lain
+                                            </span>
+                                            <span class="text-rose-600 font-bold" id="dist-misc">Rp 0</span>
+                                        </div>
+                                        <div class="w-full bg-rose-100 h-1.5 rounded-full overflow-hidden">
+                                            <div class="bg-rose-500 h-full rounded-full" style="width: 0%" id="bar-misc"></div>
                                         </div>
                                     </div>
                                     <div class="pt-2 border-t border-gray-200">
@@ -294,7 +305,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -304,9 +314,9 @@
                         <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
                             <div>
                                 <h3 class="font-bold text-gray-900 text-lg">Buku Kas Pengeluaran & Transaksi</h3>
-                                <p class="text-xs text-gray-400 mt-1">Audit terperinci omzet, biaya operasional harian, iklan, dan retribusi admin</p>
+                                <p class="text-xs text-gray-400 mt-1">Audit terperinci omzet, biaya operasional harian, iklan, pengeluaran lain, dan retribusi admin</p>
                             </div>
-                            <span class="text-xs text-gray-400 font-mono bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">Formula: Omzet - HPP - Layanan - Admin Toko - Admin Promo - Biaya Lain - Ads</span>
+                            <span class="text-xs text-gray-400 font-mono bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">Formula: Omzet - HPP - Fees - Ads - Pengeluaran Lain-lain</span>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -314,7 +324,8 @@
                                     <tr class="text-gray-400 text-xs uppercase tracking-wider border-b border-gray-100">
                                         <th class="pb-3 font-semibold whitespace-nowrap">Tanggal / Toko</th>
                                         <th class="pb-3 text-right font-semibold whitespace-nowrap">Omzet</th>
-                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Expenses</th>
+                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Expenses (HPP & Fee)</th>
+                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Pengeluaran Lain</th>
                                         <th class="pb-3 text-right font-semibold whitespace-nowrap">Biaya Iklan</th>
                                         <th class="pb-3 text-right font-semibold whitespace-nowrap">Profit Bersih</th>
                                     </tr>
@@ -329,21 +340,30 @@
 
                 <!-- TAB: MANAJEMEN TOKO -->
                 <div id="tab-settings" class="hide space-y-6">
-                    <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-4xl mx-auto">
-                        <h3 class="text-lg font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4 flex items-center">
-                            <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center mr-3 text-indigo-600">
-                                <i data-lucide="store" class="w-4 h-4"></i>
-                            </div>
-                            Kelola Daftar Toko & Parameter Biaya
-                        </h3>
+                    <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-5xl mx-auto">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
+                            <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center mr-3 text-indigo-600">
+                                    <i data-lucide="store" class="w-4 h-4"></i>
+                                </div>
+                                Kelola Daftar Toko & Parameter Biaya
+                            </h3>
+                            <button onclick="saveAllStoresAndRefresh()" class="flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition-all shadow-md">
+                                <i data-lucide="save" class="w-4 h-4 mr-1.5"></i> Simpan & Refresh Dashboard
+                            </button>
+                        </div>
                         
                         <!-- Form Tambah Toko Baru -->
                         <form onsubmit="addStore(event)" class="space-y-5 mb-10 bg-gray-50 p-6 rounded-2xl border border-gray-100">
                             <h4 class="font-bold text-gray-900 text-sm">Tambah Toko Baru</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
                                 <div class="lg:col-span-2">
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Nama Toko</label>
                                     <input type="text" id="new-store-name" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" placeholder="Toko C" required>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">Harga Jual / Kg (Rp)</label>
+                                    <input type="number" id="new-store-selling-price" class="w-full bg-white border border-blue-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-blue-200 outline-none font-semibold text-blue-900" value="33000" required>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">HPP 1kg (Rp/kg)</label>
@@ -361,11 +381,11 @@
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Admin Promo (%)</label>
                                     <input type="number" step="0.01" id="new-store-admin-promo" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="0.0" required>
                                 </div>
-                                <div class="md:col-span-2 lg:col-span-5">
+                                <div class="lg:col-span-5">
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Biaya Lain-lain (Rp)</label>
                                     <input type="number" id="new-store-fee-packer" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="1000" required>
                                 </div>
-                                <div class="lg:col-span-5 flex justify-end mt-2">
+                                <div class="lg:col-span-6 flex justify-end mt-2">
                                     <button type="submit" class="bg-gray-900 text-white px-6 py-2.5 rounded-xl hover:bg-black transition-colors font-semibold text-sm shadow-sm">
                                         Tambah Toko
                                     </button>
@@ -373,7 +393,10 @@
                             </div>
                         </form>
 
-                        <h4 class="text-sm font-bold text-gray-900 mb-4">Daftar Toko Aktif</h4>
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-sm font-bold text-gray-900">Daftar Toko Aktif</h4>
+                            <span class="text-xs text-gray-400 font-medium">*Perubahan parameter otomatis tersimpan atau klik "Simpan & Refresh"</span>
+                        </div>
                         <div id="store-list" class="space-y-4">
                             <!-- List injected via JS -->
                         </div>
@@ -396,11 +419,10 @@
                         </div>
                         
                         <p class="text-sm text-gray-500 mb-6">
-                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail dengan algoritme <strong>Visual Line Reconstruction</strong> untuk memisahkan berat masing-masing paket (dalam satuan KG) dan merangkum jumlahnya secara tepat.
+                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail untuk memisahkan berat masing-masing paket (dalam satuan KG) dan merangkum jumlahnya secara tepat.
                         </p>
                         
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            <!-- Upload Box and Logs (Left) -->
                             <div class="lg:col-span-5 space-y-4">
                                 <div class="border-2 border-dashed border-gray-200 rounded-2xl p-6 text-center hover:bg-gray-50 transition-colors relative">
                                     <input type="file" id="pdf-file" accept=".pdf" class="hidden" onchange="handlePdfUpload(event)">
@@ -413,7 +435,6 @@
                                     </label>
                                 </div>
                                 
-                                <!-- Live Extraction Logs -->
                                 <div class="bg-gray-900 rounded-xl p-4">
                                     <div class="flex justify-between items-center mb-2 border-b border-gray-800 pb-1.5">
                                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Live Processing Console</span>
@@ -425,17 +446,14 @@
                                 </div>
                             </div>
                             
-                            <!-- Result Table (Right) -->
                             <div class="lg:col-span-7">
                                 <div id="packing-status" class="hidden h-full">
-                                    <!-- Progress Loader -->
                                     <div id="packing-loader" class="flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-2xl h-full min-h-[220px]">
                                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600"></div>
                                         <p class="mt-4 text-sm font-semibold text-gray-700" id="packing-progress-msg">Menganalisis berkas PDF...</p>
                                         <p class="mt-1 text-xs text-gray-400">Harap tunggu, jangan menutup tab ini.</p>
                                     </div>
                                     
-                                    <!-- Actual Results -->
                                     <div id="packing-results" class="hidden bg-gray-50 p-6 rounded-2xl border border-gray-100 flex flex-col justify-between h-full min-h-[220px]">
                                         <div>
                                             <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-200">
@@ -454,13 +472,11 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="packing-table-body" class="text-xs font-mono text-gray-800">
-                                                        <!-- Injected Rows -->
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                         
-                                        <!-- Actions -->
                                         <div class="mt-4 pt-4 border-t border-gray-200 flex justify-end space-x-2">
                                             <button onclick="exportPackingToExcel()" class="flex items-center px-3.5 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 text-xs transition-colors shadow-sm">
                                                 <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i> Ekspor Excel
@@ -469,7 +485,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Empty State -->
                                 <div id="packing-empty-state" class="flex flex-col items-center justify-center text-center p-8 bg-gray-50 border border-gray-100 rounded-2xl h-full min-h-[220px]">
                                     <i data-lucide="file-text" class="w-8 h-8 text-gray-300 mb-2"></i>
                                     <p class="text-xs font-medium text-gray-500">Hasil perhitungan varian berat akan ditampilkan di sini setelah proses unggah selesai.</p>
@@ -481,8 +496,6 @@
             </div>
         </main>
     </div>
-
-    <!-- ================= MODALS & POPUPS ================= -->
 
     <!-- MODAL: UPLOAD DATA ORDER -->
     <div id="modal-upload" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-50 html2pdf-ignore">
@@ -497,7 +510,7 @@
                     Upload Data Order
                 </h3>
                 <p class="text-xs text-gray-500">
-                    Upload file excel export Shopee. Sistem otomatis mengambil nilai order dari kolom Subtotal/Total untuk dikonversi menjadi berat permen aktual dengan basis harga Rp 33.000/kg.
+                    Upload file excel export Shopee. Sistem otomatis mengambil nilai order dari kolom Subtotal/Total untuk dikonversi menjadi berat permen berdasarkan <strong>Harga Jual / Kg</strong> yang terkonfigurasi untuk toko tersebut.
                 </p>
                 
                 <div>
@@ -567,7 +580,6 @@
                         </select>
                     </div>
 
-                    <!-- Custom Ad Spend Date Range Picker -->
                     <div class="relative">
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilih Rentang Tanggal Iklan</label>
                         <button type="button" id="ads-date-trigger" onclick="toggleAdsDatePopover(event)" class="w-full flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl p-3 hover:bg-gray-100 transition-colors cursor-pointer text-sm font-medium text-gray-700">
@@ -578,7 +590,6 @@
                             <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
                         </button>
                         
-                        <!-- Calendar Popover for Ad Spend -->
                         <div id="ads-date-popover" onclick="event.stopPropagation()" class="absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl hidden z-[60] p-4">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-xs font-bold text-gray-800">Pemilihan Tanggal</span>
@@ -602,7 +613,6 @@
                         </div>
                     </div>
 
-                    <!-- Hidden inputs to store Ads Dates -->
                     <input type="hidden" id="ads-start-date" required>
                     <input type="hidden" id="ads-end-date" required>
 
@@ -617,7 +627,6 @@
                 </form>
             </div>
 
-            <!-- OVERLAY SUCCESS CARD FOR AD SPEND -->
             <div id="ads-success-card" class="hidden flex flex-col items-center justify-center text-center p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
                 <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
                     <i data-lucide="check" class="w-8 h-8"></i>
@@ -642,6 +651,78 @@
                     </div>
                 </div>
                 <button onclick="closeAdSpendModalAndRefresh()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-black transition-colors shadow-md text-sm">
+                    Selesai & Muat Ulang Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: INPUT PENGELUARAN LAIN-LAIN -->
+    <div id="modal-misc-expense" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-50 html2pdf-ignore">
+        <div class="bg-white p-8 rounded-3xl max-w-md w-full mx-4 shadow-2xl relative">
+            <button onclick="closeMiscExpenseModal()" class="absolute top-6 right-6 p-2 text-gray-400 hover:bg-gray-100 rounded-full transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div id="misc-form-content" class="space-y-5">
+                <h3 class="text-xl font-bold text-gray-900 flex items-center mb-2">
+                    <i data-lucide="receipt" class="text-rose-500 w-6 h-6 mr-2"></i>
+                    Input Pengeluaran Lain-lain
+                </h3>
+                <p class="text-xs text-gray-500 mb-6">Catat pengeluaran operasional non-iklan (lakban, plastik packing, bonus packer, dll). Pengeluaran ini akan memotong profit secara otomatis.</p>
+                
+                <form id="form-misc" onsubmit="handleMiscExpense(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilih Toko</label>
+                        <select id="misc-store" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" required>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tanggal Pengeluaran</label>
+                        <input type="date" id="misc-date" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-rose-500 outline-none text-sm font-medium" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nominal Pengeluaran (Rp)</label>
+                        <input type="number" id="misc-amount" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-rose-500 outline-none font-mono text-rose-600 font-bold" placeholder="Contoh: 150000" required min="1">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Catatan Pengeluaran</label>
+                        <input type="text" id="misc-note" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-rose-500 outline-none text-sm" placeholder="Contoh: Lakban 10 Roll & Plastik Packing" required>
+                    </div>
+
+                    <button type="submit" class="w-full bg-rose-600 text-white rounded-xl py-3 font-bold hover:bg-rose-700 transition-colors shadow-md mt-2 flex items-center justify-center">
+                        <i data-lucide="plus-circle" class="w-4 h-4 mr-2"></i> Simpan Pengeluaran
+                    </button>
+                </form>
+            </div>
+
+            <div id="misc-success-card" class="hidden flex flex-col items-center justify-center text-center p-6 bg-rose-50 rounded-2xl border border-rose-100">
+                <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
+                    <i data-lucide="check" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 text-lg mb-2">Pengeluaran Tersimpan!</h4>
+                <div class="bg-white p-4 rounded-xl border border-rose-100 w-full mb-5 text-left space-y-2 text-xs text-gray-700">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Toko:</span>
+                        <span class="font-bold font-mono" id="summary-misc-store">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Tanggal:</span>
+                        <span class="font-bold font-mono" id="summary-misc-date">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Catatan:</span>
+                        <span class="font-bold" id="summary-misc-note">-</span>
+                    </div>
+                    <div class="flex justify-between border-t border-gray-100 pt-2">
+                        <span class="text-gray-400">Nominal:</span>
+                        <span class="font-bold font-mono text-rose-600" id="summary-misc-amount">Rp 0</span>
+                    </div>
+                </div>
+                <button onclick="closeMiscExpenseModalAndRefresh()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-black transition-colors shadow-md text-sm">
                     Selesai & Muat Ulang Dashboard
                 </button>
             </div>
@@ -703,11 +784,12 @@
         try {
             stores = JSON.parse(rawStores) || [];
             if (stores.length > 0) {
-                // Melakukan migrasi data dari format lama ke format baru dengan parameter default HPP 21.250
+                // Melakukan migrasi data: Menambahkan parameter sellingPricePerKg (default 33.000)
                 stores = stores.map(s => {
-                    if (typeof s === 'string') return { name: s, hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 0.0, feePacker: 1000 };
+                    if (typeof s === 'string') return { name: s, sellingPricePerKg: 33000, hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 0.0, feePacker: 1000 };
                     return {
                         name: s.name,
+                        sellingPricePerKg: s.sellingPricePerKg !== undefined ? s.sellingPricePerKg : 33000,
                         hppPerKg: s.hppPerKg !== undefined ? s.hppPerKg : 21250,
                         serviceFee: s.serviceFee !== undefined ? s.serviceFee : (s.serviceFee || 1250),
                         adminToko: s.adminToko !== undefined ? s.adminToko : (s.adminFee || 6.0),
@@ -720,13 +802,13 @@
 
         if (stores.length === 0) {
             stores = [
-                { name: 'Toko Utama', hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 2.0, feePacker: 1000 },
-                { name: 'Toko Cabang 1', hppPerKg: 21250, serviceFee: 1250, adminToko: 5.5, adminPromo: 1.5, feePacker: 1000 }
+                { name: 'Toko Utama', sellingPricePerKg: 33000, hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 2.0, feePacker: 1000 },
+                { name: 'Toko Cabang 1', sellingPricePerKg: 33000, hppPerKg: 21250, serviceFee: 1250, adminToko: 5.5, adminPromo: 1.5, feePacker: 1000 }
             ];
         }
         localStorage.setItem('shopeeStores', JSON.stringify(stores));
 
-        let chart1;
+        let chart1 = null;
         let lastExtractedWeights = {}; 
 
         // --- HELPER UNTUK MENCEGAH BUG OFFSET ZONA WAKTU ---
@@ -800,7 +882,39 @@
             renderDashboard();
         }
 
-        // --- STREAMING_CHUNK:Menyiapkan interaksi pemilih tanggal (Date Pickers)... -->
+        // --- MISCELLANEOUS EXPENSES MODAL ACTIONS ---
+        function openMiscExpenseModal() {
+            populateStoreSelects();
+            
+            document.getElementById('misc-success-card').classList.add('hidden');
+            document.getElementById('misc-form-content').classList.remove('hidden');
+            
+            document.getElementById('misc-amount').value = "";
+            document.getElementById('misc-note').value = "";
+            
+            // Default to today's date in local YYYY-MM-DD
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('misc-date').value = `${year}-${month}-${day}`;
+            
+            const modal = document.getElementById('modal-misc-expense');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMiscExpenseModal() {
+            const modal = document.getElementById('modal-misc-expense');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function closeMiscExpenseModalAndRefresh() {
+            closeMiscExpenseModal();
+            renderDashboard();
+        }
+
         // --- DATE RANGE TRIGGER & PRESETS (DASHBOARD UTAMA) ---
         function toggleDatePopover(event) {
             event.stopPropagation();
@@ -864,8 +978,6 @@
             }
         }
 
-        // --- STREAMING_CHUNK:Merender kalender dinamis kustom... -->
-        // --- RENDERING INTEGRASI KALENDER PREMIUM (DASHBOARD UTAMA) ---
         function renderInlineCalendar() {
             const startInput = document.getElementById('filter-start').value;
             const endInput = document.getElementById('filter-end').value;
@@ -1055,7 +1167,7 @@
             document.getElementById('date-range-popover').classList.add('hidden');
         }
 
-        // --- STREAMING_CHUNK:Merender kalender Ads Spend (Iklan)... -->
+        // --- KALENDER ADS SPEND ---
         function renderAdsInlineCalendar() {
             const startInput = document.getElementById('ads-start-date').value;
             const endInput = document.getElementById('ads-end-date').value;
@@ -1175,7 +1287,6 @@
             document.getElementById('ads-date-popover').classList.add('hidden');
         }
 
-        // --- STREAMING_CHUNK:Menangani perpindahan Tab Menu... -->
         // --- NAVIGATION TABS CONTROL ---
         function switchTab(tabId) {
             document.querySelectorAll('aside nav blockquote, aside nav button').forEach(btn => {
@@ -1259,10 +1370,9 @@
         document.getElementById('confirm-btn-cancel').addEventListener('click', () => { closeConfirmModal(); if(confirmPromiseResolver) confirmPromiseResolver(false); });
         function closeConfirmModal() { const modal = document.getElementById('custom-confirm'); modal.classList.add('hidden'); modal.classList.remove('flex'); }
 
-        // --- STREAMING_CHUNK:Menyiapkan Logika Manajemen Konfigurasi Toko... -->
         // --- STORE MANAGEMENT ---
         function populateStoreSelects() {
-            const selects = ['filter-store', 'upload-store', 'ads-store'];
+            const selects = ['filter-store', 'upload-store', 'ads-store', 'misc-store'];
             selects.forEach(id => {
                 const el = document.getElementById(id);
                 if(!el) return;
@@ -1285,30 +1395,39 @@
                             <div class="w-6 h-6 rounded bg-gray-100 flex items-center justify-center mr-2"><i data-lucide="store" class="text-gray-500 w-3 h-3"></i></div>
                             ${s.name}
                         </span>
-                        <button onclick="triggerRemoveStore(${index})" class="text-red-400 hover:bg-red-50 p-2 rounded-lg transition-colors" title="Hapus Toko">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="saveSingleStore(${index})" class="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors font-bold flex items-center">
+                                <i data-lucide="check" class="w-3.5 h-3.5 mr-1"></i> Simpan
+                            </button>
+                            <button onclick="triggerRemoveStore(${index})" class="text-red-400 hover:bg-red-50 p-2 rounded-lg transition-colors" title="Hapus Toko">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
+                    <div class="grid grid-cols-2 md:grid-cols-6 gap-3 text-sm">
+                        <div>
+                            <label class="block text-[10px] text-blue-600 uppercase font-bold mb-1 tracking-wider">Harga Jual / Kg (Rp)</label>
+                            <input type="number" id="store-sell-${index}" value="${s.sellingPricePerKg !== undefined ? s.sellingPricePerKg : 33000}" class="bg-blue-50/50 border border-blue-200 rounded-lg p-2 w-full font-mono font-semibold text-blue-900 outline-none focus:border-blue-400" onchange="updateStoreFee(${index}, 'sellingPricePerKg', this.value)">
+                        </div>
                         <div>
                             <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">HPP 1kg (Rp/kg)</label>
-                            <input type="number" value="${s.hppPerKg !== undefined ? s.hppPerKg : 21250}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'hppPerKg', this.value)">
+                            <input type="number" id="store-hpp-${index}" value="${s.hppPerKg !== undefined ? s.hppPerKg : 21250}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'hppPerKg', this.value)">
                         </div>
                         <div>
                             <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Layanan (Rp)</label>
-                            <input type="number" value="${s.serviceFee}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'serviceFee', this.value)">
+                            <input type="number" id="store-svc-${index}" value="${s.serviceFee}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'serviceFee', this.value)">
                         </div>
                         <div>
                             <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Admin Toko (%)</label>
-                            <input type="number" step="0.01" value="${s.adminToko}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminToko', this.value)">
+                            <input type="number" step="0.01" id="store-adm-${index}" value="${s.adminToko}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminToko', this.value)">
                         </div>
                         <div>
                             <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Admin Promo (%)</label>
-                            <input type="number" step="0.01" value="${s.adminPromo}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminPromo', this.value)">
+                            <input type="number" step="0.01" id="store-prm-${index}" value="${s.adminPromo}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminPromo', this.value)">
                         </div>
                         <div class="col-span-2 md:col-span-1">
                             <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Biaya Lain (Rp)</label>
-                            <input type="number" value="${s.feePacker}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'feePacker', this.value)">
+                            <input type="number" id="store-pck-${index}" value="${s.feePacker}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'feePacker', this.value)">
                         </div>
                     </div>
                 </div>
@@ -1319,6 +1438,7 @@
         function addStore(e) {
             e.preventDefault();
             const inputName = document.getElementById('new-store-name');
+            const inputSellingPrice = document.getElementById('new-store-selling-price');
             const inputHppKg = document.getElementById('new-store-hpp-per-kg');
             const inputService = document.getElementById('new-store-service');
             const inputAdminToko = document.getElementById('new-store-admin-toko');
@@ -1326,7 +1446,8 @@
             const inputFeePacker = document.getElementById('new-store-fee-packer');
             
             const name = inputName.value.trim();
-            const hppPerKg = parseInt(inputHppKg.value) || 0;
+            const sellingPricePerKg = parseInt(inputSellingPrice.value) || 33000;
+            const hppPerKg = parseInt(inputHppKg.value) || 21250;
             const service = parseInt(inputService.value) || 0;
             const adminToko = parseFloat(inputAdminToko.value) || 0;
             const adminPromo = parseFloat(inputAdminPromo.value) || 0;
@@ -1338,10 +1459,10 @@
             }
 
             if(name) {
-                stores.push({ name, hppPerKg, serviceFee: service, adminToko, adminPromo, feePacker });
+                stores.push({ name, sellingPricePerKg, hppPerKg, serviceFee: service, adminToko, adminPromo, feePacker });
                 localStorage.setItem('shopeeStores', JSON.stringify(stores));
                 
-                inputName.value = ''; inputHppKg.value = '21250'; inputService.value = '1250'; inputAdminToko.value = '6.0'; inputAdminPromo.value = '0.0'; inputFeePacker.value = '1000';
+                inputName.value = ''; inputSellingPrice.value = '33000'; inputHppKg.value = '21250'; inputService.value = '1250'; inputAdminToko.value = '6.0'; inputAdminPromo.value = '0.0'; inputFeePacker.value = '1000';
                 renderStoreList(); showToast(`Toko ${name} berhasil didaftarkan.`); populateStoreSelects(); initDataStructure();
             }
         }
@@ -1351,8 +1472,20 @@
             if (!isNaN(parsed) && parsed >= 0) {
                 stores[index][key] = parsed;
                 localStorage.setItem('shopeeStores', JSON.stringify(stores));
-                showToast(`Parameter ${key} untuk ${stores[index].name} diperbarui.`);
             }
+        }
+
+        function saveSingleStore(index) {
+            localStorage.setItem('shopeeStores', JSON.stringify(stores));
+            showToast(`Parameter untuk ${stores[index].name} berhasil disimpan!`);
+        }
+
+        function saveAllStoresAndRefresh() {
+            localStorage.setItem('shopeeStores', JSON.stringify(stores));
+            showToast("Semua parameter toko disimpan! Memuat ulang dashboard...", "success");
+            setTimeout(() => {
+                switchTab('dashboard');
+            }, 600);
         }
 
         async function triggerRemoveStore(index) {
@@ -1370,14 +1503,13 @@
         }
 
         async function triggerResetData() {
-            const confirmed = await customConfirm("Reset semua data omzet dan ads?");
+            const confirmed = await customConfirm("Reset semua data omzet, ads, dan pengeluaran?");
             if(confirmed) {
                 appData = {}; initDataStructure(); localStorage.setItem('shopeeAppData', JSON.stringify(appData));
                 renderDashboard(); showToast("Semua data berhasil direset.");
             }
         }
 
-        // --- STREAMING_CHUNK:Menyiapkan utilitas Parser File Excel... -->
         // --- PARSING AMAN DAN DETEKSI TANGGAL ---
         function extractDateFromFilename(filename) {
             const match = filename.match(/Order\.all\.(\d{4})(\d{2})(\d{2})/);
@@ -1400,8 +1532,7 @@
             }
         }
 
-        // --- STREAMING_CHUNK:Memproses ekstraksi Order & Perubahan Konversi KG HPP... -->
-        // --- PROSES UNGGAH FILE EXCEL DATA ORDER (DENGAN PERUBAHAN PERHITUNGAN HPP) ---
+        // --- PROSES UNGGAH FILE EXCEL DATA ORDER ---
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if(!file) return;
@@ -1411,6 +1542,10 @@
             statusEl.classList.remove('hidden');
             statusEl.innerText = "Memproses Excel...";
             statusEl.className = "text-sm text-center text-blue-600 bg-blue-50 py-3 rounded-xl block mt-3 font-semibold";
+
+            // Ambil konfigurasi toko terpilih untuk mendapatkan harga jual per kg
+            const selectedStoreObj = stores.find(s => s.name === storeName);
+            const currentSellingPricePerKg = (selectedStoreObj && selectedStoreObj.sellingPricePerKg) ? selectedStoreObj.sellingPricePerKg : 33000;
 
             const fallbackDate = extractDateFromFilename(file.name);
             const reader = new FileReader();
@@ -1507,24 +1642,14 @@
                             const subtotalCell = row[colSubtotal]; 
                             const cleanOmzet = safeParseNumber(subtotalCell, false);
                             
-                            // --- MODIFIKASI PERHITUNGAN HPP ---
-                            // Sistem sebelumnya membaca Kolom Z (berat aktual dari resi) dan membacanya sebagai kg mentah.
-                            // PERUBAHAN: Konversi nilai omzet/total pembayaran (rupiah) menjadi unit Kg Permen berdasarkan harga Rp33.000, 
-                            // dan dibulatkan ke satuan terdekat secara matematis.
-                            
-                            let estimasiKgPermen = Math.round(cleanOmzet / 33000);
-                            
-                            // Nilai ini disimpan dalam bentuk `gram` (dikali 1000) karena skrip existing di tabel dashboard 
-                            // akan membaginya dengan 1000 lagi nanti, agar tidak merusak pondasi logic kalkulasi di dalam renderDashboard().
+                            // --- KALKULASI DINAMIS KONVERSI KG PERMEN ---
+                            let estimasiKgPermen = currentSellingPricePerKg > 0 ? Math.round(cleanOmzet / currentSellingPricePerKg) : 0;
                             let weightRawVal = estimasiKgPermen * 1000;
-                            
-                            // ------------------------------------
 
                             if (!dailyData[orderDate]) {
                                 dailyData[orderDate] = { omzet: 0, weightRaw: 0, status: { 'Perlu Dikirim': 0, 'Sedang Dikirim': 0, 'Batal': 0 } };
                             }
 
-                            // Akumulasi data
                             if (statusCell.includes('perlu dikirim') || statusCell.includes('telah dibayar') || statusCell.includes('to ship')) { 
                                 dailyData[orderDate].status['Perlu Dikirim']++; 
                             } else {
@@ -1551,18 +1676,17 @@
                     
                     processedDates.forEach(dateStr => {
                         if(!appData[storeName][dateStr]) {
-                            appData[storeName][dateStr] = { ads: 0, omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
+                            appData[storeName][dateStr] = { ads: 0, misc: 0, miscList: [], omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
                         }
                         
                         appData[storeName][dateStr].omzet = dailyData[dateStr].omzet;
-                        appData[storeName][dateStr].weight = dailyData[dateStr].weightRaw; // Disimpan dalam gram
+                        appData[storeName][dateStr].weight = dailyData[dateStr].weightRaw;
                         appData[storeName][dateStr].status = dailyData[dateStr].status;
                         grandTotalOmzet += dailyData[dateStr].omzet;
                     });
 
                     localStorage.setItem('shopeeAppData', JSON.stringify(appData));
                     
-                    // Sembunyikan form dan tampilkan Success Card Overlay secara visual
                     document.getElementById('upload-form-content').classList.add('hidden');
                     const successCard = document.getElementById('upload-success-card');
                     successCard.classList.remove('hidden');
@@ -1582,7 +1706,6 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // --- STREAMING_CHUNK:Menyimpan Pengeluaran Biaya Iklan (Ad Spend)... -->
         // --- SUBMIT HANDLING (ADS) ---
         function handleAdSpend(e) {
             e.preventDefault();
@@ -1621,7 +1744,7 @@
             
             datesInRange.forEach(date => {
                 if(!appData[storeName][date]) {
-                    appData[storeName][date] = { ads: 0, omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
+                    appData[storeName][date] = { ads: 0, misc: 0, miscList: [], omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
                 }
                 appData[storeName][date].ads = amountPerDay;
             });
@@ -1645,6 +1768,59 @@
             showToast(`Ad Spend berhasil disimpan untuk ${datesInRange.length} hari.`, "success");
         }
 
+        // --- SUBMIT HANDLING (MISCELLANEOUS EXPENSES) ---
+        function handleMiscExpense(e) {
+            e.preventDefault();
+            const storeName = document.getElementById('misc-store').value;
+            const dateStr = document.getElementById('misc-date').value;
+            const amount = parseInt(document.getElementById('misc-amount').value) || 0;
+            const note = document.getElementById('misc-note').value.trim();
+
+            if (!storeName || !dateStr || amount <= 0 || !note) {
+                showToast("Harap isi seluruh data pengeluaran dengan benar!", "error");
+                return;
+            }
+
+            if (!appData) appData = {};
+            if (!appData[storeName]) appData[storeName] = {};
+            if (!appData[storeName][dateStr]) {
+                appData[storeName][dateStr] = { ads: 0, misc: 0, miscList: [], omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
+            }
+
+            if (!appData[storeName][dateStr].miscList) {
+                appData[storeName][dateStr].miscList = [];
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                amount: amount,
+                note: note,
+                timestamp: new Date().toISOString()
+            };
+
+            appData[storeName][dateStr].miscList.push(newEntry);
+            
+            // Recalculate total misc for this store & date
+            appData[storeName][dateStr].misc = appData[storeName][dateStr].miscList.reduce((sum, item) => sum + item.amount, 0);
+
+            localStorage.setItem('shopeeAppData', JSON.stringify(appData));
+
+            const parsedDate = parseLocalDate(dateStr);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            const formatter = new Intl.DateTimeFormat('id-ID', options);
+
+            document.getElementById('summary-misc-store').innerText = storeName;
+            document.getElementById('summary-misc-date').innerText = formatter.format(parsedDate);
+            document.getElementById('summary-misc-note').innerText = note;
+            document.getElementById('summary-misc-amount').innerText = formatRp(amount);
+
+            document.getElementById('misc-form-content').classList.add('hidden');
+            document.getElementById('misc-success-card').classList.remove('hidden');
+
+            lucide.createIcons();
+            showToast(`Pengeluaran Rp ${amount.toLocaleString('id-ID')} berhasil dicatat!`, "success");
+        }
+
         function formatRp(angka) { 
             const roundedVal = Math.round(Number(angka) || 0);
             return (roundedVal < 0 ? '-Rp ' : 'Rp ') + new Intl.NumberFormat('id-ID', {
@@ -1653,7 +1829,6 @@
             }).format(Math.abs(roundedVal)); 
         }
 
-        // --- STREAMING_CHUNK:Merender Tabel & Kalkulasi Profit/KPI Akhir Dashboard... -->
         // --- DASHBOARD & LEDGER RENDERING ---
         function renderDashboard() {
             const storeFilter = document.getElementById('filter-store').value;
@@ -1675,12 +1850,44 @@
                 currDate.setDate(currDate.getDate() + 1);
             }
 
-            let totalOmzet = 0; let totalAds = 0; let totalWeight = 0;
+            let totalOmzet = 0; let totalAds = 0; let totalMisc = 0; let totalWeight = 0;
             let totalOrdersSuccess = 0; let totalBatal = 0;
             let totalHpp = 0; let totalShopeeFees = 0; let totalProfit = 0;
 
             const tableRows = [];
             const reverseDates = [...targetDates].reverse();
+
+            const chartOmzetData = [];
+            const chartProfitData = [];
+            const chartLabels = [];
+
+            targetDates.forEach(date => {
+                let dayOmz = 0;
+                let dayProfit = 0;
+                targetStores.forEach(storeName => {
+                    const data = appData[storeName]?.[date];
+                    if(data) {
+                        const omz = data.omzet || 0;
+                        const ad = data.ads || 0;
+                        const misc = data.misc || 0;
+                        const wgtGr = data.weight || 0;
+                        const st = data.status || { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 };
+                        const succ = st['Perlu Dikirim'] + st['Sedang Dikirim'];
+                        const sc = stores.find(s => s.name === storeName) || { hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 0.0, feePacker: 1000 };
+                        
+                        const hppMultiplier = sc.hppPerKg !== undefined ? sc.hppPerKg : 21250;
+                        const hpp = (wgtGr / 1000) * hppMultiplier;
+                        const shopeeFee = (omz * (sc.adminToko / 100)) + (omz * (sc.adminPromo / 100)) + (succ * sc.serviceFee) + (succ * sc.feePacker);
+                        const prof = omz - hpp - shopeeFee - ad - misc;
+
+                        dayOmz += omz;
+                        dayProfit += prof;
+                    }
+                });
+                chartLabels.push(date.substring(5)); // Format MM-DD
+                chartOmzetData.push(dayOmz);
+                chartProfitData.push(dayProfit);
+            });
 
             reverseDates.forEach(date => {
                 targetStores.forEach(storeName => {
@@ -1688,6 +1895,8 @@
                     if(data) {
                         const omz = data.omzet || 0; 
                         const ad = data.ads || 0;
+                        const misc = data.misc || 0;
+                        const miscList = data.miscList || [];
                         const wgtGr = data.weight || 0;
                         const st = data.status || { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 };
                         const succ = st['Perlu Dikirim'] + st['Sedang Dikirim']; 
@@ -1695,24 +1904,27 @@
 
                         const sc = stores.find(s => s.name === storeName) || { hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 0.0, feePacker: 1000 };
                         
-                        // --- KALKULASI HPP FIX BERDASARKAN REQUEST ---
-                        // "setelah mendapatkan convert nilai order menjadi kg permen, tetap hitung HPP dengan (mengkalikan) x 21.250 rupiah."
-                        // Karena wgtGr saat ini adalah Gram dari "KG Permen" hasil konversi, maka kita ubah menjadi kg kembali lalu dikali dengan 21.250 rupiah (sesuai instruksi fix)
-                        const hppMultiplier = 21250;
+                        const hppMultiplier = sc.hppPerKg !== undefined ? sc.hppPerKg : 21250;
                         const hpp = (wgtGr / 1000) * hppMultiplier; 
-                        // ---------------------------------------------
                         
                         const shopeeFee = (omz * (sc.adminToko / 100)) + (omz * (sc.adminPromo / 100)) + (succ * sc.serviceFee) + (succ * sc.feePacker);
-                        const profit = omz - hpp - shopeeFee - ad;
+                        
+                        // Net Profit calculation including miscellaneous expenses
+                        const profit = omz - hpp - shopeeFee - ad - misc;
 
                         totalOmzet += omz;
                         totalAds += ad;
+                        totalMisc += misc;
                         totalWeight += wgtGr;
                         totalOrdersSuccess += succ;
                         totalBatal += btl;
                         totalHpp += hpp;
                         totalShopeeFees += shopeeFee;
                         totalProfit += profit;
+
+                        const miscNotesStr = miscList.length > 0 
+                            ? miscList.map(m => `${m.note} (${formatRp(m.amount)})`).join(', ') 
+                            : 'Biasa';
 
                         tableRows.push(`
                             <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors text-sm">
@@ -1726,6 +1938,10 @@
                                 <td class="py-4 text-right pr-4">
                                     <div class="font-bold text-purple-600">${formatRp(hpp + shopeeFee)}</div>
                                     <div class="text-[10px] text-gray-500 font-medium whitespace-nowrap">HPP: ${formatRp(hpp)} &bull; Fee: ${formatRp(shopeeFee)}</div>
+                                </td>
+                                <td class="py-4 text-right pr-4">
+                                    <div class="font-bold text-rose-600">${formatRp(misc)}</div>
+                                    <div class="text-[10px] text-gray-400 truncate max-w-[150px] inline-block" title="${miscNotesStr}">${miscNotesStr}</div>
                                 </td>
                                 <td class="py-4 text-right pr-4 font-bold text-orange-500">${formatRp(ad)}</td>
                                 <td class="py-4 text-right pl-4 font-bold text-base ${profit >= 0 ? 'text-emerald-600' : 'text-red-500'}">
@@ -1748,197 +1964,223 @@
             document.getElementById('kpi-roas').innerText = `ROAS: ${totalAds > 0 ? (totalOmzet / totalAds).toFixed(2) : 0}x | ACOS: ${totalOmzet > 0 ? ((totalAds / totalOmzet) * 100).toFixed(1) : 0}%`;
             
             document.getElementById('kpi-hpp').innerText = `HPP: ${formatRp(totalHpp)}`;
-            document.getElementById('kpi-admin').innerText = `Fee: ${formatRp(totalShopeeFees)}`;
-            
-            // Update Distribution Bars
-            const totalOut = totalHpp + totalAds + totalShopeeFees + (totalProfit > 0 ? totalProfit : 0);
+            document.getElementById('kpi-admin').innerText = `Fee: ${formatRp(totalShopeeFees)} | Lain: ${formatRp(totalMisc)}`;
+
+            // Update "Where your money go?" Card
+            const denominator = totalOmzet > 0 ? totalOmzet : (totalHpp + totalAds + totalShopeeFees + totalMisc + Math.max(0, totalProfit));
+            const pctHpp = denominator > 0 ? Math.min(100, Math.max(0, (totalHpp / denominator) * 100)) : 0;
+            const pctAds = denominator > 0 ? Math.min(100, Math.max(0, (totalAds / denominator) * 100)) : 0;
+            const pctFee = denominator > 0 ? Math.min(100, Math.max(0, (totalShopeeFees / denominator) * 100)) : 0;
+            const pctMisc = denominator > 0 ? Math.min(100, Math.max(0, (totalMisc / denominator) * 100)) : 0;
+            const pctProfit = denominator > 0 ? Math.min(100, Math.max(0, (totalProfit / denominator) * 100)) : 0;
+
             document.getElementById('dist-hpp').innerText = formatRp(totalHpp);
-            document.getElementById('bar-hpp').style.width = totalOut > 0 ? `${(totalHpp / totalOut) * 100}%` : '0%';
-            
+            document.getElementById('bar-hpp').style.width = `${pctHpp}%`;
+
             document.getElementById('dist-ads').innerText = formatRp(totalAds);
-            document.getElementById('bar-ads').style.width = totalOut > 0 ? `${(totalAds / totalOut) * 100}%` : '0%';
-            
+            document.getElementById('bar-ads').style.width = `${pctAds}%`;
+
             document.getElementById('dist-fee').innerText = formatRp(totalShopeeFees);
-            document.getElementById('bar-fee').style.width = totalOut > 0 ? `${(totalShopeeFees / totalOut) * 100}%` : '0%';
-            
+            document.getElementById('bar-fee').style.width = `${pctFee}%`;
+
+            document.getElementById('dist-misc').innerText = formatRp(totalMisc);
+            document.getElementById('bar-misc').style.width = `${pctMisc}%`;
+
             document.getElementById('dist-profit').innerText = formatRp(totalProfit);
-            document.getElementById('bar-profit').style.width = totalOut > 0 && totalProfit > 0 ? `${(totalProfit / totalOut) * 100}%` : '0%';
+            document.getElementById('bar-profit').style.width = `${pctProfit}%`;
 
-            // Update Table Data List
-            document.getElementById('table-body').innerHTML = tableRows.length ? tableRows.join('') : '<tr><td colspan="5" class="py-8 text-center text-gray-400 text-sm">Tidak ada transaksi ditemukan di rentang waktu ini.</td></tr>';
+            // Update Expenses Table
+            const tableBody = document.getElementById('table-body');
+            if (tableRows.length > 0) {
+                tableBody.innerHTML = tableRows.join('');
+            } else {
+                tableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-gray-400">Tidak ada data transaksi pada rentang tanggal ini.</td></tr>`;
+            }
 
-            // Chart Render Initialization
-            renderChart(targetDates, targetStores);
+            // Render Chart
+            renderChart(chartLabels, chartOmzetData, chartProfitData);
+            lucide.createIcons();
         }
 
-        // --- STREAMING_CHUNK:Merender Grafik Line Chart Revenue... -->
-        function renderChart(dates, targetStores) {
-            const ctx = document.getElementById('chartOmzet').getContext('2d');
-            
-            const omzetData = dates.map(date => {
-                return targetStores.reduce((sum, store) => {
-                    return sum + (appData[store]?.[date]?.omzet || 0);
-                }, 0);
-            });
+        function renderChart(labels, omzetData, profitData) {
+            const ctx = document.getElementById('chartOmzet')?.getContext('2d');
+            if (!ctx) return;
 
-            if(chart1) chart1.destroy();
+            if (chart1) {
+                chart1.destroy();
+            }
 
             chart1 = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dates.map(d => {
-                        const s = parseLocalDate(d);
-                        return new Intl.DateTimeFormat('id-ID', {day: 'numeric', month: 'short'}).format(s);
-                    }),
-                    datasets: [{
-                        label: 'Total Omzet (Rp)',
-                        data: omzetData,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.08)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 0,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#3b82f6'
-                    }]
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Omzet',
+                            data: omzetData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Profit',
+                            data: profitData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false },
+                    plugins: {
+                        legend: { display: true, position: 'top' },
                         tooltip: {
                             callbacks: {
-                                label: function(context) { return formatRp(context.parsed.y); }
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatRp(context.raw);
+                                }
                             }
                         }
                     },
                     scales: {
-                        y: { 
-                            beginAtZero: true, 
-                            ticks: { callback: v => (v / 1000000).toFixed(1) + 'M' },
-                            border: { display: false },
-                            grid: { color: '#f1f5f9' }
-                        },
-                        x: { 
-                            grid: { display: false },
-                            border: { display: false },
-                            ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 7 }
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return 'Rp ' + (value / 1000) + 'k'; }
+                            }
                         }
-                    },
-                    interaction: { mode: 'index', intersect: false }
+                    }
                 }
             });
         }
 
-        // --- STREAMING_CHUNK:Menyiapkan fitur PDF AWB (Shipping Tools) dan Ekspor Pajak... -->
-        // --- SHIPPING TOOLS (PDF AWB PARSING) MOCK/RECOVERY ---
-        let extractedPackingData = [];
-
+        // --- SHIPPING TOOLS (PDF AWB PARSER) ---
         async function handlePdfUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            document.getElementById('packing-empty-state').classList.add('hidden');
-            document.getElementById('packing-status').classList.remove('hidden');
-            document.getElementById('packing-loader').classList.remove('hidden');
-            document.getElementById('packing-results').classList.add('hidden');
-            
             const logBox = document.getElementById('packing-log-box');
-            logBox.innerHTML = '<div class="text-blue-400">>> Memulai ekstraksi dokumen PDF...</div>';
-            
+            const statusBox = document.getElementById('packing-status');
+            const loader = document.getElementById('packing-loader');
+            const results = document.getElementById('packing-results');
+            const emptyState = document.getElementById('packing-empty-state');
+
+            statusBox.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            loader.classList.remove('hidden');
+            results.classList.add('hidden');
+
+            logBox.innerHTML = `<div class="text-cyan-400">> Membaca berkas PDF: ${file.name}...</div>`;
+
             try {
                 const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
                 const totalPages = pdf.numPages;
-                
-                logBox.innerHTML += `<div>>> Ditemukan ${totalPages} halaman. Memindai teks...</div>`;
-                
+
+                logBox.innerHTML += `<div class="text-gray-300">> Total Halaman PDF: ${totalPages} lembar.</div>`;
+
                 let weightCounts = {};
                 let totalPackages = 0;
-                let totalWeightKg = 0;
+                let totalKgSum = 0;
 
-                for (let i = 1; i <= totalPages; i++) {
-                    const page = await pdf.getPage(i);
+                for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
                     const textContent = await page.getTextContent();
-                    const textStr = textContent.items.map(s => s.str).join(' ');
-                    
-                    const weightMatch = textStr.match(/(\d+[.,]?\d*)\s*(kg|gram|gr)/i);
-                    
-                    if (weightMatch) {
-                        let w = parseFloat(weightMatch[1].replace(',', '.'));
-                        let unit = weightMatch[2].toLowerCase();
-                        if (unit === 'gram' || unit === 'gr') w = w / 1000;
-                        
-                        w = Math.round(w * 10) / 10;
-                        
-                        if (!weightCounts[w]) weightCounts[w] = 0;
-                        weightCounts[w]++;
-                        totalPackages++;
-                        totalWeightKg += w;
+                    const text = textContent.items.map(item => item.str).join(' ');
+
+                    // Deteksi pattern KG
+                    const weightMatches = text.match(/(\d+(?:\.\d+)?)\s*(?:KG|kg|Kg)/g);
+
+                    if (weightMatches) {
+                        weightMatches.forEach(match => {
+                            const val = parseFloat(match.replace(/[^0-9.]/g, ''));
+                            if (!isNaN(val) && val > 0 && val < 100) {
+                                weightCounts[val] = (weightCounts[val] || 0) + 1;
+                                totalPackages++;
+                                totalKgSum += val;
+                            }
+                        });
                     }
-                    
-                    if (i % 10 === 0 || i === totalPages) {
-                        logBox.innerHTML += `<div>>> Memproses halaman ${i}/${totalPages}...</div>`;
+
+                    if (pageNum % 5 === 0 || pageNum === totalPages) {
+                        logBox.innerHTML += `<div class="text-gray-400">> Menganalisis Halaman ${pageNum}/${totalPages}...</div>`;
                         logBox.scrollTop = logBox.scrollHeight;
                     }
                 }
-                
-                extractedPackingData = Object.keys(weightCounts).map(w => ({ weight: parseFloat(w), count: weightCounts[w] }));
-                extractedPackingData.sort((a, b) => a.weight - b.weight);
-                
-                logBox.innerHTML += '<div class="text-emerald-400">>> Selesai! Analisis berhasil.</div>';
-                
-                document.getElementById('packing-loader').classList.add('hidden');
-                document.getElementById('packing-results').classList.remove('hidden');
-                
+
+                lastExtractedWeights = weightCounts;
+
+                loader.classList.add('hidden');
+                results.classList.remove('hidden');
+
+                document.getElementById('packing-total-weight-summary').innerText = `${totalKgSum.toFixed(2)} kg`;
                 document.getElementById('packing-total-summary').innerText = `Total: ${totalPackages} Paket`;
-                document.getElementById('packing-total-weight-summary').innerText = `${totalWeightKg.toFixed(1)} kg`;
-                
+
                 const tbody = document.getElementById('packing-table-body');
-                tbody.innerHTML = extractedPackingData.map(item => `
-                    <tr class="border-b border-gray-100 hover:bg-gray-100 transition-colors">
-                        <td class="py-2 text-gray-700">${item.weight} KG</td>
-                        <td class="py-2 text-right pr-2 text-gray-900 font-bold">${item.count}</td>
-                    </tr>
-                `).join('');
+                let rowsHtml = '';
+                Object.keys(weightCounts).sort((a, b) => parseFloat(a) - parseFloat(b)).forEach(w => {
+                    rowsHtml += `
+                        <tr class="border-b border-gray-100">
+                            <td class="py-2 font-bold">${w} KG</td>
+                            <td class="py-2 text-right font-bold pr-2 text-cyan-700">${weightCounts[w]} Paket</td>
+                        </tr>
+                    `;
+                });
+
+                tbody.innerHTML = rowsHtml || `<tr><td colspan="2" class="py-4 text-center text-gray-400">Tidak ditemukan data berat dalam PDF.</td></tr>`;
+                showToast("Ekstraksi PDF Selesai!", "success");
 
             } catch (err) {
                 console.error(err);
-                logBox.innerHTML += `<div class="text-red-400">>> ERROR: ${err.message}</div>`;
-                document.getElementById('packing-loader').classList.add('hidden');
-                document.getElementById('packing-empty-state').classList.remove('hidden');
+                logBox.innerHTML += `<div class="text-red-400">> ERROR: Gagal membaca PDF.</div>`;
+                loader.classList.add('hidden');
+                showToast("Gagal memproses file PDF AWB", "error");
             }
         }
 
         function clearPackingData() {
-            extractedPackingData = [];
-            document.getElementById('pdf-file').value = '';
-            document.getElementById('packing-empty-state').classList.remove('hidden');
             document.getElementById('packing-status').classList.add('hidden');
+            document.getElementById('packing-empty-state').classList.remove('hidden');
             document.getElementById('packing-log-box').innerHTML = '<div class="text-gray-500">// Menunggu berkas PDF diunggah...</div>';
+            document.getElementById('pdf-file').value = '';
+            lastExtractedWeights = {};
+            showToast("Data shipping tools dibersihkan.");
         }
 
         function exportPackingToExcel() {
-            if (extractedPackingData.length === 0) return;
-            const ws = XLSX.utils.json_to_sheet(extractedPackingData.map(d => ({
-                "Varian Berat (KG)": d.weight,
-                "Jumlah Paket": d.count
-            })));
+            if (Object.keys(lastExtractedWeights).length === 0) {
+                showToast("Tidak ada data untuk diekspor!", "error");
+                return;
+            }
+
+            const data = Object.keys(lastExtractedWeights).map(w => ({
+                'Varian Berat (KG)': parseFloat(w),
+                'Jumlah Paket': lastExtractedWeights[w]
+            }));
+
+            const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Rekap Berat Paket");
-            XLSX.writeFile(wb, "Rekap_Berat_Paket_Shopee.xlsx");
+            XLSX.utils.book_append_sheet(wb, ws, "Rekap_Berat_AWB");
+            XLSX.writeFile(wb, `Rekap_Berat_AWB_${new Date().toISOString().split('T')[0]}.xlsx`);
+            showToast("Berhasil mengunduh Excel!");
         }
 
-        // --- EXPORT PAJAK ---
+        // --- TAX EXPORT MODAL ---
         function openExcelModal() {
+            const startInput = document.getElementById('filter-start').value;
+            const endInput = document.getElementById('filter-end').value;
+            document.getElementById('excel-start-date').value = startInput || new Date().toISOString().split('T')[0];
+            document.getElementById('excel-end-date').value = endInput || new Date().toISOString().split('T')[0];
+
             const modal = document.getElementById('excel-export-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            document.getElementById('excel-start-date').value = document.getElementById('filter-start').value;
-            document.getElementById('excel-end-date').value = document.getElementById('filter-end').value;
         }
 
         function closeExcelModal() {
@@ -1948,58 +2190,70 @@
         }
 
         function processExcelExport() {
-            const startStr = document.getElementById('excel-start-date').value;
-            const endStr = document.getElementById('excel-end-date').value;
-            if(!startStr || !endStr) { showToast("Pilih rentang tanggal!", "error"); return; }
-            
-            const start = parseLocalDate(startStr);
-            const end = parseLocalDate(endStr);
-            let exportData = [];
+            const sDate = document.getElementById('excel-start-date').value;
+            const eDate = document.getElementById('excel-end-date').value;
 
-            let curr = new Date(start);
-            while(curr <= end) {
-                const year = curr.getFullYear();
-                const month = String(curr.getMonth() + 1).padStart(2, '0');
-                const day = String(curr.getDate()).padStart(2, '0');
-                const dateStr = `${year}-${month}-${day}`;
+            if (!sDate || !eDate) {
+                showToast("Pilih rentang tanggal!", "error");
+                return;
+            }
 
-                stores.forEach(s => {
-                    const d = appData[s.name]?.[dateStr];
-                    if(d) {
-                        exportData.push({
-                            "Tanggal": dateStr,
-                            "Toko": s.name,
-                            "Omzet (Rp)": d.omzet || 0,
-                            "Biaya Iklan (Rp)": d.ads || 0,
-                            "Pesanan Sukses": (d.status['Perlu Dikirim'] || 0) + (d.status['Sedang Dikirim'] || 0),
-                            "Pesanan Batal": d.status['Batal'] || 0
+            const exportRows = [];
+            stores.forEach(storeObj => {
+                const storeName = storeObj.name;
+                const storeData = appData[storeName] || {};
+
+                Object.keys(storeData).forEach(dateStr => {
+                    if (dateStr >= sDate && dateStr <= eDate) {
+                        const d = storeData[dateStr];
+                        const omz = d.omzet || 0;
+                        const ad = d.ads || 0;
+                        const misc = d.misc || 0;
+                        const wgtGr = d.weight || 0;
+                        const st = d.status || { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 };
+                        const succ = st['Perlu Dikirim'] + st['Sedang Dikirim'];
+                        
+                        const hpp = (wgtGr / 1000) * storeObj.hppPerKg;
+                        const shopeeFee = (omz * (storeObj.adminToko / 100)) + (omz * (storeObj.adminPromo / 100)) + (succ * storeObj.serviceFee) + (succ * storeObj.feePacker);
+                        const prof = omz - hpp - shopeeFee - ad - misc;
+
+                        exportRows.push({
+                            'Tanggal': dateStr,
+                            'Nama Toko': storeName,
+                            'Omzet (Bruto)': omz,
+                            'HPP Modal': hpp,
+                            'Shopee Fee & Admin': shopeeFee,
+                            'Biaya Iklan (Ads)': ad,
+                            'Pengeluaran Lain-lain': misc,
+                            'Profit Bersih (Netto)': prof
                         });
                     }
                 });
-                curr.setDate(curr.getDate() + 1);
+            });
+
+            if (exportRows.length === 0) {
+                showToast("Tidak ada data ditemukan pada rentang tanggal ini!", "error");
+                return;
             }
 
-            if(exportData.length === 0) { showToast("Tidak ada data untuk diekspor.", "error"); return; }
-
-            const ws = XLSX.utils.json_to_sheet(exportData);
+            const ws = XLSX.utils.json_to_sheet(exportRows);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Rekap Transaksi Pajak");
-            XLSX.writeFile(wb, `Laporan_Transaksi_${startStr}_sd_${endStr}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "Laporan_Pajak");
+            XLSX.writeFile(wb, `Laporan_Pajak_Shopee_${sDate}_sd_${eDate}.xlsx`);
+
             closeExcelModal();
+            showToast("Ekspor Laporan Pajak Berhasil!");
         }
 
-        // --- STREAMING_CHUNK:Menjalankan aplikasi... -->
         // --- INITIALIZATION ---
-        window.onload = () => {
-            lucide.createIcons();
+        window.onload = function () {
+            initDataStructure();
             populateStoreSelects();
-            renderStoreList();
             
-            // Default load 30 hari terakhir
+            // Set Default Preset Tanggal (Bulan Ini / Last 30 Days)
             setPresetDate('last30');
-            
-            // Inisiasi tab dashboard utama
             switchTab('dashboard');
+            lucide.createIcons();
         };
     </script>
 </body>
