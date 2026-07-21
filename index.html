@@ -46,20 +46,31 @@
                 </div>
             </div>
 
+            <!-- Main Navigation Menus -->
             <nav class="flex-1 space-y-6">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full text-left text-base font-bold text-white transition-colors">
-                    Dashboard
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full text-left text-base font-bold text-white transition-colors flex items-center">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 mr-2.5"></i> Dashboard
                 </button>
-                <button onclick="switchTab('input')" id="nav-input" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors">
-                    Expenses & Data
+                <button onclick="switchTab('expenses')" id="nav-expenses" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors flex items-center">
+                    <i data-lucide="wallet" class="w-4 h-4 mr-2.5"></i> Expenses
                 </button>
-                <button onclick="switchTab('settings')" id="nav-settings" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors">
-                    Settings
+                <button onclick="switchTab('settings')" id="nav-settings" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors flex items-center">
+                    <i data-lucide="store" class="w-4 h-4 mr-2.5"></i> Manajemen Toko
                 </button>
-                <button onclick="switchTab('packing')" id="nav-packing" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors">
-                    Paket Counter
+                <button onclick="switchTab('packing')" id="nav-packing" class="w-full text-left text-base font-medium text-gray-500 hover:text-gray-300 transition-colors flex items-center">
+                    <i data-lucide="truck" class="w-4 h-4 mr-2.5"></i> Shipping tools
                 </button>
             </nav>
+
+            <!-- Bottom Left Actions Panel (Floating Modals Trigger) -->
+            <div class="mt-auto pt-6 border-t border-gray-800 space-y-3">
+                <button onclick="openUploadModal()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                    <i data-lucide="file-up" class="w-4 h-4"></i> Upload Data Order
+                </button>
+                <button onclick="openAdSpendModal()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                    <i data-lucide="megaphone" class="w-4 h-4"></i> Input Ad Spend
+                </button>
+            </div>
         </aside>
 
         <!-- MAIN CONTENT -->
@@ -78,9 +89,6 @@
                     <p class="text-sm text-gray-400 mt-1" id="page-subtitle">Performa & finansial toko terkini</p>
                 </div>
                 <div class="flex space-x-3" id="header-actions">
-                    <button onclick="printDashboard()" class="flex items-center px-4 py-2 bg-gray-50 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 text-sm transition-colors border border-gray-200">
-                        <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print
-                    </button>
                     <button onclick="openExcelModal()" class="flex items-center px-4 py-2 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black text-sm transition-colors shadow-md">
                         <i data-lucide="file-spreadsheet" class="w-4 h-4 mr-2"></i> Export Pajak
                     </button>
@@ -107,7 +115,7 @@
                                     <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
                                 </button>
                                 
-                                <!-- Dropdown Popover (Side-by-Side Desktop, Stacked Mobile) -->
+                                <!-- Dropdown Popover -->
                                 <div id="date-range-popover" onclick="event.stopPropagation()" class="absolute left-0 mt-2 w-[90vw] sm:w-[540px] bg-white border border-gray-100 rounded-3xl shadow-2xl hidden z-50 overflow-hidden flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
                                     
                                     <!-- Sisi Kiri: Preset Cepat -->
@@ -126,7 +134,7 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- Sisi Kanan: Pilihan Tanggal Manual (Langsung Menampilkan Kalender) -->
+                                    <!-- Sisi Rerata Kanan: Pilihan Tanggal Manual -->
                                     <div class="p-5 flex-1 flex flex-col justify-between bg-white min-w-[280px]">
                                         <div>
                                             <div class="flex items-center justify-between mb-4">
@@ -142,18 +150,16 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- Hari-Hari dalam Seminggu -->
+                                            <!-- Days of Week -->
                                             <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-gray-400 mb-2">
                                                 <div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div><div>M</div>
                                             </div>
                                             
-                                            <!-- Grid Hari Dinamis -->
-                                            <div id="calendar-days-grid" class="grid grid-cols-7 gap-1">
-                                                <!-- Dinamik di-render oleh JS -->
-                                            </div>
+                                            <!-- Calendar Dynamic Grid -->
+                                            <div id="calendar-days-grid" class="grid grid-cols-7 gap-1"></div>
                                         </div>
                                         
-                                        <!-- Footer Kalender Terpilih & Tombol Tutup -->
+                                        <!-- Footer Calendar Selection -->
                                         <div class="pt-4 border-t border-gray-100 mt-4 flex items-center justify-between gap-2">
                                             <div class="text-[10px] text-gray-500 font-medium">
                                                 <div class="font-bold text-gray-700 leading-tight">Terpilih:</div>
@@ -162,7 +168,6 @@
                                             <button type="button" onclick="applyManualCalendarSelection()" class="bg-gray-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-black transition shrink-0 shadow-sm">Terapkan</button>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -171,12 +176,13 @@
                         </button>
                     </div>
 
-                    <!-- Hidden Inputs untuk Menampung Variabel Tanggal Aktif -->
+                    <!-- Hidden Inputs for State Management -->
                     <input type="hidden" id="filter-start">
                     <input type="hidden" id="filter-end">
 
                     <!-- KPI Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- KPI Card: Omzet -->
                         <div class="bg-white border border-gray-100 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
@@ -186,8 +192,10 @@
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900 mb-1" id="kpi-omzet">Rp 0</h3>
                             <p class="text-xs text-gray-500 font-medium" id="kpi-orders">0 Order Berhasil</p>
+                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: Σ Subtotal Pesanan Sukses</p>
                         </div>
                         
+                        <!-- KPI Card: Profit -->
                         <div class="bg-white border border-gray-100 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
@@ -197,8 +205,10 @@
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900 mb-1" id="kpi-profit">Rp 0</h3>
                             <p class="text-xs text-emerald-600 font-medium" id="kpi-roi">ROI: 0x</p>
+                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: Omzet - HPP - Layanan - Admin - Ads</p>
                         </div>
 
+                        <!-- KPI Card: Ads -->
                         <div class="bg-white border border-gray-100 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="p-2.5 bg-orange-50 text-orange-600 rounded-xl">
@@ -208,8 +218,10 @@
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900 mb-1" id="kpi-ads">Rp 0</h3>
                             <p class="text-xs text-orange-500 font-medium" id="kpi-roas">ROAS: 0x | ACOS: 0%</p>
+                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: Input Manual / Rentang Hari</p>
                         </div>
 
+                        <!-- KPI Card: Cost -->
                         <div class="bg-white border border-gray-100 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="p-2.5 bg-purple-50 text-purple-600 rounded-xl">
@@ -219,50 +231,26 @@
                             </div>
                             <h3 class="text-lg font-bold text-gray-900 mb-1" id="kpi-hpp">HPP: Rp 0</h3>
                             <p class="text-xs text-gray-500 font-medium" id="kpi-admin">Fee: Rp 0</p>
+                            <p class="text-[10px] text-gray-400 mt-3 pt-2 border-t border-gray-100 font-mono leading-relaxed">Rumus: (KG Permen x 21.250) + Shopee Fee</p>
                         </div>
                     </div>
 
-                    <!-- Layout: Charts & List vs Sidebar Summary -->
+                    <!-- Layout: Charts & Overview -->
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-10 pt-4">
                         
-                        <!-- LEFT COL -->
+                        <!-- LEFT COL: Chart -->
                         <div class="xl:col-span-2 space-y-10">
-                            <!-- Main Chart -->
                             <div>
                                 <div class="flex justify-between items-center mb-6">
                                     <h3 class="font-bold text-gray-900 text-lg">Revenue Overview</h3>
                                 </div>
-                                <div class="h-48 w-full">
+                                <div class="h-64 w-full">
                                     <canvas id="chartOmzet"></canvas>
-                                </div>
-                            </div>
-                            
-                            <!-- Transactions List -->
-                            <div>
-                                <div class="flex justify-between items-center mb-6">
-                                    <h3 class="font-bold text-gray-900 text-lg">Recent Transactions</h3>
-                                    <span class="text-xs text-gray-400 font-mono">Omzet - HPP - Ads - Fee</span>
-                                </div>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left border-collapse">
-                                        <thead>
-                                            <tr class="text-gray-400 text-xs uppercase tracking-wider border-b border-gray-100">
-                                                <th class="pb-3 font-semibold whitespace-nowrap">Date / Store</th>
-                                                <th class="pb-3 text-right font-semibold whitespace-nowrap">Omzet</th>
-                                                <th class="pb-3 text-right font-semibold whitespace-nowrap">HPP + Fee</th>
-                                                <th class="pb-3 text-right font-semibold whitespace-nowrap">Ads</th>
-                                                <th class="pb-3 text-right font-semibold whitespace-nowrap">Profit</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="table-body" class="text-sm">
-                                            <!-- Data injected -->
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- RIGHT COL -->
+                        <!-- RIGHT COL: Summary distribution -->
                         <div class="space-y-8 bg-gray-50/50 p-8 rounded-3xl border border-gray-100">
                             <div>
                                 <h3 class="font-bold text-gray-900 text-lg mb-8">Where your money go?</h3>
@@ -287,7 +275,7 @@
                                     </div>
                                     <div>
                                         <div class="flex justify-between text-xs font-semibold mb-2">
-                                            <span class="text-gray-600">Shopee Fees</span>
+                                            <span class="text-gray-600">Shopee Fees & Lain-lain</span>
                                             <span class="text-gray-900" id="dist-fee">Rp 0</span>
                                         </div>
                                         <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
@@ -305,117 +293,77 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Tips block -->
-                            <div class="bg-gray-100 rounded-2xl p-6 relative">
-                                <h4 class="font-bold text-gray-900 mb-2">Save more money</h4>
-                                <p class="text-xs text-gray-500 mb-5 leading-relaxed">Optimize your ad spend to increase ROAS and overall profit margin.</p>
-                                <button class="bg-gray-900 text-white w-full text-xs font-bold px-4 py-3 rounded-xl hover:bg-black transition">VIEW TIPS</button>
-                            </div>
                         </div>
 
                     </div>
                 </div>
 
-                <!-- TAB: INPUT DATA -->
-                <div id="tab-input" class="hide space-y-6">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Upload Excel -->
-                        <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm">
-                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-4 flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 text-blue-600"><i data-lucide="file-up" class="w-4 h-4"></i></div>
-                                Upload Data Order
-                            </h3>
-                            <p class="text-sm text-gray-500 mb-6">
-                                Upload file excel export Shopee (format: <code class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-700">Order.all.yyyymmdd</code>). 
-                                <strong>Hanya menghitung Omzet & Order Sukses ("Perlu/Sedang Dikirim").</strong>
-                            </p>
-                            
-                            <div class="space-y-5">
-                                <div>
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Toko</label>
-                                    <select id="upload-store" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none">
-                                    </select>
-                                </div>
-                                
-                                <div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:bg-gray-50 transition-colors">
-                                    <input type="file" id="excel-file" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
-                                    <label for="excel-file" class="cursor-pointer flex flex-col items-center">
-                                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3">
-                                            <i data-lucide="upload-cloud" class="w-6 h-6"></i>
-                                        </div>
-                                        <span class="text-sm font-semibold text-gray-900">Klik untuk pilih file Excel</span>
-                                        <span class="text-xs text-gray-400 mt-1">.xls atau .xlsx (Harian & 30 Hari)</span>
-                                    </label>
-                                </div>
-                                <div id="upload-status" class="text-sm text-center hidden font-medium"></div>
+                <!-- TAB: EXPENSES LEDGER -->
+                <div id="tab-expenses" class="hide space-y-6">
+                    <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm">
+                        <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+                            <div>
+                                <h3 class="font-bold text-gray-900 text-lg">Buku Kas Pengeluaran & Transaksi</h3>
+                                <p class="text-xs text-gray-400 mt-1">Audit terperinci omzet, biaya operasional harian, iklan, dan retribusi admin</p>
                             </div>
+                            <span class="text-xs text-gray-400 font-mono bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">Formula: Omzet - HPP - Layanan - Admin Toko - Admin Promo - Biaya Lain - Ads</span>
                         </div>
-
-                        <!-- Input Ad Spend -->
-                        <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm">
-                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-4 flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center mr-3 text-orange-600"><i data-lucide="badge-dollar-sign" class="w-4 h-4"></i></div>
-                                Input Ad Spend
-                            </h3>
-                            <form id="form-ads" onsubmit="handleAdSpend(event)" class="space-y-5">
-                                <div>
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Toko</label>
-                                    <select id="ads-store" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" required>
-                                    </select>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Mulai</label>
-                                        <input type="date" id="ads-start-date" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" required>
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Selesai</label>
-                                        <input type="date" id="ads-end-date" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" required>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Biaya Iklan (Rp) <span class="lowercase font-normal text-gray-400">- dibagi rata per hari</span></label>
-                                    <input type="number" id="ads-amount" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" placeholder="Contoh: 500000" required>
-                                </div>
-                                <button type="submit" class="w-full bg-gray-900 text-white rounded-xl py-3 font-bold hover:bg-black transition-colors shadow-md mt-2">
-                                    Simpan Ad Spend
-                                </button>
-                            </form>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="text-gray-400 text-xs uppercase tracking-wider border-b border-gray-100">
+                                        <th class="pb-3 font-semibold whitespace-nowrap">Tanggal / Toko</th>
+                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Omzet</th>
+                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Expenses</th>
+                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Biaya Iklan</th>
+                                        <th class="pb-3 text-right font-semibold whitespace-nowrap">Profit Bersih</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body" class="text-sm">
+                                    <!-- Data injected dynamically -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB: SETTINGS -->
+                <!-- TAB: MANAJEMEN TOKO -->
                 <div id="tab-settings" class="hide space-y-6">
                     <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-4xl mx-auto">
                         <h3 class="text-lg font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4 flex items-center">
-                            <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center mr-3 text-indigo-600"><i data-lucide="store" class="w-4 h-4"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center mr-3 text-indigo-600">
+                                <i data-lucide="store" class="w-4 h-4"></i>
+                            </div>
                             Kelola Daftar Toko & Parameter Biaya
                         </h3>
                         
+                        <!-- Form Tambah Toko Baru -->
                         <form onsubmit="addStore(event)" class="space-y-5 mb-10 bg-gray-50 p-6 rounded-2xl border border-gray-100">
                             <h4 class="font-bold text-gray-900 text-sm">Tambah Toko Baru</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                                 <div class="lg:col-span-2">
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Nama Toko</label>
                                     <input type="text" id="new-store-name" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" placeholder="Toko C" required>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Admin Fee (%)</label>
-                                    <input type="number" step="0.01" id="new-store-fee" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" placeholder="6.0" required>
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">HPP 1kg (Rp/kg)</label>
+                                    <input type="number" id="new-store-hpp-per-kg" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="21250" required>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Layanan (Rp)</label>
                                     <input type="number" id="new-store-service" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="1250" required>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Lainnya (Rp)</label>
-                                    <input type="number" id="new-store-other-rp" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="0" required>
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Admin Toko (%)</label>
+                                    <input type="number" step="0.01" id="new-store-admin-toko" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="6.0" required>
                                 </div>
-                                <div class="md:col-span-2 lg:col-span-2">
-                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Lainnya (%)</label>
-                                    <input type="number" step="0.01" id="new-store-other-pct" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="0">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Admin Promo (%)</label>
+                                    <input type="number" step="0.01" id="new-store-admin-promo" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="0.0" required>
+                                </div>
+                                <div class="md:col-span-2 lg:col-span-5">
+                                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Biaya Lain-lain (Rp)</label>
+                                    <input type="number" id="new-store-fee-packer" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-gray-200 outline-none" value="1000" required>
                                 </div>
                                 <div class="lg:col-span-5 flex justify-end mt-2">
                                     <button type="submit" class="bg-gray-900 text-white px-6 py-2.5 rounded-xl hover:bg-black transition-colors font-semibold text-sm shadow-sm">
@@ -425,14 +373,14 @@
                             </div>
                         </form>
 
-                        <h4 class="text-sm font-bold text-gray-900 mb-4">Daftar Toko</h4>
+                        <h4 class="text-sm font-bold text-gray-900 mb-4">Daftar Toko Aktif</h4>
                         <div id="store-list" class="space-y-4">
-                            <!-- List injected -->
+                            <!-- List injected via JS -->
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB: PAKET COUNTER -->
+                <!-- TAB: SHIPPING TOOLS -->
                 <div id="tab-packing" class="hide space-y-6">
                     <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm max-w-5xl mx-auto">
                         <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
@@ -440,7 +388,7 @@
                                 <div class="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center mr-3 text-cyan-600">
                                     <i data-lucide="boxes" class="w-4 h-4"></i>
                                 </div>
-                                Paket Counter - Hitung Paket dari AWB Gabungan
+                                Shipping Tools - Hitung Paket dari AWB Gabungan
                             </h3>
                             <button onclick="clearPackingData()" class="flex items-center text-xs text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors font-semibold">
                                 <i data-lucide="refresh-cw" class="w-3 h-3 mr-1.5"></i> Clear Data
@@ -448,7 +396,7 @@
                         </div>
                         
                         <p class="text-sm text-gray-500 mb-6">
-                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail dengan algoritme <strong>Visual Line Reconstruction</strong> untuk memisahkan berat masing-masing paket (misal: 1 kg, 5 kg) dan merangkum jumlahnya secara tepat.
+                            Unggah berkas PDF gabungan berisi ratusan resi / AWB Anda. Sistem akan memindai teks dokumen secara detail dengan algoritme <strong>Visual Line Reconstruction</strong> untuk memisahkan berat masing-masing paket (dalam satuan KG) dan merangkum jumlahnya secara tepat.
                         </p>
                         
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -534,7 +482,173 @@
         </main>
     </div>
 
-    <!-- CUSTOM CONFIRM MODAL -->
+    <!-- ================= MODALS & POPUPS ================= -->
+
+    <!-- MODAL: UPLOAD DATA ORDER -->
+    <div id="modal-upload" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-50 html2pdf-ignore">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full mx-4 shadow-2xl relative overflow-hidden">
+            <button onclick="closeUploadModal()" class="absolute top-6 right-6 p-2 text-gray-400 hover:bg-gray-100 rounded-full transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div id="upload-form-content" class="space-y-5">
+                <h3 class="text-xl font-bold text-gray-900 flex items-center mb-2">
+                    <i data-lucide="file-up" class="text-blue-500 w-6 h-6 mr-2"></i>
+                    Upload Data Order
+                </h3>
+                <p class="text-xs text-gray-500">
+                    Upload file excel export Shopee. Sistem otomatis mengambil nilai order dari kolom Subtotal/Total untuk dikonversi menjadi berat permen aktual dengan basis harga Rp 33.000/kg.
+                </p>
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilih Toko Tujuan</label>
+                    <select id="upload-store" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none">
+                    </select>
+                </div>
+                
+                <div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:bg-gray-50 transition-colors relative">
+                    <input type="file" id="excel-file" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
+                    <label for="excel-file" class="cursor-pointer flex flex-col items-center">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3">
+                            <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-900">Klik untuk pilih file Excel</span>
+                        <span class="text-xs text-gray-400 mt-1">Ekspor pesanan dari Seller Centre (.xlsx / .csv)</span>
+                    </label>
+                </div>
+                <div id="upload-status" class="text-sm text-center hidden font-medium py-2 rounded-xl"></div>
+            </div>
+
+            <!-- OVERLAY SUCCESS CARD -->
+            <div id="upload-success-card" class="hidden flex flex-col items-center justify-center text-center p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
+                    <i data-lucide="check" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 text-lg mb-2">Berhasil Unggah Data!</h4>
+                <div class="bg-white p-4 rounded-xl border border-emerald-100 w-full mb-5 text-left space-y-2 text-xs text-gray-700">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Toko Tujuan:</span>
+                        <span class="font-bold font-mono" id="summary-success-store">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Rentang Hari Terproses:</span>
+                        <span class="font-bold font-mono" id="summary-success-days">0 Hari</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Total Transaksi Masuk:</span>
+                        <span class="font-bold font-mono text-emerald-600" id="summary-success-omzet">Rp 0</span>
+                    </div>
+                </div>
+                <button onclick="closeUploadModalAndRefresh()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-black transition-colors shadow-md text-sm">
+                    Selesai & Muat Ulang Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: INPUT AD SPEND -->
+    <div id="modal-adspend" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-50 html2pdf-ignore">
+        <div class="bg-white p-8 rounded-3xl max-w-md w-full mx-4 shadow-2xl relative">
+            <button onclick="closeAdSpendModal()" class="absolute top-6 right-6 p-2 text-gray-400 hover:bg-gray-100 rounded-full transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div id="ads-form-content" class="space-y-5">
+                <h3 class="text-xl font-bold text-gray-900 flex items-center mb-2">
+                    <i data-lucide="badge-dollar-sign" class="text-orange-500 w-6 h-6 mr-2"></i>
+                    Input Ad Spend
+                </h3>
+                <p class="text-xs text-gray-500 mb-6">Tambahkan pengeluaran iklan Anda. Sistem akan membagi rata pengeluaran tersebut secara proporsional per hari pada tanggal terpilih.</p>
+                
+                <form id="form-ads" onsubmit="handleAdSpend(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilih Toko</label>
+                        <select id="ads-store" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" required>
+                        </select>
+                    </div>
+
+                    <!-- Custom Ad Spend Date Range Picker -->
+                    <div class="relative">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilih Rentang Tanggal Iklan</label>
+                        <button type="button" id="ads-date-trigger" onclick="toggleAdsDatePopover(event)" class="w-full flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl p-3 hover:bg-gray-100 transition-colors cursor-pointer text-sm font-medium text-gray-700">
+                            <span class="flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
+                                <span id="ads-date-display">Pilih Tanggal Iklan</span>
+                            </span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+                        </button>
+                        
+                        <!-- Calendar Popover for Ad Spend -->
+                        <div id="ads-date-popover" onclick="event.stopPropagation()" class="absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl hidden z-[60] p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold text-gray-800">Pemilihan Tanggal</span>
+                                <div class="flex items-center space-x-1">
+                                    <button type="button" onclick="navigateAdsCalendar(-1)" class="p-1 hover:bg-gray-100 rounded text-gray-600 transition"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>
+                                    <span id="ads-calendar-month-title" class="text-xs font-bold text-gray-800">Loading...</span>
+                                    <button type="button" onclick="navigateAdsCalendar(1)" class="p-1 hover:bg-gray-100 rounded text-gray-600 transition"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1 text-center text-[9px] font-bold text-gray-400 mb-1">
+                                <div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div><div>M</div>
+                            </div>
+                            <div id="ads-calendar-days-grid" class="grid grid-cols-7 gap-1"></div>
+                            
+                            <div class="pt-3 border-t border-gray-100 mt-3 flex items-center justify-between">
+                                <div class="text-[9px] text-gray-500 font-medium leading-none">
+                                    <span id="ads-selected-range-display" class="font-mono text-gray-800 font-bold block mt-1">Belum memilih</span>
+                                </div>
+                                <button type="button" onclick="applyAdsCalendarSelection()" class="bg-gray-900 text-white text-[10px] font-bold px-3.5 py-1.5 rounded-lg hover:bg-black transition shrink-0 shadow-sm">Set Tanggal</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden inputs to store Ads Dates -->
+                    <input type="hidden" id="ads-start-date" required>
+                    <input type="hidden" id="ads-end-date" required>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Biaya Iklan (Rp)</label>
+                        <input type="number" id="ads-amount" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 focus:ring-2 focus:ring-gray-200 outline-none" placeholder="Contoh: 500000" required>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gray-900 text-white rounded-xl py-3 font-bold hover:bg-black transition-colors shadow-md mt-2">
+                        Simpan Ad Spend
+                    </button>
+                </form>
+            </div>
+
+            <!-- OVERLAY SUCCESS CARD FOR AD SPEND -->
+            <div id="ads-success-card" class="hidden flex flex-col items-center justify-center text-center p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
+                    <i data-lucide="check" class="w-8 h-8"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 text-lg mb-2">Ad Spend Berhasil Disimpan!</h4>
+                <div class="bg-white p-4 rounded-xl border border-emerald-100 w-full mb-5 text-left space-y-2 text-xs text-gray-700">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Toko:</span>
+                        <span class="font-bold font-mono" id="summary-ads-store">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Rentang Tanggal:</span>
+                        <span class="font-bold font-mono text-[11px]" id="summary-ads-range">-</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Total Biaya Iklan:</span>
+                        <span class="font-bold font-mono text-orange-600" id="summary-ads-amount">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Alokasi Harian:</span>
+                        <span class="font-bold font-mono text-emerald-600" id="summary-ads-daily">Rp 0</span>
+                    </div>
+                </div>
+                <button onclick="closeAdSpendModalAndRefresh()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-black transition-colors shadow-md text-sm">
+                    Selesai & Muat Ulang Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRMATION & TAX EXPORTS -->
     <div id="custom-confirm" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm hidden items-center justify-center z-50 html2pdf-ignore">
         <div class="bg-white p-8 rounded-3xl max-w-sm w-full mx-4 shadow-2xl">
             <h3 class="text-xl font-bold text-gray-900 flex items-center">
@@ -549,7 +663,6 @@
         </div>
     </div>
 
-    <!-- MODAL EKSPOR EXCEL PAJAK -->
     <div id="excel-export-modal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm hidden items-center justify-center z-50 html2pdf-ignore">
         <div class="bg-white p-8 rounded-3xl max-w-sm w-full mx-4 shadow-2xl">
             <h3 class="text-xl font-bold text-gray-900 flex items-center mb-3">
@@ -576,6 +689,7 @@
         </div>
     </div>
 
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
         // --- CHART JS GLOBAL CONFIG ---
         Chart.defaults.font.family = "'Inter', sans-serif";
@@ -589,14 +703,16 @@
         try {
             stores = JSON.parse(rawStores) || [];
             if (stores.length > 0) {
+                // Melakukan migrasi data dari format lama ke format baru dengan parameter default HPP 21.250
                 stores = stores.map(s => {
-                    if (typeof s === 'string') return { name: s, adminFee: 6.0, serviceFee: 1250, otherFeeRp: 0, otherFeePct: 0 };
+                    if (typeof s === 'string') return { name: s, hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 0.0, feePacker: 1000 };
                     return {
                         name: s.name,
-                        adminFee: s.adminFee !== undefined ? s.adminFee : 6.0,
-                        serviceFee: s.serviceFee !== undefined ? s.serviceFee : 1250,
-                        otherFeeRp: s.otherFeeRp !== undefined ? s.otherFeeRp : 0,
-                        otherFeePct: s.otherFeePct !== undefined ? s.otherFeePct : 0
+                        hppPerKg: s.hppPerKg !== undefined ? s.hppPerKg : 21250,
+                        serviceFee: s.serviceFee !== undefined ? s.serviceFee : (s.serviceFee || 1250),
+                        adminToko: s.adminToko !== undefined ? s.adminToko : (s.adminFee || 6.0),
+                        adminPromo: s.adminPromo !== undefined ? s.adminPromo : 0.0,
+                        feePacker: s.feePacker !== undefined ? s.feePacker : 1000
                     };
                 });
             }
@@ -604,33 +720,93 @@
 
         if (stores.length === 0) {
             stores = [
-                { name: 'Toko Utama', adminFee: 6.0, serviceFee: 1250, otherFeeRp: 0, otherFeePct: 0 },
-                { name: 'Toko Cabang 1', adminFee: 5.5, serviceFee: 1250, otherFeeRp: 0, otherFeePct: 0 }
+                { name: 'Toko Utama', hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 2.0, feePacker: 1000 },
+                { name: 'Toko Cabang 1', hppPerKg: 21250, serviceFee: 1250, adminToko: 5.5, adminPromo: 1.5, feePacker: 1000 }
             ];
         }
         localStorage.setItem('shopeeStores', JSON.stringify(stores));
 
         let chart1;
-        let lastExtractedWeights = {}; // State untuk ekspor Excel Paket Counter
+        let lastExtractedWeights = {}; 
 
         // --- HELPER UNTUK MENCEGAH BUG OFFSET ZONA WAKTU ---
         function parseLocalDate(dateStr) {
             if (!dateStr) return null;
             const parts = dateStr.split('-');
-            // Membuat objek Date lokal tanpa pengaruh UTC/GMT
             return new Date(parts[0], parts[1] - 1, parts[2]);
         }
 
         // --- CUSTOM INLINE CALENDAR STATE ---
-        let calCurrentMonth = new Date(); // Bulan yang saat ini ditampilkan dalam kalender visual
+        let calCurrentMonth = new Date(); 
+        let adsCalCurrentMonth = new Date(); 
 
-        // --- DATE RANGE TRIGGER & PRESETS ---
+        // --- POPUP ACTION TRIGGERS ---
+        function openUploadModal() {
+            populateStoreSelects();
+            
+            document.getElementById('upload-success-card').classList.add('hidden');
+            document.getElementById('upload-form-content').classList.remove('hidden');
+            
+            document.getElementById('upload-status').classList.add('hidden');
+            document.getElementById('upload-status').innerText = "";
+            document.getElementById('excel-file').value = "";
+            
+            const modal = document.getElementById('modal-upload');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeUploadModal() {
+            const modal = document.getElementById('modal-upload');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function closeUploadModalAndRefresh() {
+            closeUploadModal();
+            renderDashboard();
+        }
+
+        function openAdSpendModal() {
+            populateStoreSelects();
+            
+            document.getElementById('ads-success-card').classList.add('hidden');
+            document.getElementById('ads-form-content').classList.remove('hidden');
+            
+            document.getElementById('ads-amount').value = "";
+            document.getElementById('ads-start-date').value = "";
+            document.getElementById('ads-end-date').value = "";
+            document.getElementById('ads-date-display').innerText = "Pilih Tanggal Iklan";
+            document.getElementById('ads-selected-range-display').innerText = "Belum memilih";
+            
+            adsCalCurrentMonth = new Date();
+            adsCalCurrentMonth.setDate(1);
+            renderAdsInlineCalendar();
+            
+            const modal = document.getElementById('modal-adspend');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAdSpendModal() {
+            const modal = document.getElementById('modal-adspend');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('ads-date-popover').classList.add('hidden');
+        }
+
+        function closeAdSpendModalAndRefresh() {
+            closeAdSpendModal();
+            renderDashboard();
+        }
+
+        // --- STREAMING_CHUNK:Menyiapkan interaksi pemilih tanggal (Date Pickers)... -->
+        // --- DATE RANGE TRIGGER & PRESETS (DASHBOARD UTAMA) ---
         function toggleDatePopover(event) {
             event.stopPropagation();
             const popover = document.getElementById('date-range-popover');
             popover.classList.toggle('hidden');
             if (!popover.classList.contains('hidden')) {
-                // Saat popover dibuka, inisialisasi kalender sesuai tanggal mulai terpilih
                 const curStart = document.getElementById('filter-start').value;
                 if (curStart) {
                     calCurrentMonth = parseLocalDate(curStart);
@@ -643,11 +819,36 @@
             }
         }
 
+        // --- DATE RANGE TRIGGER & PRESETS (AD SPEND POPUP) ---
+        function toggleAdsDatePopover(event) {
+            event.stopPropagation();
+            const popover = document.getElementById('ads-date-popover');
+            popover.classList.toggle('hidden');
+            if (!popover.classList.contains('hidden')) {
+                const curStart = document.getElementById('ads-start-date').value;
+                if (curStart) {
+                    adsCalCurrentMonth = parseLocalDate(curStart);
+                    adsCalCurrentMonth.setDate(1);
+                } else {
+                    adsCalCurrentMonth = new Date();
+                    adsCalCurrentMonth.setDate(1);
+                }
+                renderAdsInlineCalendar();
+            }
+        }
+
+        // Auto Close Popover on Outside Click
         document.addEventListener('click', function (event) {
             const popover = document.getElementById('date-range-popover');
             const trigger = document.getElementById('date-range-trigger');
             if (popover && !popover.contains(event.target) && !trigger.contains(event.target)) {
                 popover.classList.add('hidden');
+            }
+
+            const adsPopover = document.getElementById('ads-date-popover');
+            const adsTrigger = document.getElementById('ads-date-trigger');
+            if (adsPopover && !adsPopover.contains(event.target) && !adsTrigger.contains(event.target)) {
+                adsPopover.classList.add('hidden');
             }
         });
 
@@ -663,7 +864,8 @@
             }
         }
 
-        // --- RENDERING INTEGRASI KALENDER PREMIUM (INLINE RANGE CALENDAR) ---
+        // --- STREAMING_CHUNK:Merender kalender dinamis kustom... -->
+        // --- RENDERING INTEGRASI KALENDER PREMIUM (DASHBOARD UTAMA) ---
         function renderInlineCalendar() {
             const startInput = document.getElementById('filter-start').value;
             const endInput = document.getElementById('filter-end').value;
@@ -674,7 +876,6 @@
             if (startVal) startVal.setHours(0,0,0,0);
             if (endVal) endVal.setHours(0,0,0,0);
 
-            // Render Judul Bulan & Tahun di Panel Navigasi
             const monthTitle = document.getElementById('calendar-month-title');
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             monthTitle.innerText = `${monthNames[calCurrentMonth.getMonth()]} ${calCurrentMonth.getFullYear()}`;
@@ -685,26 +886,20 @@
             const year = calCurrentMonth.getFullYear();
             const month = calCurrentMonth.getMonth();
             
-            // Mencari hari pertama bulan (Indeks 0 = Minggu, 1 = Senin)
             const firstDayIndex = new Date(year, month, 1).getDay();
-            // Konversi ke Senin awal seminggu: Senin=0, Selasa=1 ... Minggu=6
             let startOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
-            
             const totalDays = new Date(year, month + 1, 0).getDate();
 
-            // Render sel kosong untuk merapikan tanggal sesuai hari
             for (let i = 0; i < startOffset; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.className = "h-8 w-8";
                 grid.appendChild(emptyCell);
             }
 
-            // Render Hari Kalender
             for (let day = 1; day <= totalDays; day++) {
                 const cellDate = new Date(year, month, day);
                 cellDate.setHours(0,0,0,0);
                 
-                // MENGHINDARI ISOSTRING: Susun string tanggal lokal langsung dari variabel tahun, bulan, hari
                 const localYear = cellDate.getFullYear();
                 const localMonth = String(cellDate.getMonth() + 1).padStart(2, '0');
                 const localDay = String(cellDate.getDate()).padStart(2, '0');
@@ -731,7 +926,6 @@
                 grid.appendChild(btn);
             }
 
-            // Memperbarui Deskripsi Rentang Hari Terpilih secara Real-time
             const rangeDisplay = document.getElementById('calendar-selected-range-display');
             if (startInput && endInput) {
                 const s = parseLocalDate(startInput);
@@ -764,15 +958,12 @@
             let endVal = endInput.value;
 
             if (!startVal || (startVal && endVal)) {
-                // Pilihan Baru / Reset Klik Pertama
                 startInput.value = dateStr;
                 endInput.value = '';
             } else {
-                // Memilih Klik Kedua (Tanggal Selesai)
                 if (dateStr >= startVal) {
                     endInput.value = dateStr;
                 } else {
-                    // Jika klik tanggal yang mendahului tanggal mulai, ubah itu menjadi tanggal mulai
                     startInput.value = dateStr;
                 }
             }
@@ -857,7 +1048,6 @@
             updateDateDisplay();
             renderDashboard();
 
-            // Set fokus bulan kalender ke tanggal mulai preset baru
             calCurrentMonth = new Date(start);
             calCurrentMonth.setDate(1);
             renderInlineCalendar();
@@ -865,20 +1055,149 @@
             document.getElementById('date-range-popover').classList.add('hidden');
         }
 
-        // --- NAVIGATION ---
-        function switchTab(tabId) {
-            document.querySelectorAll('aside nav button').forEach(btn => {
-                btn.classList.remove('text-white', 'font-bold');
-                btn.classList.add('text-gray-500', 'font-medium', 'hover:text-gray-300');
-            });
-            const activeBtn = document.getElementById('nav-' + tabId);
-            activeBtn.classList.remove('text-gray-500', 'font-medium', 'hover:text-gray-300');
-            activeBtn.classList.add('text-white', 'font-bold');
+        // --- STREAMING_CHUNK:Merender kalender Ads Spend (Iklan)... -->
+        function renderAdsInlineCalendar() {
+            const startInput = document.getElementById('ads-start-date').value;
+            const endInput = document.getElementById('ads-end-date').value;
+            
+            const startVal = startInput ? parseLocalDate(startInput) : null;
+            const endVal = endInput ? parseLocalDate(endInput) : null;
+            
+            if (startVal) startVal.setHours(0,0,0,0);
+            if (endVal) endVal.setHours(0,0,0,0);
 
-            ['dashboard', 'input', 'settings', 'packing'].forEach(id => {
-                document.getElementById('tab-' + id).classList.add('hide');
+            const monthTitle = document.getElementById('ads-calendar-month-title');
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            monthTitle.innerText = `${monthNames[adsCalCurrentMonth.getMonth()]} ${adsCalCurrentMonth.getFullYear()}`;
+
+            const grid = document.getElementById('ads-calendar-days-grid');
+            grid.innerHTML = '';
+
+            const year = adsCalCurrentMonth.getFullYear();
+            const month = adsCalCurrentMonth.getMonth();
+            
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            let startOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < startOffset; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = "h-7 w-7";
+                grid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const cellDate = new Date(year, month, day);
+                cellDate.setHours(0,0,0,0);
+                
+                const localYear = cellDate.getFullYear();
+                const localMonth = String(cellDate.getMonth() + 1).padStart(2, '0');
+                const localDay = String(cellDate.getDate()).padStart(2, '0');
+                const dateStr = `${localYear}-${localMonth}-${localDay}`;
+
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.innerText = day;
+                btn.className = "h-7 w-7 text-[11px] font-semibold rounded-lg flex items-center justify-center transition-all relative cursor-pointer ";
+
+                let isStart = startVal && cellDate.getTime() === startVal.getTime();
+                let isEnd = endVal && cellDate.getTime() === endVal.getTime();
+                let inRange = startVal && endVal && cellDate > startVal && cellDate < endVal;
+
+                if (isStart || isEnd) {
+                    btn.className += " bg-orange-500 text-white rounded-full font-bold shadow-sm scale-105 z-10";
+                } else if (inRange) {
+                    btn.className += " bg-orange-50 text-orange-800 rounded-none w-full";
+                } else {
+                    btn.className += " text-gray-700 hover:bg-gray-100";
+                }
+
+                btn.onclick = () => handleAdsCalendarDayClick(dateStr);
+                grid.appendChild(btn);
+            }
+
+            const rangeDisplay = document.getElementById('ads-selected-range-display');
+            if (startInput && endInput) {
+                const s = parseLocalDate(startInput);
+                const e = parseLocalDate(endInput);
+                const options = { day: 'numeric', month: 'short' };
+                const formatter = new Intl.DateTimeFormat('id-ID', options);
+                rangeDisplay.innerText = `${formatter.format(s)} - ${formatter.format(e)}`;
+            } else if (startInput) {
+                const s = parseLocalDate(startInput);
+                const options = { day: 'numeric', month: 'short' };
+                const formatter = new Intl.DateTimeFormat('id-ID', options);
+                rangeDisplay.innerText = `${formatter.format(s)}...`;
+            } else {
+                rangeDisplay.innerText = "Belum memilih";
+            }
+            
+            lucide.createIcons();
+        }
+
+        function navigateAdsCalendar(direction) {
+            adsCalCurrentMonth.setMonth(adsCalCurrentMonth.getMonth() + direction);
+            renderAdsInlineCalendar();
+        }
+
+        function handleAdsCalendarDayClick(dateStr) {
+            const startInput = document.getElementById('ads-start-date');
+            const endInput = document.getElementById('ads-end-date');
+
+            let startVal = startInput.value;
+            let endVal = endInput.value;
+
+            if (!startVal || (startVal && endVal)) {
+                startInput.value = dateStr;
+                endInput.value = '';
+            } else {
+                if (dateStr >= startVal) {
+                    endInput.value = dateStr;
+                } else {
+                    startInput.value = dateStr;
+                }
+            }
+            renderAdsInlineCalendar();
+        }
+
+        function applyAdsCalendarSelection() {
+            const startInput = document.getElementById('ads-start-date').value;
+            const endInput = document.getElementById('ads-end-date').value;
+            
+            if (!startInput || !endInput) return;
+            
+            const s = parseLocalDate(startInput);
+            const e = parseLocalDate(endInput);
+            const options = { day: 'numeric', month: 'short' };
+            const formatter = new Intl.DateTimeFormat('id-ID', options);
+            
+            document.getElementById('ads-date-display').innerText = `${formatter.format(s)} - ${formatter.format(e)}`;
+            document.getElementById('ads-date-popover').classList.add('hidden');
+        }
+
+        // --- STREAMING_CHUNK:Menangani perpindahan Tab Menu... -->
+        // --- NAVIGATION TABS CONTROL ---
+        function switchTab(tabId) {
+            document.querySelectorAll('aside nav blockquote, aside nav button').forEach(btn => {
+                if (btn.tagName === 'BUTTON') {
+                    btn.classList.remove('text-white', 'font-bold');
+                    btn.classList.add('text-gray-500', 'font-medium', 'hover:text-gray-300');
+                }
             });
-            document.getElementById('tab-' + tabId).classList.remove('hide');
+            
+            const activeBtn = document.getElementById('nav-' + (tabId === 'settings' ? 'settings' : tabId));
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-500', 'font-medium', 'hover:text-gray-300');
+                activeBtn.classList.add('text-white', 'font-bold');
+            }
+
+            ['dashboard', 'expenses', 'settings', 'packing'].forEach(id => {
+                const element = document.getElementById('tab-' + id);
+                if (element) element.classList.add('hide');
+            });
+            
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) targetTab.classList.remove('hide');
             
             const headerActions = document.getElementById('header-actions');
             const pageTitle = document.getElementById('page-title');
@@ -888,22 +1207,20 @@
                 pageTitle.innerText = "Expenses";
                 document.getElementById('page-subtitle').innerText = "Dashboard performa & finansial";
                 renderDashboard();
-            } else if (tabId === 'input') {
-                headerActions.classList.add('hide');
-                pageTitle.innerText = "Input Data";
-                document.getElementById('page-subtitle').innerText = "Upload excel & biaya iklan rentang tanggal";
-                populateStoreSelects();
-                document.getElementById('ads-start-date').valueAsDate = new Date();
-                document.getElementById('ads-end-date').valueAsDate = new Date();
+            } else if (tabId === 'expenses') {
+                headerActions.classList.remove('hide');
+                pageTitle.innerText = "Expenses Ledger";
+                document.getElementById('page-subtitle').innerText = "Buku kas digital pengeluaran shopee";
+                renderDashboard();
             } else if (tabId === 'settings') {
                 headerActions.classList.add('hide');
-                pageTitle.innerText = "Settings";
+                pageTitle.innerText = "Manajemen Toko";
                 document.getElementById('page-subtitle').innerText = "Konfigurasi toko dan biaya shopee";
                 renderStoreList();
             } else if (tabId === 'packing') {
                 headerActions.classList.add('hide');
-                pageTitle.innerText = "Paket Counter";
-                document.getElementById('page-subtitle').innerText = "Hitung paket dari PDF AWB";
+                pageTitle.innerText = "Shipping Tools";
+                document.getElementById('page-subtitle').innerText = "Hitung berat paket dari PDF AWB";
             }
         }
 
@@ -942,6 +1259,7 @@
         document.getElementById('confirm-btn-cancel').addEventListener('click', () => { closeConfirmModal(); if(confirmPromiseResolver) confirmPromiseResolver(false); });
         function closeConfirmModal() { const modal = document.getElementById('custom-confirm'); modal.classList.add('hidden'); modal.classList.remove('flex'); }
 
+        // --- STREAMING_CHUNK:Menyiapkan Logika Manajemen Konfigurasi Toko... -->
         // --- STORE MANAGEMENT ---
         function populateStoreSelects() {
             const selects = ['filter-store', 'upload-store', 'ads-store'];
@@ -971,22 +1289,26 @@
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Admin (%)</label>
-                            <input type="number" step="0.01" value="${s.adminFee}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminFee', this.value)">
+                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">HPP 1kg (Rp/kg)</label>
+                            <input type="number" value="${s.hppPerKg !== undefined ? s.hppPerKg : 21250}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'hppPerKg', this.value)">
                         </div>
                         <div>
                             <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Layanan (Rp)</label>
                             <input type="number" value="${s.serviceFee}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'serviceFee', this.value)">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Lain (Rp)</label>
-                            <input type="number" value="${s.otherFeeRp}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'otherFeeRp', this.value)">
+                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Admin Toko (%)</label>
+                            <input type="number" step="0.01" value="${s.adminToko}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminToko', this.value)">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Lain (%)</label>
-                            <input type="number" step="0.01" value="${s.otherFeePct}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'otherFeePct', this.value)">
+                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Admin Promo (%)</label>
+                            <input type="number" step="0.01" value="${s.adminPromo}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'adminPromo', this.value)">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1 tracking-wider">Biaya Lain (Rp)</label>
+                            <input type="number" value="${s.feePacker}" class="bg-gray-50 border border-gray-200 rounded-lg p-2 w-full font-mono text-gray-700 outline-none focus:border-gray-400" onchange="updateStoreFee(${index}, 'feePacker', this.value)">
                         </div>
                     </div>
                 </div>
@@ -997,16 +1319,18 @@
         function addStore(e) {
             e.preventDefault();
             const inputName = document.getElementById('new-store-name');
-            const inputFee = document.getElementById('new-store-fee');
+            const inputHppKg = document.getElementById('new-store-hpp-per-kg');
             const inputService = document.getElementById('new-store-service');
-            const inputOtherRp = document.getElementById('new-store-other-rp');
-            const inputOtherPct = document.getElementById('new-store-other-pct');
+            const inputAdminToko = document.getElementById('new-store-admin-toko');
+            const inputAdminPromo = document.getElementById('new-store-admin-promo');
+            const inputFeePacker = document.getElementById('new-store-fee-packer');
             
             const name = inputName.value.trim();
-            const fee = parseFloat(inputFee.value) || 0;
+            const hppPerKg = parseInt(inputHppKg.value) || 0;
             const service = parseInt(inputService.value) || 0;
-            const otherRp = parseInt(inputOtherRp.value) || 0;
-            const otherPct = parseFloat(inputOtherPct.value) || 0;
+            const adminToko = parseFloat(inputAdminToko.value) || 0;
+            const adminPromo = parseFloat(inputAdminPromo.value) || 0;
+            const feePacker = parseInt(inputFeePacker.value) || 0;
 
             if (stores.some(s => s.name.toLowerCase() === name.toLowerCase())) {
                 showToast("Nama toko sudah ada!", "error");
@@ -1014,10 +1338,10 @@
             }
 
             if(name) {
-                stores.push({ name, adminFee: fee, serviceFee: service, otherFeeRp: otherRp, otherFeePct: otherPct });
+                stores.push({ name, hppPerKg, serviceFee: service, adminToko, adminPromo, feePacker });
                 localStorage.setItem('shopeeStores', JSON.stringify(stores));
                 
-                inputName.value = ''; inputFee.value = ''; inputService.value = '1250'; inputOtherRp.value = '0'; inputOtherPct.value = '0';
+                inputName.value = ''; inputHppKg.value = '21250'; inputService.value = '1250'; inputAdminToko.value = '6.0'; inputAdminPromo.value = '0.0'; inputFeePacker.value = '1000';
                 renderStoreList(); showToast(`Toko ${name} berhasil didaftarkan.`); populateStoreSelects(); initDataStructure();
             }
         }
@@ -1053,7 +1377,8 @@
             }
         }
 
-        // --- EXCEL & FORM PROCESSING ---
+        // --- STREAMING_CHUNK:Menyiapkan utilitas Parser File Excel... -->
+        // --- PARSING AMAN DAN DETEKSI TANGGAL ---
         function extractDateFromFilename(filename) {
             const match = filename.match(/Order\.all\.(\d{4})(\d{2})(\d{2})/);
             if(match) return `${match[1]}-${match[2]}-${match[3]}`;
@@ -1075,96 +1400,190 @@
             }
         }
 
-        function handleFileUpload(e) {
-            const file = e.target.files[0];
+        // --- STREAMING_CHUNK:Memproses ekstraksi Order & Perubahan Konversi KG HPP... -->
+        // --- PROSES UNGGAH FILE EXCEL DATA ORDER (DENGAN PERUBAHAN PERHITUNGAN HPP) ---
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
             if(!file) return;
 
             const storeName = document.getElementById('upload-store').value;
             const statusEl = document.getElementById('upload-status');
             statusEl.classList.remove('hidden');
             statusEl.innerText = "Memproses Excel...";
-            statusEl.className = "text-sm text-center text-blue-500 block mt-2";
+            statusEl.className = "text-sm text-center text-blue-600 bg-blue-50 py-3 rounded-xl block mt-3 font-semibold";
 
             const fallbackDate = extractDateFromFilename(file.name);
             const reader = new FileReader();
-            reader.onload = (event) => {
+            
+            reader.onload = (e) => {
                 try {
-                    const data = new Uint8Array(event.target.result);
+                    const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, {type: 'array'});
                     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: 1, defval: ""});
                     
-                    let dailyData = {};
+                    if (rows.length < 2) {
+                        throw new Error("File Excel kosong atau tidak lengkap.");
+                    }
 
-                    for(let i = 1; i < rows.length; i++) {
+                    // Deteksi Baris Header secara Dinamis
+                    let headerRow = null;
+                    let headerIdx = 0;
+                    for (let r = 0; r < Math.min(15, rows.length); r++) {
+                        if (rows[r] && rows[r].some(cell => cell && cell.toString().toLowerCase().includes("status pesanan"))) {
+                            headerRow = rows[r].map(h => h ? h.toString().toLowerCase().trim() : "");
+                            headerIdx = r;
+                            break;
+                        }
+                    }
+
+                    if (!headerRow) {
+                        headerRow = rows[0].map(h => h ? h.toString().toLowerCase().trim() : "");
+                        headerIdx = r = 0;
+                    }
+
+                    // Petakan indeks kolom secara dinamis berdasarkan nama kolom Shopee
+                    const colOrderId = headerRow.findIndex(h => h.includes("no. pesanan") || h.includes("nomor pesanan") || h.includes("order id") || h.includes("id pesanan"));
+                    const colStatus = headerRow.findIndex(h => h.includes("status pesanan") || h.includes("status"));
+                    const colTime = headerRow.findIndex(h => h.includes("waktu pesanan dibuat") || h.includes("waktu dibuat") || h.includes("creation time") || h.includes("waktu pesanan bayar"));
+                    const colSubtotal = headerRow.findIndex(h => h.includes("subtotal") || h.includes("total bayar") || h.includes("harga sebelum diskon") || h.includes("total pembayaran"));
+                    
+                    if (colStatus === -1 || colSubtotal === -1) {
+                        throw new Error("Gagal mendeteksi kolom utama (Status / Subtotal). Gunakan file Excel ekspor Shopee asli.");
+                    }
+
+                    let dailyData = {};
+                    let successRowsParsed = 0;
+
+                    // Iterasi seluruh baris transaksi di bawah header
+                    for(let i = headerIdx + 1; i < rows.length; i++) {
                         try {
                             const row = rows[i];
                             if(!row || row.length === 0) continue;
-                            const statusCell = row[2] ? row[2].toString().toLowerCase() : '';
                             
-                            // Kolom L (Index 11) adalah Waktu Pesanan Dibuat
-                            const orderTimeCell = row[11] ? row[11].toString() : '';
-                            let orderDate = fallbackDate;
-                            if (orderTimeCell.length >= 10) {
-                                const possibleDate = orderTimeCell.substring(0, 10);
-                                if (/^\d{4}-\d{2}-\d{2}$/.test(possibleDate)) {
-                                    orderDate = possibleDate;
+                            const statusCell = row[colStatus] ? row[colStatus].toString().toLowerCase() : '';
+                            
+                            // 1. EVALUASI STATUS PESANAN (Kecualikan pesanan Batal)
+                            if (statusCell.includes('batal') || statusCell.includes('cancelled') || statusCell.includes('dibatalkan')) {
+                                continue; 
+                            }
+
+                            // 2. EKSTRAKSI TANGGAL PEMBUATAN PESANAN DARI NO PESANAN
+                            let orderDate = '';
+                            const orderIdCell = colOrderId !== -1 && row[colOrderId] ? row[colOrderId].toString().trim() : '';
+                            
+                            if (orderIdCell && /^\d{6}/.test(orderIdCell)) {
+                                const yy = orderIdCell.substring(0, 2);
+                                const mm = orderIdCell.substring(2, 4);
+                                const dd = orderIdCell.substring(4, 6);
+                                
+                                const numMM = parseInt(mm, 10);
+                                const numDD = parseInt(dd, 10);
+                                
+                                if (numMM >= 1 && numMM <= 12 && numDD >= 1 && numDD <= 31) {
+                                    orderDate = `20${yy}-${mm}-${dd}`;
                                 }
                             }
 
-                            const subtotalCell = row[21]; const weightCell = row[27];
+                            if (!orderDate) {
+                                const orderTimeCell = colTime !== -1 && row[colTime] ? row[colTime].toString() : '';
+                                if (orderTimeCell.length >= 10) {
+                                    const possibleDate = orderTimeCell.substring(0, 10);
+                                    if (/^\d{4}-\d{2}-\d{2}$/.test(possibleDate)) {
+                                        orderDate = possibleDate;
+                                    } else if (orderTimeCell.includes("/")) {
+                                        const dateParts = possibleDate.split("/");
+                                        if(dateParts.length === 3) {
+                                            const y = dateParts[2].length === 4 ? dateParts[2] : dateParts[0];
+                                            const m = dateParts[1].padStart(2, '0');
+                                            const d = (dateParts[2].length === 4 ? dateParts[0] : dateParts[2]).padStart(2, '0');
+                                            orderDate = `${y}-${m}-${d}`;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (!orderDate) orderDate = fallbackDate;
+
+                            const subtotalCell = row[colSubtotal]; 
                             const cleanOmzet = safeParseNumber(subtotalCell, false);
-                            const cleanWeight = safeParseNumber(weightCell, true);
+                            
+                            // --- MODIFIKASI PERHITUNGAN HPP ---
+                            // Sistem sebelumnya membaca Kolom Z (berat aktual dari resi) dan membacanya sebagai kg mentah.
+                            // PERUBAHAN: Konversi nilai omzet/total pembayaran (rupiah) menjadi unit Kg Permen berdasarkan harga Rp33.000, 
+                            // dan dibulatkan ke satuan terdekat secara matematis.
+                            
+                            let estimasiKgPermen = Math.round(cleanOmzet / 33000);
+                            
+                            // Nilai ini disimpan dalam bentuk `gram` (dikali 1000) karena skrip existing di tabel dashboard 
+                            // akan membaginya dengan 1000 lagi nanti, agar tidak merusak pondasi logic kalkulasi di dalam renderDashboard().
+                            let weightRawVal = estimasiKgPermen * 1000;
+                            
+                            // ------------------------------------
 
                             if (!dailyData[orderDate]) {
                                 dailyData[orderDate] = { omzet: 0, weightRaw: 0, status: { 'Perlu Dikirim': 0, 'Sedang Dikirim': 0, 'Batal': 0 } };
                             }
 
-                            if (statusCell.includes('perlu dikirim') || statusCell.includes('telah dibayar')) { 
+                            // Akumulasi data
+                            if (statusCell.includes('perlu dikirim') || statusCell.includes('telah dibayar') || statusCell.includes('to ship')) { 
                                 dailyData[orderDate].status['Perlu Dikirim']++; 
-                                dailyData[orderDate].omzet += cleanOmzet; 
-                                dailyData[orderDate].weightRaw += cleanWeight; 
-                            } else if (statusCell.includes('sedang dikirim') || statusCell.includes('dikirim') || statusCell.includes('selesai')) { 
+                            } else {
                                 dailyData[orderDate].status['Sedang Dikirim']++; 
-                                dailyData[orderDate].omzet += cleanOmzet; 
-                                dailyData[orderDate].weightRaw += cleanWeight; 
-                            } else if (statusCell.includes('batal')) { 
-                                dailyData[orderDate].status['Batal']++; 
                             }
-                        } catch(rowErr) { console.warn(`Skip row ${i}`, rowErr); }
+                            
+                            dailyData[orderDate].omzet += cleanOmzet; 
+                            dailyData[orderDate].weightRaw += weightRawVal; 
+                            successRowsParsed++;
+
+                        } catch(rowErr) { 
+                            console.warn(`Skip row ${i}`, rowErr); 
+                        }
+                    }
+
+                    if (successRowsParsed === 0 && Object.keys(dailyData).length === 0) {
+                        throw new Error("Tidak menemukan baris transaksi valid.");
                     }
 
                     if(!appData[storeName]) appData[storeName] = {};
 
                     let processedDates = Object.keys(dailyData);
+                    let grandTotalOmzet = 0;
+                    
                     processedDates.forEach(dateStr => {
                         if(!appData[storeName][dateStr]) {
                             appData[storeName][dateStr] = { ads: 0, omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
                         }
                         
-                        // Round Down ke ribuan gram terdekat (misalnya 1050 gr -> 1000 gr). Di bawah 1000 gr tetap dipertahankan.
-                        const weightRawVal = dailyData[dateStr].weightRaw;
-                        const finalWeight = weightRawVal >= 1000 ? Math.floor(weightRawVal / 1000) * 1000 : weightRawVal;
-                        
                         appData[storeName][dateStr].omzet = dailyData[dateStr].omzet;
-                        appData[storeName][dateStr].weight = finalWeight;
+                        appData[storeName][dateStr].weight = dailyData[dateStr].weightRaw; // Disimpan dalam gram
                         appData[storeName][dateStr].status = dailyData[dateStr].status;
+                        grandTotalOmzet += dailyData[dateStr].omzet;
                     });
 
                     localStorage.setItem('shopeeAppData', JSON.stringify(appData));
                     
-                    statusEl.innerText = `Berhasil disimpan! (${processedDates.length} Hari Berbeda)`;
-                    statusEl.className = "text-sm text-center text-emerald-500 block mt-2 font-bold";
-                    showToast(`Data Excel ${storeName} tersimpan!`);
-                    document.getElementById('excel-file').value = '';
+                    // Sembunyikan form dan tampilkan Success Card Overlay secara visual
+                    document.getElementById('upload-form-content').classList.add('hidden');
+                    const successCard = document.getElementById('upload-success-card');
+                    successCard.classList.remove('hidden');
+                    
+                    document.getElementById('summary-success-store').innerText = storeName;
+                    document.getElementById('summary-success-days').innerText = `${processedDates.length} Hari`;
+                    document.getElementById('summary-success-omzet').innerText = formatRp(grandTotalOmzet);
+                    
+                    showToast(`Selesai! Data order ${storeName} berhasil disinkronisasi.`, "success");
+
                 } catch (err) {
                     console.error(err);
                     statusEl.innerText = "Gagal memproses file. Pastikan format Shopee valid.";
-                    statusEl.className = "text-sm text-center text-red-500 block mt-2";
+                    statusEl.className = "text-sm text-center text-red-600 bg-red-50 py-3 rounded-xl block mt-3 font-semibold";
                 }
             };
             reader.readAsArrayBuffer(file);
         }
 
+        // --- STREAMING_CHUNK:Menyimpan Pengeluaran Biaya Iklan (Ad Spend)... -->
+        // --- SUBMIT HANDLING (ADS) ---
         function handleAdSpend(e) {
             e.preventDefault();
             const storeName = document.getElementById('ads-store').value;
@@ -1172,8 +1591,13 @@
             const endDateStr = document.getElementById('ads-end-date').value;
             const totalAmount = parseInt(document.getElementById('ads-amount').value) || 0;
 
-            const start = new Date(startDateStr);
-            const end = new Date(endDateStr);
+            if (!startDateStr || !endDateStr) {
+                showToast("Harap pilih rentang tanggal iklan!", "error");
+                return;
+            }
+
+            const start = parseLocalDate(startDateStr);
+            const end = parseLocalDate(endDateStr);
 
             if (start > end) {
                 showToast("Tanggal mulai tidak boleh melebihi tanggal selesai!", "error");
@@ -1183,30 +1607,54 @@
             const datesInRange = [];
             let tempDate = new Date(start);
             while (tempDate <= end) {
-                datesInRange.push(tempDate.toISOString().split('T')[0]);
+                const year = tempDate.getFullYear();
+                const month = String(tempDate.getMonth() + 1).padStart(2, '0');
+                const day = String(tempDate.getDate()).padStart(2, '0');
+                datesInRange.push(`${year}-${month}-${day}`);
                 tempDate.setDate(tempDate.getDate() + 1);
             }
 
             const amountPerDay = Math.round(totalAmount / datesInRange.length);
 
+            if (!appData) appData = {};
             if(!appData[storeName]) appData[storeName] = {};
             
             datesInRange.forEach(date => {
                 if(!appData[storeName][date]) {
-                    appData[storeName][date] = { omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
+                    appData[storeName][date] = { ads: 0, omzet: 0, weight: 0, status: { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 } };
                 }
                 appData[storeName][date].ads = amountPerDay;
             });
             
             localStorage.setItem('shopeeAppData', JSON.stringify(appData));
             
-            document.getElementById('ads-amount').value = '';
-            showToast(`Ad Spend tersimpan untuk ${datesInRange.length} hari.`);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            const formatter = new Intl.DateTimeFormat('id-ID', options);
+            const formattedRange = `${formatter.format(start)} - ${formatter.format(end)} (${datesInRange.length} Hari)`;
+            
+            document.getElementById('summary-ads-store').innerText = storeName;
+            document.getElementById('summary-ads-range').innerText = formattedRange;
+            document.getElementById('summary-ads-amount').innerText = formatRp(totalAmount);
+            document.getElementById('summary-ads-daily').innerText = `${formatRp(amountPerDay)} / hari`;
+            
+            document.getElementById('ads-form-content').classList.add('hidden');
+            const successCard = document.getElementById('ads-success-card');
+            successCard.classList.remove('hidden');
+            
+            lucide.createIcons();
+            showToast(`Ad Spend berhasil disimpan untuk ${datesInRange.length} hari.`, "success");
         }
 
-        // --- DASHBOARD RENDERING ---
-        function formatRp(angka) { return (angka < 0 ? '-Rp ' : 'Rp ') + new Intl.NumberFormat('id-ID').format(Math.abs(angka)); }
+        function formatRp(angka) { 
+            const roundedVal = Math.round(Number(angka) || 0);
+            return (roundedVal < 0 ? '-Rp ' : 'Rp ') + new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(Math.abs(roundedVal)); 
+        }
 
+        // --- STREAMING_CHUNK:Merender Tabel & Kalkulasi Profit/KPI Akhir Dashboard... -->
+        // --- DASHBOARD & LEDGER RENDERING ---
         function renderDashboard() {
             const storeFilter = document.getElementById('filter-store').value;
             const startDateStr = document.getElementById('filter-start').value;
@@ -1217,10 +1665,13 @@
             const targetStores = storeFilter === 'ALL' ? stores.map(s => s.name) : [storeFilter];
             
             const targetDates = [];
-            let currDate = new Date(startDateStr);
-            const endDate = new Date(endDateStr);
+            let currDate = new Date(parseLocalDate(startDateStr));
+            const endDate = new Date(parseLocalDate(endDateStr));
             while(currDate <= endDate) {
-                targetDates.push(currDate.toISOString().split('T')[0]);
+                const year = currDate.getFullYear();
+                const month = String(currDate.getMonth() + 1).padStart(2, '0');
+                const day = String(currDate.getDate()).padStart(2, '0');
+                targetDates.push(`${year}-${month}-${day}`);
                 currDate.setDate(currDate.getDate() + 1);
             }
 
@@ -1228,496 +1679,328 @@
             let totalOrdersSuccess = 0; let totalBatal = 0;
             let totalHpp = 0; let totalShopeeFees = 0; let totalProfit = 0;
 
-            const chartLabels = targetDates;
-            const chartDataOmzet = []; const chartDataProfit = []; const chartDataAds = [];
             const tableRows = [];
-
-            // Reversed for table view (newest first)
             const reverseDates = [...targetDates].reverse();
 
             reverseDates.forEach(date => {
-                let dailyOmzet = 0; let dailyAds = 0; let dailyProfit = 0;
-                let dailyHpp = 0; let dailyFee = 0;
-                
                 targetStores.forEach(storeName => {
                     const data = appData[storeName]?.[date];
                     if(data) {
-                        const omz = data.omzet || 0; const ad = data.ads || 0; const wgt = data.weight || 0;
+                        const omz = data.omzet || 0; 
+                        const ad = data.ads || 0;
+                        const wgtGr = data.weight || 0;
                         const st = data.status || { 'Perlu Dikirim':0, 'Sedang Dikirim':0, 'Batal':0 };
-                        const succ = st['Perlu Dikirim'] + st['Sedang Dikirim']; const btl = st['Batal'];
+                        const succ = st['Perlu Dikirim'] + st['Sedang Dikirim']; 
+                        const btl = st['Batal'];
 
-                        const sc = stores.find(s => s.name === storeName) || { adminFee: 6.0, serviceFee: 1250, otherFeeRp: 0, otherFeePct: 0 };
-                        const hpp = wgt * 21.25;
-                        const totalPotonganShopee = (omz * (sc.adminFee / 100)) + (succ * sc.serviceFee) + (succ * sc.otherFeeRp) + (omz * (sc.otherFeePct / 100));
-                        const profit = omz - hpp - ad - totalPotonganShopee;
+                        const sc = stores.find(s => s.name === storeName) || { hppPerKg: 21250, serviceFee: 1250, adminToko: 6.0, adminPromo: 0.0, feePacker: 1000 };
+                        
+                        // --- KALKULASI HPP FIX BERDASARKAN REQUEST ---
+                        // "setelah mendapatkan convert nilai order menjadi kg permen, tetap hitung HPP dengan (mengkalikan) x 21.250 rupiah."
+                        // Karena wgtGr saat ini adalah Gram dari "KG Permen" hasil konversi, maka kita ubah menjadi kg kembali lalu dikali dengan 21.250 rupiah (sesuai instruksi fix)
+                        const hppMultiplier = 21250;
+                        const hpp = (wgtGr / 1000) * hppMultiplier; 
+                        // ---------------------------------------------
+                        
+                        const shopeeFee = (omz * (sc.adminToko / 100)) + (omz * (sc.adminPromo / 100)) + (succ * sc.serviceFee) + (succ * sc.feePacker);
+                        const profit = omz - hpp - shopeeFee - ad;
 
-                        totalOmzet += omz; totalAds += ad; totalWeight += wgt; totalOrdersSuccess += succ; totalBatal += btl;
-                        totalHpp += hpp; totalShopeeFees += totalPotonganShopee; totalProfit += profit;
+                        totalOmzet += omz;
+                        totalAds += ad;
+                        totalWeight += wgtGr;
+                        totalOrdersSuccess += succ;
+                        totalBatal += btl;
+                        totalHpp += hpp;
+                        totalShopeeFees += shopeeFee;
+                        totalProfit += profit;
 
-                        dailyOmzet += omz; dailyAds += ad; dailyProfit += profit;
-                        dailyHpp += hpp; dailyFee += totalPotonganShopee;
-
-                        if(omz > 0 || ad > 0 || succ > 0 || btl > 0) {
-                            tableRows.push(`
-                                <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td class="py-4">
-                                        <div class="flex items-center">
-                                            <div class="w-8 h-8 rounded-full ${profit >= 0 ? 'bg-blue-50 text-blue-500' : 'bg-red-50 text-red-500'} flex items-center justify-center mr-3">
-                                                <i data-lucide="${profit >= 0 ? 'shopping-cart' : 'alert-circle'}" class="w-4 h-4"></i>
-                                            </div>
-                                            <div>
-                                                <p class="font-bold text-gray-900">${storeName}</p>
-                                                <p class="text-[11px] text-gray-500 font-mono">${date} &bull; ${succ} Orders</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 text-right font-medium text-gray-900">${formatRp(omz)}</td>
-                                    <td class="py-4 text-right text-gray-500 text-xs">-${formatRp(hpp + totalPotonganShopee)}</td>
-                                    <td class="py-4 text-right text-orange-500 text-xs font-medium">-${formatRp(ad)}</td>
-                                    <td class="py-4 text-right font-bold ${profit >= 0 ? 'text-gray-900' : 'text-red-500'}">${formatRp(profit)}</td>
-                                </tr>
-                            `);
-                        }
+                        tableRows.push(`
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors text-sm">
+                                <td class="py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    ${date}<br><span class="text-[10px] text-gray-400 uppercase tracking-wider font-bold mt-0.5 inline-block">${storeName}</span>
+                                </td>
+                                <td class="py-4 text-right pr-4">
+                                    <div class="font-bold text-gray-900">${formatRp(omz)}</div>
+                                    <div class="text-[10px] text-gray-500 font-medium">${succ} Order Selesai</div>
+                                </td>
+                                <td class="py-4 text-right pr-4">
+                                    <div class="font-bold text-purple-600">${formatRp(hpp + shopeeFee)}</div>
+                                    <div class="text-[10px] text-gray-500 font-medium whitespace-nowrap">HPP: ${formatRp(hpp)} &bull; Fee: ${formatRp(shopeeFee)}</div>
+                                </td>
+                                <td class="py-4 text-right pr-4 font-bold text-orange-500">${formatRp(ad)}</td>
+                                <td class="py-4 text-right pl-4 font-bold text-base ${profit >= 0 ? 'text-emerald-600' : 'text-red-500'}">
+                                    ${formatRp(profit)}
+                                </td>
+                            </tr>
+                        `);
                     }
                 });
             });
 
-            // Re-calc for charts (chronological order)
-            targetDates.forEach(date => {
-                let dailyOmzet = 0; let dailyAds = 0; let dailyProfit = 0;
-                targetStores.forEach(storeName => {
-                    const data = appData[storeName]?.[date];
-                    if(data) {
-                        const omz = data.omzet || 0; const ad = data.ads || 0; const wgt = data.weight || 0;
-                        const sc = stores.find(s => s.name === storeName) || { adminFee: 6.0, serviceFee: 1250, otherFeeRp: 0, otherFeePct: 0 };
-                        const succ = (data.status?.['Perlu Dikirim'] || 0) + (data.status?.['Sedang Dikirim'] || 0);
-                        const totalPotonganShopee = (omz * (sc.adminFee / 100)) + (succ * sc.serviceFee) + (succ * sc.otherFeeRp) + (omz * (sc.otherFeePct / 100));
-                        dailyOmzet += omz; dailyAds += ad;
-                        dailyProfit += (omz - (wgt * 21.25) - ad - totalPotonganShopee);
-                    }
-                });
-                chartDataOmzet.push(dailyOmzet); chartDataProfit.push(dailyProfit); chartDataAds.push(dailyAds);
-            });
-
-            // Update UI KPIs
+            // Update KPI Cards
             document.getElementById('kpi-omzet').innerText = formatRp(totalOmzet);
-            document.getElementById('kpi-orders').innerText = `${new Intl.NumberFormat('id-ID').format(totalOrdersSuccess)} Orders | Batal: ${totalBatal}`;
+            document.getElementById('kpi-orders').innerText = `${totalOrdersSuccess} Order Berhasil`;
+            
             document.getElementById('kpi-profit').innerText = formatRp(totalProfit);
-            document.getElementById('kpi-roi').innerText = `ROI: ${totalAds > 0 ? (totalProfit / totalAds).toFixed(2) : 0}x`;
+            document.getElementById('kpi-roi').innerText = `ROI: ${totalHpp > 0 ? (totalProfit / totalHpp).toFixed(2) : 0}x`;
+            
             document.getElementById('kpi-ads').innerText = formatRp(totalAds);
             document.getElementById('kpi-roas').innerText = `ROAS: ${totalAds > 0 ? (totalOmzet / totalAds).toFixed(2) : 0}x | ACOS: ${totalOmzet > 0 ? ((totalAds / totalOmzet) * 100).toFixed(1) : 0}%`;
-            document.getElementById('kpi-hpp').innerText = formatRp(totalHpp);
-            document.getElementById('kpi-admin').innerText = `Fees: ${formatRp(totalShopeeFees)}`;
-
-            // Update Dist Bar
-            const totalOutflow = totalOmzet > 0 ? totalOmzet : 1; // Prevent div by zero for percentages visually
+            
+            document.getElementById('kpi-hpp').innerText = `HPP: ${formatRp(totalHpp)}`;
+            document.getElementById('kpi-admin').innerText = `Fee: ${formatRp(totalShopeeFees)}`;
+            
+            // Update Distribution Bars
+            const totalOut = totalHpp + totalAds + totalShopeeFees + (totalProfit > 0 ? totalProfit : 0);
             document.getElementById('dist-hpp').innerText = formatRp(totalHpp);
-            document.getElementById('bar-hpp').style.width = Math.min((totalHpp / totalOutflow) * 100, 100) + '%';
+            document.getElementById('bar-hpp').style.width = totalOut > 0 ? `${(totalHpp / totalOut) * 100}%` : '0%';
             
             document.getElementById('dist-ads').innerText = formatRp(totalAds);
-            document.getElementById('bar-ads').style.width = Math.min((totalAds / totalOutflow) * 100, 100) + '%';
+            document.getElementById('bar-ads').style.width = totalOut > 0 ? `${(totalAds / totalOut) * 100}%` : '0%';
             
             document.getElementById('dist-fee').innerText = formatRp(totalShopeeFees);
-            document.getElementById('bar-fee').style.width = Math.min((totalShopeeFees / totalOutflow) * 100, 100) + '%';
+            document.getElementById('bar-fee').style.width = totalOut > 0 ? `${(totalShopeeFees / totalOut) * 100}%` : '0%';
             
             document.getElementById('dist-profit').innerText = formatRp(totalProfit);
-            document.getElementById('bar-profit').style.width = totalProfit > 0 ? Math.min((totalProfit / totalOutflow) * 100, 100) + '%' : '0%';
+            document.getElementById('bar-profit').style.width = totalOut > 0 && totalProfit > 0 ? `${(totalProfit / totalOut) * 100}%` : '0%';
 
-            // Insert Table
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = tableRows.length > 0 ? tableRows.join('') : `<tr><td colspan="5" class="py-8 text-center text-gray-400 text-sm">No data available for selected period.</td></tr>`;
-            lucide.createIcons();
+            // Update Table Data List
+            document.getElementById('table-body').innerHTML = tableRows.length ? tableRows.join('') : '<tr><td colspan="5" class="py-8 text-center text-gray-400 text-sm">Tidak ada transaksi ditemukan di rentang waktu ini.</td></tr>';
 
-            // Update Chart
+            // Chart Render Initialization
+            renderChart(targetDates, targetStores);
+        }
+
+        // --- STREAMING_CHUNK:Merender Grafik Line Chart Revenue... -->
+        function renderChart(dates, targetStores) {
+            const ctx = document.getElementById('chartOmzet').getContext('2d');
+            
+            const omzetData = dates.map(date => {
+                return targetStores.reduce((sum, store) => {
+                    return sum + (appData[store]?.[date]?.omzet || 0);
+                }, 0);
+            });
+
             if(chart1) chart1.destroy();
-            chart1 = new Chart(document.getElementById('chartOmzet').getContext('2d'), {
-                type: 'bar',
+
+            chart1 = new Chart(ctx, {
+                type: 'line',
                 data: {
-                    labels: labelsFormat(chartLabels),
-                    datasets: [
-                        { label: 'Omzet', data: chartDataOmzet, backgroundColor: '#3b82f6', borderRadius: 4, barPercentage: 0.6 },
-                        { label: 'Profit', data: chartDataProfit, backgroundColor: '#10b981', borderRadius: 4, barPercentage: 0.6 },
-                        { label: 'Ads', data: chartDataAds, backgroundColor: '#f97316', borderRadius: 4, barPercentage: 0.6 }
-                    ]
+                    labels: dates.map(d => {
+                        const s = parseLocalDate(d);
+                        return new Intl.DateTimeFormat('id-ID', {day: 'numeric', month: 'short'}).format(s);
+                    }),
+                    datasets: [{
+                        label: 'Total Omzet (Rp)',
+                        data: omzetData,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.08)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#3b82f6'
+                    }]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return formatRp(context.parsed.y); }
+                            }
+                        }
+                    },
                     scales: {
-                        x: { grid: { display: false } },
-                        y: { border: { display: false }, ticks: { callback: v => (v/1000) + 'k' } }
-                    }
+                        y: { 
+                            beginAtZero: true, 
+                            ticks: { callback: v => (v / 1000000).toFixed(1) + 'M' },
+                            border: { display: false },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 7 }
+                        }
+                    },
+                    interaction: { mode: 'index', intersect: false }
                 }
             });
         }
-        
-        function labelsFormat(arr) {
-            return arr.map(d => {
-                const date = new Date(d);
-                return `${date.getDate()} ${date.toLocaleString('en', {month: 'short'})}`;
-            });
-        }
 
-        // --- EXCEL EXPORT (PAJAK) ---
-        function openExcelModal() {
-            const modal = document.getElementById('excel-export-modal');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
-            const dates = [];
-            Object.values(appData).forEach(sData => Object.keys(sData).forEach(d => dates.push(d)));
-            dates.sort();
-            if (dates.length > 0) {
-                document.getElementById('excel-start-date').value = dates[0];
-                document.getElementById('excel-end-date').value = dates[dates.length - 1];
-            } else {
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('excel-start-date').value = today;
-                document.getElementById('excel-end-date').value = today;
+        // --- STREAMING_CHUNK:Menyiapkan fitur PDF AWB (Shipping Tools) dan Ekspor Pajak... -->
+        // --- SHIPPING TOOLS (PDF AWB PARSING) MOCK/RECOVERY ---
+        let extractedPackingData = [];
+
+        async function handlePdfUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('packing-empty-state').classList.add('hidden');
+            document.getElementById('packing-status').classList.remove('hidden');
+            document.getElementById('packing-loader').classList.remove('hidden');
+            document.getElementById('packing-results').classList.add('hidden');
+            
+            const logBox = document.getElementById('packing-log-box');
+            logBox.innerHTML = '<div class="text-blue-400">>> Memulai ekstraksi dokumen PDF...</div>';
+            
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                const totalPages = pdf.numPages;
+                
+                logBox.innerHTML += `<div>>> Ditemukan ${totalPages} halaman. Memindai teks...</div>`;
+                
+                let weightCounts = {};
+                let totalPackages = 0;
+                let totalWeightKg = 0;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const textStr = textContent.items.map(s => s.str).join(' ');
+                    
+                    const weightMatch = textStr.match(/(\d+[.,]?\d*)\s*(kg|gram|gr)/i);
+                    
+                    if (weightMatch) {
+                        let w = parseFloat(weightMatch[1].replace(',', '.'));
+                        let unit = weightMatch[2].toLowerCase();
+                        if (unit === 'gram' || unit === 'gr') w = w / 1000;
+                        
+                        w = Math.round(w * 10) / 10;
+                        
+                        if (!weightCounts[w]) weightCounts[w] = 0;
+                        weightCounts[w]++;
+                        totalPackages++;
+                        totalWeightKg += w;
+                    }
+                    
+                    if (i % 10 === 0 || i === totalPages) {
+                        logBox.innerHTML += `<div>>> Memproses halaman ${i}/${totalPages}...</div>`;
+                        logBox.scrollTop = logBox.scrollHeight;
+                    }
+                }
+                
+                extractedPackingData = Object.keys(weightCounts).map(w => ({ weight: parseFloat(w), count: weightCounts[w] }));
+                extractedPackingData.sort((a, b) => a.weight - b.weight);
+                
+                logBox.innerHTML += '<div class="text-emerald-400">>> Selesai! Analisis berhasil.</div>';
+                
+                document.getElementById('packing-loader').classList.add('hidden');
+                document.getElementById('packing-results').classList.remove('hidden');
+                
+                document.getElementById('packing-total-summary').innerText = `Total: ${totalPackages} Paket`;
+                document.getElementById('packing-total-weight-summary').innerText = `${totalWeightKg.toFixed(1)} kg`;
+                
+                const tbody = document.getElementById('packing-table-body');
+                tbody.innerHTML = extractedPackingData.map(item => `
+                    <tr class="border-b border-gray-100 hover:bg-gray-100 transition-colors">
+                        <td class="py-2 text-gray-700">${item.weight} KG</td>
+                        <td class="py-2 text-right pr-2 text-gray-900 font-bold">${item.count}</td>
+                    </tr>
+                `).join('');
+
+            } catch (err) {
+                console.error(err);
+                logBox.innerHTML += `<div class="text-red-400">>> ERROR: ${err.message}</div>`;
+                document.getElementById('packing-loader').classList.add('hidden');
+                document.getElementById('packing-empty-state').classList.remove('hidden');
             }
         }
-        function closeExcelModal() { const modal = document.getElementById('excel-export-modal'); modal.classList.add('hidden'); modal.classList.remove('flex'); }
+
+        function clearPackingData() {
+            extractedPackingData = [];
+            document.getElementById('pdf-file').value = '';
+            document.getElementById('packing-empty-state').classList.remove('hidden');
+            document.getElementById('packing-status').classList.add('hidden');
+            document.getElementById('packing-log-box').innerHTML = '<div class="text-gray-500">// Menunggu berkas PDF diunggah...</div>';
+        }
+
+        function exportPackingToExcel() {
+            if (extractedPackingData.length === 0) return;
+            const ws = XLSX.utils.json_to_sheet(extractedPackingData.map(d => ({
+                "Varian Berat (KG)": d.weight,
+                "Jumlah Paket": d.count
+            })));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Rekap Berat Paket");
+            XLSX.writeFile(wb, "Rekap_Berat_Paket_Shopee.xlsx");
+        }
+
+        // --- EXPORT PAJAK ---
+        function openExcelModal() {
+            const modal = document.getElementById('excel-export-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('excel-start-date').value = document.getElementById('filter-start').value;
+            document.getElementById('excel-end-date').value = document.getElementById('filter-end').value;
+        }
+
+        function closeExcelModal() {
+            const modal = document.getElementById('excel-export-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
 
         function processExcelExport() {
             const startStr = document.getElementById('excel-start-date').value;
             const endStr = document.getElementById('excel-end-date').value;
-            if (!startStr || !endStr) return showToast("Pilih rentang tanggal!", "error");
+            if(!startStr || !endStr) { showToast("Pilih rentang tanggal!", "error"); return; }
             
-            const start = new Date(startStr); const end = new Date(endStr);
-            if (start > end) return showToast("Tanggal mulai > selesai!", "error");
-            
-            const datesInRange = []; let temp = new Date(start);
-            while (temp <= end) { datesInRange.push(temp.toISOString().split('T')[0]); temp.setDate(temp.getDate() + 1); }
-            
-            let tOmzet=0, tHpp=0, tAdmin=0, tAds=0, tProfit=0, tOrders=0, tWeight=0;
-            const ledger = [];
-            
-            datesInRange.forEach(date => {
+            const start = parseLocalDate(startStr);
+            const end = parseLocalDate(endStr);
+            let exportData = [];
+
+            let curr = new Date(start);
+            while(curr <= end) {
+                const year = curr.getFullYear();
+                const month = String(curr.getMonth() + 1).padStart(2, '0');
+                const day = String(curr.getDate()).padStart(2, '0');
+                const dateStr = `${year}-${month}-${day}`;
+
                 stores.forEach(s => {
-                    const d = appData[s.name]?.[date];
-                    if (d && (d.omzet > 0 || d.ads > 0)) {
-                        const omz = d.omzet || 0; const ad = d.ads || 0; const wgt = d.weight || 0;
-                        const succ = (d.status?.['Perlu Dikirim'] || 0) + (d.status?.['Sedang Dikirim'] || 0);
-                        const hpp = wgt * 21.25;
-                        const fee = (omz * (s.adminFee / 100)) + (succ * s.serviceFee) + (succ * s.otherFeeRp) + (omz * (s.otherFeePct / 100));
-                        const profit = omz - hpp - ad - fee;
-                        
-                        tOmzet+=omz; tHpp+=hpp; tAdmin+=fee; tAds+=ad; tProfit+=profit; tOrders+=succ; tWeight+=wgt;
-                        ledger.push([date, s.name, omz, hpp, fee, ad, profit, succ, wgt]);
+                    const d = appData[s.name]?.[dateStr];
+                    if(d) {
+                        exportData.push({
+                            "Tanggal": dateStr,
+                            "Toko": s.name,
+                            "Omzet (Rp)": d.omzet || 0,
+                            "Biaya Iklan (Rp)": d.ads || 0,
+                            "Pesanan Sukses": (d.status['Perlu Dikirim'] || 0) + (d.status['Sedang Dikirim'] || 0),
+                            "Pesanan Batal": d.status['Batal'] || 0
+                        });
                     }
                 });
-            });
-            
-            if (ledger.length === 0) return showToast("Tidak ada data direntang ini!", "error");
-            
-            const sheetData = [
-                ["LAPORAN FINANSIAL TOKO SHOPEE"],
-                [`Rentang Pembukuan: ${startStr} s.d. ${endStr}`], [],
-                ["Tanggal", "Toko", "Omzet Bruto (Rp)", "HPP (Rp)", "Fee Shopee (Rp)", "Ads (Rp)", "Laba Bersih (Rp)", "Unit", "Berat (gr)"],
-                ...ledger, [],
-                ["TOTAL", "-", tOmzet, tHpp, tAdmin, tAds, tProfit, tOrders, tWeight]
-            ];
-            
-            const wb = XLSX.utils.book_new(); const ws = XLSX.utils.aoa_to_sheet(sheetData);
-            ws['!cols'] = Array(9).fill({wch: 18});
-            XLSX.utils.book_append_sheet(wb, ws, "Rekap Pajak");
-            XLSX.writeFile(wb, `Laporan_Pajak_${startStr}_sd_${endStr}.xlsx`);
-            closeExcelModal(); showToast("Buku Rekap Excel berhasil diekspor!");
-        }
-
-        function printDashboard() { window.print(); }
-
-        // --- PAKET COUNTER CONSOLE LOGS ---
-        function addPackingLog(message, type = 'info') {
-            const logBox = document.getElementById('packing-log-box');
-            if (!logBox) return;
-            const colors = {
-                'info': 'text-gray-400',
-                'success': 'text-emerald-400',
-                'warning': 'text-amber-400',
-                'error': 'text-rose-400'
-            };
-            const prefix = `[${new Date().toLocaleTimeString('id-ID')}]`;
-            logBox.innerHTML += `<div class="${colors[type]}">${prefix} ${message}</div>`;
-            logBox.scrollTop = logBox.scrollHeight;
-        }
-
-        function clearPackingData() {
-            lastExtractedWeights = {};
-            document.getElementById('packing-table-body').innerHTML = '';
-            document.getElementById('packing-total-summary').innerText = 'Total: 0 Paket';
-            document.getElementById('packing-total-weight-summary').innerText = '0 kg';
-            document.getElementById('packing-status').classList.add('hidden');
-            document.getElementById('packing-results').classList.add('hidden');
-            document.getElementById('packing-empty-state').classList.remove('hidden');
-            document.getElementById('pdf-file').value = '';
-            
-            const logBox = document.getElementById('packing-log-box');
-            if(logBox) logBox.innerHTML = '<div class="text-gray-500">// Menunggu berkas PDF diunggah...</div>';
-            showToast("Data Paket Counter berhasil dibersihkan.");
-        }
-
-        // --- HIGH PERFORMANCE PAKET COUNTER PDF EXTRACTOR ---
-        async function handlePdfUpload(event) {
-            const file = event.target.files[0];
-            if (!file || file.type !== 'application/pdf') {
-                showToast("Silakan pilih file PDF.", "error");
-                return;
+                curr.setDate(curr.getDate() + 1);
             }
 
-            const statusContainer = document.getElementById('packing-status');
-            const loader = document.getElementById('packing-loader');
-            const progressMsg = document.getElementById('packing-progress-msg');
-            const resultsContainer = document.getElementById('packing-results');
-            const tableBody = document.getElementById('packing-table-body');
-            const totalSummary = document.getElementById('packing-total-summary');
-            const totalWeightSummary = document.getElementById('packing-total-weight-summary');
-            const emptyState = document.getElementById('packing-empty-state');
+            if(exportData.length === 0) { showToast("Tidak ada data untuk diekspor.", "error"); return; }
 
-            // Reset UI States
-            emptyState.classList.add('hidden');
-            statusContainer.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            resultsContainer.classList.add('hidden');
-            tableBody.innerHTML = '';
-            
-            const logBox = document.getElementById('packing-log-box');
-            if (logBox) logBox.innerHTML = '';
-            
-            addPackingLog(`Memulai membaca berkas: ${file.name}`, 'info');
-            addPackingLog(`Ukuran berkas: ${(file.size / (1024 * 1024)).toFixed(2)} MB`, 'info');
-
-            try {
-                const fileReader = new FileReader();
-                fileReader.onload = async function() {
-                    const typedarray = new Uint8Array(this.result);
-                    
-                    addPackingLog("Menghubungkan ke engine parser PDF.js...", "info");
-                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                    const weightCounts = {};
-                    let totalPackages = 0;
-                    let totalWeightSum = 0; // Akumulasi berat total (dalam gram)
-                    const totalPages = pdf.numPages;
-
-                    addPackingLog(`Ditemukan total ${totalPages} halaman AWB. Memulai rekonstruksi baris visual...`, 'success');
-
-                    const patternStandard = /Berat:\s*([\d.,]+)\s*(?:gr|gram|kg)?/i;
-                    const patternLoose = /Berat:.*?\b([\d.,]+)\s*(?:gr|gram|kg)\b/i;
-
-                    // Loop memproses seluruh halaman PDF
-                    for (let i = 1; i <= totalPages; i++) {
-                        if (i % 25 === 0 || i === totalPages) {
-                            progressMsg.innerText = `Merekonstruksi ${i} dari ${totalPages} AWB...`;
-                        }
-
-                        const page = await pdf.getPage(i);
-                        const textContent = await page.getTextContent();
-                        const items = textContent.items;
-
-                        if (items.length === 0) {
-                            addPackingLog(`[AWB #${i}] Halaman kosong atau berupa gambar (Gagal OCR).`, 'warning');
-                            continue;
-                        }
-
-                        const lines = {};
-                        items.forEach(item => {
-                            if (!item.str || item.str.trim() === '') return;
-                            const y = Math.round(item.transform[5]);
-                            const x = item.transform[4];
-                            
-                            let foundY = null;
-                            for (const lineY in lines) {
-                                if (Math.abs(parseFloat(lineY) - y) < 4) {
-                                    foundY = lineY;
-                                    break;
-                                }
-                            }
-                            
-                            if (foundY !== null) {
-                                lines[foundY].push({ x, str: item.str });
-                            } else {
-                                lines[y] = [{ x, str: item.str }];
-                            }
-                        });
-
-                        const sortedY = Object.keys(lines).sort((a, b) => parseFloat(b) - parseFloat(a));
-                        let reconstructedPageText = '';
-                        
-                        sortedY.forEach(y => {
-                            const sortedXItems = lines[y].sort((a, b) => a.x - b.x);
-                            const lineStr = sortedXItems.map(item => item.str).join(' ');
-                            reconstructedPageText += lineStr + '\n';
-                        });
-
-                        const linesArray = reconstructedPageText.split('\n');
-                        let foundWeight = null;
-                        
-                        for (const line of linesArray) {
-                            let match = line.match(patternStandard);
-                            if (match) {
-                                let valStr = match[1].replace(/\./g, '').replace(',', '.');
-                                let weightNum = parseFloat(valStr);
-                                let unitMatch = line.match(/Berat:\s*[\d.,]+\s*(gr|gram|kg)/i);
-                                let unit = unitMatch ? unitMatch[1].toLowerCase() : 'gr';
-                                
-                                if (unit === 'kg') weightNum *= 1000;
-                                if (!isNaN(weightNum)) {
-                                    foundWeight = weightNum;
-                                    break;
-                                }
-                            }
-
-                            match = line.match(patternLoose);
-                            if (match) {
-                                let valStr = match[1].replace(/\./g, '').replace(',', '.');
-                                let weightNum = parseFloat(valStr);
-                                let unitMatch = line.match(/gr|gram|kg/i);
-                                let unit = unitMatch ? unitMatch[0].toLowerCase() : 'gr';
-                                
-                                if (unit === 'kg') weightNum *= 1000;
-                                if (!isNaN(weightNum)) {
-                                    foundWeight = weightNum;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (foundWeight === null) {
-                            const rawPageText = items.map(item => item.str).join(' ');
-                            let match = rawPageText.match(/Berat:\s*([\d.,]+)\s*(?:gr|gram|kg)?/i);
-                            if (match) {
-                                let valStr = match[1].replace(/\./g, '').replace(',', '.');
-                                let weightNum = parseFloat(valStr);
-                                if (rawPageText.toLowerCase().includes('kg')) {
-                                    if (weightNum < 50) weightNum *= 1000;
-                                }
-                                if (!isNaN(weightNum)) {
-                                    foundWeight = weightNum;
-                                }
-                            }
-                        }
-
-                        if (foundWeight !== null) {
-                            // Round down ke ribuan gram terdekat (misal 1050 gr -> 1000 gr).
-                            // Di bawah 1000 gr tetap dipertahankan nilainya.
-                            let roundedWeight = foundWeight >= 1000 ? Math.floor(foundWeight / 1000) * 1000 : foundWeight;
-                            
-                            weightCounts[roundedWeight] = (weightCounts[roundedWeight] || 0) + 1;
-                            totalPackages++;
-                            totalWeightSum += roundedWeight;
-                        } else {
-                            addPackingLog(`[AWB #${i}] Gagal mengekstrak teks berat. (Cek log baris: ${reconstructedPageText.replace(/\n/g, ' | ').substring(0, 80)}...)`, 'warning');
-                        }
-                    }
-
-                    const sortedWeights = Object.keys(weightCounts).sort((a, b) => parseFloat(a) - parseFloat(b));
-                    lastExtractedWeights = weightCounts; // Simpan state internal dalam gram
-
-                    if (sortedWeights.length === 0) {
-                        tableBody.innerHTML = `
-                            <tr>
-                                <td colspan="2" class="py-6 text-center text-rose-500 font-medium">
-                                    Tidak ada varian berat yang ditemukan.<br>
-                                    <span class="font-normal text-[11px] text-gray-400 block mt-1">Pastikan dokumen PDF merupakan AWB asli berisikan teks digital, bukan gambar hasil scan/foto.</span>
-                                </td>
-                            </tr>`;
-                        totalSummary.innerText = "Total: 0 Paket";
-                        totalWeightSummary.innerText = "0 kg";
-                        addPackingLog("Selesai memproses. Tidak ada data berat yang berhasil diekstrak.", 'error');
-                    } else {
-                        const totalWeightInKg = totalWeightSum / 1000;
-                        totalSummary.innerText = `Total: ${totalPackages} Paket`;
-                        
-                        // Menampilkan format desimal maksimal 3 angka di belakang koma untuk akurasi kg (misal: 0.5 kg, 1 kg)
-                        totalWeightSummary.innerText = `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(totalWeightInKg)} kg`;
-                        
-                        tableBody.innerHTML = sortedWeights.map(weight => {
-                            const weightInKg = parseFloat(weight) / 1000;
-                            return `
-                            <tr class="border-b border-gray-200 hover:bg-gray-100/50 transition-colors">
-                                <td class="py-3 text-gray-900 font-medium">${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(weightInKg)} kg</td>
-                                <td class="py-3 font-bold text-cyan-600 text-right pr-2">${weightCounts[weight]} paket</td>
-                            </tr>`;
-                        }).join('');
-                        
-                        addPackingLog(`Berhasil mengekstrak ${totalPackages} paket dengan total berat ${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(totalWeightInKg)} kg dari total ${totalPages} halaman!`, 'success');
-                    }
-
-                    loader.classList.add('hidden');
-                    resultsContainer.classList.remove('hidden');
-                    showToast(`Selesai! Berhasil memproses ${totalPages} AWB.`, "success");
-                };
-                fileReader.readAsArrayBuffer(file);
-            } catch (error) {
-                loader.classList.add('hidden');
-                resultsContainer.classList.remove('hidden');
-                addPackingLog(`Error fatal: ${error.message}`, 'error');
-                console.error("Error processing PDF AWB:", error);
-                showToast("Gagal memproses file PDF.", "error");
-            }
-        }
-
-        // --- EKSPOR HASIL PAKET COUNTER KE EXCEL (DIKONVERSI KE KG) ---
-        function exportPackingToExcel() {
-            if (Object.keys(lastExtractedWeights).length === 0) {
-                showToast("Tidak ada data yang bisa diekspor.", "error");
-                return;
-            }
-
-            const sortedWeights = Object.keys(lastExtractedWeights).sort((a, b) => parseFloat(a) - parseFloat(b));
-            let totalQty = 0;
-            let totalWeightCombinedKg = 0;
-            
-            const rows = sortedWeights.map(weight => {
-                const qty = lastExtractedWeights[weight];
-                totalQty += qty;
-                const weightInKg = parseFloat(weight) / 1000;
-                const accumulatedWeightKg = weightInKg * qty;
-                totalWeightCombinedKg += accumulatedWeightKg;
-                
-                return [ 
-                    `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(weightInKg)} kg`, 
-                    qty,
-                    `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(accumulatedWeightKg)} kg`
-                ];
-            });
-
-            const sheetData = [
-                ["DAFTAR KEBUTUHAN PAKET COUNTER"],
-                [`Tanggal Ekstraksi: ${new Date().toLocaleDateString('id-ID')}`],
-                [],
-                ["Varian Berat (KG)", "Jumlah Paket (PCS)", "Total Berat Akumulatif (KG)"],
-                ...rows,
-                [],
-                ["TOTAL", totalQty, `${new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(totalWeightCombinedKg)} kg`]
-            ];
-
+            const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.aoa_to_sheet(sheetData);
-            
-            // Set Lebar Kolom
-            ws['!cols'] = [{wch: 22}, {wch: 22}, {wch: 25}];
-            
-            XLSX.utils.book_append_sheet(wb, ws, "Daftar Paket");
-            XLSX.writeFile(wb, `Rangkuman_Paket_Counter_AWB_${new Date().toISOString().split('T')[0]}.xlsx`);
-            showToast("Berkas rangkuman paket counter berhasil diunduh!");
+            XLSX.utils.book_append_sheet(wb, ws, "Rekap Transaksi Pajak");
+            XLSX.writeFile(wb, `Laporan_Transaksi_${startStr}_sd_${endStr}.xlsx`);
+            closeExcelModal();
         }
 
-        window.onload = function () {
-            initDataStructure(); 
-            populateStoreSelects(); 
-            
-            const today = new Date();
-            const thirtyDaysAgo = new Date();
-            thirtyDaysAgo.setDate(today.getDate() - 29);
-            
-            document.getElementById('filter-end').value = today.toISOString().split('T')[0];
-            document.getElementById('filter-start').value = thirtyDaysAgo.toISOString().split('T')[0];
-            
-            updateDateDisplay();
-            renderInlineCalendar();
-            
-            switchTab('dashboard'); 
+        // --- STREAMING_CHUNK:Menjalankan aplikasi... -->
+        // --- INITIALIZATION ---
+        window.onload = () => {
             lucide.createIcons();
-        }
+            populateStoreSelects();
+            renderStoreList();
+            
+            // Default load 30 hari terakhir
+            setPresetDate('last30');
+            
+            // Inisiasi tab dashboard utama
+            switchTab('dashboard');
+        };
     </script>
 </body>
 </html>
